@@ -1,4 +1,4 @@
-const Orders = require("../models/Orders");
+const Orders = require("../models/orders");
 const express = require("express");
 const router = express.Router();
 
@@ -45,8 +45,8 @@ const createOrders = async (req, res) => {
     const orders = new Orders({
         nama: req.body.nama,
         order: req.body.order,
-        selesai: req.body.selesai,
-        batasOrder: req.body.batasOrder,
+        total: req.body.selesai,
+        jumlahOrder: req.body.batasOrder,
         products_id: req.body.products_id,
     });
 
@@ -64,7 +64,7 @@ const createOrders = async (req, res) => {
 const updateOrders = async (req, res) => {
     console.log("Menerima data untuk memperbarui Orders:", req.body);
 
-    const { nama, order, selesai, batasOrder, products_id } = req.body;
+    const { nama, order, total, jumlahOrder, products_id } = req.body;
 
     try {
         console.log("Mencari Orders dengan ID:", req.params.id);
@@ -77,8 +77,8 @@ const updateOrders = async (req, res) => {
         // Perbarui field Orders
         orders.nama = nama ?? orders.nama;
         orders.order = order ?? orders.order;
-        orders.selesai = selesai ?? orders.selesai;
-        orders.batasOrder = batasOrder ?? orders.batasOrder;
+        orders.total = selesai ?? orders.total;
+        orders.jumlahOrder = batasOrder ?? orders.jumlahOrder;
         orders.products_id = products_id ?? orders.products_id;
 
         const updatedOrders = await Orders.save();

@@ -30,6 +30,7 @@ const createProducts = async (req, res) => {
         deskripsi: req.body.deskripsi,
         harga: req.body.harga,
         kategori: req.body.kategori,
+        foto: req.file ? req.file.path: null,
     });
 
     try {
