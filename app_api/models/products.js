@@ -27,6 +27,21 @@ const productsSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    stok:{
+        type: Number,
+        required: true,
+        trim: true,
+    },
+    brand:{
+        type: String,
+        required: true,
+        trim: true,
+    },
+    size:{
+        type: String,
+        required: true,
+        trim: true,
+    },
     foto: {
         type:String,
         required: false,

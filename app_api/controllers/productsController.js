@@ -30,6 +30,9 @@ const createProducts = async (req, res) => {
         deskripsi: req.body.deskripsi,
         harga: req.body.harga,
         kategori: req.body.kategori,
+        stok: req.body.stok,
+        brand:req.body.brand,
+        size: req.body.size,
         foto: req.file ? req.file.path: null,
     });
 
@@ -71,9 +74,18 @@ const updateProducts = async (req, res) => {
         if (req.body.kategori != null) {
             products.kategori = req.body.kategori;
         }
+        if (req.body.stok != null) {
+            products.stok = req.body.stok;
+        }
+        if (req.body.brand != null) {
+            products.brand = req.body.brand;
+        }
+        if (req.body.size != null) {
+            products.size = req.body.size;
+        }
 
         const updatedProducts = await products.save();
-        res.status(200).json(updatedProducs);
+        res.status(200).json(updatedProducts);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }

@@ -11,6 +11,7 @@ const authRouterApi = require("./app_api/routes/auth");
 const productsRouterApi = require("./app_api/routes/products");
 const ordersRouterApi = require("./app_api/routes/orders");
 const paymentRouterApi = require("./app_api/routes/payment");
+const reviewRouterApi = require("./app_api/routes/review");
 
 
 require("dotenv").config();
@@ -36,6 +37,7 @@ app.use("/api/auth", authRouterApi);
 app.use("/api/products", productsRouterApi);
 app.use("/api/orders", ordersRouterApi);
 app.use("/api/payment", paymentRouterApi);
+app.use("/api/review", reviewRouterApi);
 
 connectDB();
 
