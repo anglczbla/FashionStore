@@ -77,8 +77,8 @@ const updateOrders = async (req, res) => {
         // Perbarui field Orders
         orders.nama = nama ?? orders.nama;
         orders.order = order ?? orders.order;
-        orders.total = selesai ?? orders.total;
-        orders.jumlahOrder = batasOrder ?? orders.jumlahOrder;
+        orders.total = total ?? orders.total;
+        orders.jumlahOrder = jumlahOrder ?? orders.jumlahOrder;
         orders.products_id = products_id ?? orders.products_id;
 
         const updatedOrders = await Orders.save();

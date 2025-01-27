@@ -49,6 +49,16 @@ const updateProducts = async (req, res) => {
             return res.status(404).json({ message: "Product not found" });
         }
 
+        if (req.file){
+            //jika ada file foto baru
+            if(products.foto){
+                // hapus foto lama jika ada
+                fs.unlinkSync(path.join(__dirname, "../", products.foto))
+            }
+            products.foto = req.file.path;
+
+        }
+
         if (req.body.nama != null) {
             products.nama = req.body.nama;
         }
@@ -75,6 +85,9 @@ const deleteProducts = async (req, res) => {
         const products = await Products.findById(req.params.id);
         if (!products) {
             return res.status(404).json({ message: "Product not found" });
+        }
+        if (products.foto){
+            fs.unlinkSync(path.join(__dirname, "../", products.foto));
         }
 
         await products.deleteOne();
