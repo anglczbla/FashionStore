@@ -19,13 +19,13 @@ const getAllOrders = async (req, res) => {
 const getOrdersById = async (req, res) => {
     try {
         console.log("Mencari Orders dengan ID:", req.params.id);
-        const orders = await orders.findById(req.params.id).populate("products_id");
+        const orders = await Orders.findById(req.params.id).populate("products_id");
         if (!orders) {
             console.warn("Orders tidak ditemukan dengan ID:", req.params.id);
             return res.status(404).json({ message: "Orders not found" });
         }
         console.log("Data Orders ditemukan:", orders);
-        res.status(200).json(Orders);
+        res.status(200).json(orders);
     } catch (err) {
         console.error("Terjadi kesalahan saat mencari Orders:", err.message);
         res.status(500).json({ message: err.message });
@@ -37,16 +37,16 @@ const createOrders = async (req, res) => {
     console.log("Menerima data untuk membuat Orders:", req.body);
 
     // Validasi sederhana
-    if (!req.body.produk_id || !req.body.orders) {
+    if (!req.body.products_id || !req.body.order) {
         console.warn("Data Orders tidak valid:", req.body);
-        return res.status(400).json({ message: "produk_id dan order harus diisi." });
+        return res.status(400).json({ message: "products_id dan order harus diisi." });
     }
 
     const orders = new Orders({
         nama: req.body.nama,
         order: req.body.order,
-        total: req.body.selesai,
-        jumlahOrder: req.body.batasOrder,
+        total: req.body.total,
+        jumlahOrder: req.body.jumlahOrder,
         products_id: req.body.products_id,
     });
 
@@ -81,7 +81,7 @@ const updateOrders = async (req, res) => {
         orders.jumlahOrder = jumlahOrder ?? orders.jumlahOrder;
         orders.products_id = products_id ?? orders.products_id;
 
-        const updatedOrders = await Orders.save();
+        const updatedOrders = await orders.save();
         console.log("Data Orders berhasil diperbarui:", updatedOrders);
         res.json(updatedOrders);
     } catch (error) {

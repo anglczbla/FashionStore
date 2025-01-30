@@ -10,7 +10,8 @@ const connectDB = require("./app_api/models/db");
 const authRouterApi = require("./app_api/routes/auth");
 const productsRouterApi = require("./app_api/routes/products");
 const ordersRouterApi = require("./app_api/routes/orders");
-const paymentRouterApi = require("./app_api/routes/payment");
+const paymentRouterApi = require("./app_api/routes/payments");
+
 const reviewRouterApi = require("./app_api/routes/review");
 
 

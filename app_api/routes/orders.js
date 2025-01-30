@@ -1,20 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const ordersController = require("../controllers/OrdersController");
+const ordersController = require("../controllers/ordersController"); // Corrected import
+const authMiddleware = require("../middleware/authMiddleware");
+const roleMiddleware = require("../middleware/roleMiddleware");
 
 // Route untuk mendapatkan semua data orders
 router.get("/", ordersController.getAllOrders);
 
 // Route untuk membuat data orders baru
-router.post("/",ordersController.createOrders);
+router.post("/", authMiddleware, roleMiddleware("admin"), ordersController.createOrders);
 
 // Route untuk mendapatkan data orders berdasarkan ID
 router.get("/:id", ordersController.getOrdersById);
 
 // Route untuk memperbarui data orders berdasarkan ID
-router.put("/:id", ordersController.updateOrders);
+router.put("/:id", authMiddleware, roleMiddleware("admin"), ordersController.updateOrders);
 
 // Route untuk menghapus data orders berdasarkan ID
-router.delete("/:id", ordersController.deleteOrders);
+router.delete("/:id", authMiddleware, roleMiddleware("admin"), ordersController.deleteOrders);
 
 module.exports = router;
