@@ -1,1 +1,20 @@
-<p>orders works!</p>
+<!-- src/app/components/cart/cart.component.html -->
+<div *ngFor="let item of cartItems" class="cart-item">
+    <img [src]="item.imageUrl" alt="{{ item.name }}" class="product-image">
+    <div class="product-info">
+      <h4>{{ item.name }}</h4>
+      <p>Rp {{ item.price | number }}</p>
+      <div class="quantity-controls">
+        <button (click)="decreaseQuantity(item)">-</button>
+        <span>{{ item.quantity }}</span>
+        <button (click)="increaseQuantity(item)">+</button>
+      </div>
+      <button (click)="removeProduct(item)">Remove</button>
+    </div>
+  </div>
+  
+  <div class="cart-total">
+    <p>Total: Rp {{ totalAmount | number }}</p>
+    <button>Checkout</button>
+  </div>
+  

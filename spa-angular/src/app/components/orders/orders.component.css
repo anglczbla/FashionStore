@@ -1,0 +1,41 @@
+/* src/app/components/cart/cart.component.css */
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .product-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+  
+  .product-info {
+    flex-grow: 1;
+    margin-left: 10px;
+  }
+  
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .cart-total {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #3b7d61;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #2e5a46;
+  }
+  
