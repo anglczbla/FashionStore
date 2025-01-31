@@ -1,17 +1,17 @@
 const express = require("express");
+
 const router = express.Router();
 
-// Placeholder for payment-related functions
-const getAllPayments = (req, res) => {
-    res.send("Get all payments");
-};
+const paymentController = require("../controllers/paymentController");
 
-const createPayment = (req, res) => {
-    res.send("Create a payment");
-};
+const authMiddleware = require("../middleware/authMiddleware");
+const roleMiddleware = require("../middleware/roleMiddleware");
 
-// Define routes
-router.get("/", getAllPayments);
-router.post("/", createPayment);
+// Definisi rute untuk produk
+router.get("/", paymentController.getAllPayment);
+router.post("/", authMiddleware, roleMiddleware("admin"), paymentController.createPayment);
+router.get("/:id", paymentController.getpaymentById);
+router.put("/:id", authMiddleware, roleMiddleware("admin"), paymentController.updatePayment);
+router.delete("/:id", authMiddleware, roleMiddleware("admin"), paymentController.deletePayment);
 
 module.exports = router;
