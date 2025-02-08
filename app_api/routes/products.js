@@ -9,9 +9,9 @@ const roleMiddleware = require("../middleware/roleMiddleware");
 
 // Definisi rute untuk produk
 router.get("/", productsController.getAllProducts);
-router.post("/", authMiddleware, roleMiddleware("admin"), productsController.createProducts);
+router.post("/", authMiddleware, roleMiddleware("admin"), upload.single("foto"), productsController.createProducts);
 router.get("/:id", productsController.getProductsById);
-router.put("/:id", authMiddleware, roleMiddleware("admin"), productsController.updateProducts);
+router.put("/:id", authMiddleware, roleMiddleware("admin"), upload.single("foto"), productsController.updateProducts);
 router.delete("/:id", authMiddleware, roleMiddleware("admin"), productsController.deleteProducts);
 
 module.exports = router;
