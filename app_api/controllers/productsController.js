@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 const Products = require("../models/products");
 
 // Mengambil semua produk dari database
@@ -25,15 +27,23 @@ const getProductsById = async (req, res) => {
 
 // Membuat produk baru
 const createProducts = async (req, res) => {
+    console.log("Incoming request body:", req.body); // Log the incoming request body
+
+    // Validate required fields
+    const { nama, deskripsi, harga, kategori, stok, brand, size } = req.body;
+    if (!nama || !deskripsi || !harga || !kategori || !stok || !brand || !size) {
+        return res.status(400).json({ message: "All fields are required: nama, deskripsi, harga, kategori, stok, brand, size." });
+    }
+
     const products = new Products({
         nama: req.body.nama,
         deskripsi: req.body.deskripsi,
         harga: req.body.harga,
         kategori: req.body.kategori,
         stok: req.body.stok,
-        brand:req.body.brand,
+        brand: req.body.brand,
         size: req.body.size,
-        foto: req.file ? req.file.path: null,
+        foto: req.file ? req.file.path : null,
     });
 
     try {
@@ -48,18 +58,17 @@ const createProducts = async (req, res) => {
 const updateProducts = async (req, res) => {
     try {
         const products = await Products.findById(req.params.id);
-        if (!product) {
+        if (!products) {
             return res.status(404).json({ message: "Product not found" });
         }
 
-        if (req.file){
+        if (req.file) {
             //jika ada file foto baru
-            if(products.foto){
+            if (products.foto) {
                 // hapus foto lama jika ada
-                fs.unlinkSync(path.join(__dirname, "../", products.foto))
+                fs.unlinkSync(path.join(__dirname, "../", products.foto));
             }
             products.foto = req.file.path;
-
         }
 
         if (req.body.nama != null) {
@@ -84,7 +93,7 @@ const updateProducts = async (req, res) => {
             products.size = req.body.size;
         }
 
-        const updatedProducts = await products.save();
+        const updatedProducts = await products.save(); // Save the updated product
         res.status(200).json(updatedProducts);
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -98,7 +107,7 @@ const deleteProducts = async (req, res) => {
         if (!products) {
             return res.status(404).json({ message: "Product not found" });
         }
-        if (products.foto){
+        if (products.foto) {
             fs.unlinkSync(path.join(__dirname, "../", products.foto));
         }
 
