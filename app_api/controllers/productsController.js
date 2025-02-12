@@ -6,7 +6,7 @@ const path = require("path");
 cloudinary.config({ 
     cloud_name: 'dvllzlypd', 
     api_key: '275885613478582', 
-    api_secret: '<your_api_secret>' // Replace with your actual API secret
+    api_secret: 'SycvKGfFNPF2z5ASniYN9vc86-Q' // Replace with your actual API secret
 });
 
 const Products = require("../models/products");
@@ -37,12 +37,29 @@ const getProductsById = async (req, res) => {
 // Membuat produk baru
 const createProducts = async (req, res) => {
     console.log("Incoming request body:", req.body); // Log the incoming request body
+    console.log("Incoming request file:", req.file); // Log the incoming request body
 
-     // Validasi sederhana
-     if (!req.body.products_id || !req.body.products) {
-        console.warn("Data Products tidak valid:", req.body);
-        return res.status(400).json({ message: "products_id dan order harus diisi." });
-    }
+    // Validasi sederhana
+    // if (!req.body.products_id || !req.body.products || !req.body.nama || !req.body.harga) {
+    //     console.warn("Data Products tidak valid:", req.body);
+    //     return res.status(400).json({ message: "products_id, products, nama, dan harga harus diisi." });
+    // }
+
+    // if (!req.file) {
+    //     return res.status(400).json({ message: "File tidak ditemukan." });
+    // }
+
+    const result = await cloudinary.uploader.upload(req.file.path);
+    fs.unlinkSync(req.file.path); // Hapus file lokal setelah upload
+
+    console.log(result)
+
+    res.json({
+      message: "Upload berhasil!",
+      imageUrl: result.secure_url,
+    });
+
+    return
 
     const uploadResult = await cloudinary.uploader.upload(req.file.path);
     const products = new Products({
@@ -55,7 +72,6 @@ const createProducts = async (req, res) => {
         size: req.body.size,
         foto: uploadResult.secure_url, // Store the Cloudinary URL
     });
-
 
     try {
         const newProducts = await products.save();
@@ -80,7 +96,6 @@ const updateProducts = async (req, res) => {
             const uploadResult = await cloudinary.uploader.upload(req.file.path);
             products.foto = uploadResult.secure_url; // Update with new Cloudinary URL
         }
-
 
         if (req.body.nama != null) {
             products.nama = req.body.nama;
