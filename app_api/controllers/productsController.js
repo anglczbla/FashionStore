@@ -38,10 +38,10 @@ const getProductsById = async (req, res) => {
 const createProducts = async (req, res) => {
     console.log("Incoming request body:", req.body); // Log the incoming request body
 
-    // Validate required fields
-    const { nama, deskripsi, harga, kategori, stok, brand, size } = req.body;
-    if (!nama || !deskripsi || !harga || !kategori || !stok || !brand || !size) {
-        return res.status(400).json({ message: "All fields are required: nama, deskripsi, harga, kategori, stok, brand, size." });
+     // Validasi sederhana
+     if (!req.body.products_id || !req.body.products) {
+        console.warn("Data Products tidak valid:", req.body);
+        return res.status(400).json({ message: "products_id dan order harus diisi." });
     }
 
     const uploadResult = await cloudinary.uploader.upload(req.file.path);
@@ -59,8 +59,10 @@ const createProducts = async (req, res) => {
 
     try {
         const newProducts = await products.save();
+        console.log("Data Orders baru berhasil dibuat:", newProducts);
         res.status(201).json(newProducts);
     } catch (err) {
+        console.error("Terjadi kesalahan saat membuat Products:", err.message);
         res.status(400).json({ message: err.message });
     }
 };
