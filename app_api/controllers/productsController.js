@@ -1,5 +1,14 @@
+const { v2: cloudinary } = require('cloudinary');
 const fs = require("fs");
 const path = require("path");
+
+// Configuration for Cloudinary
+cloudinary.config({ 
+    cloud_name: 'dvllzlypd', 
+    api_key: '275885613478582', 
+    api_secret: '<your_api_secret>' // Replace with your actual API secret
+});
+
 const Products = require("../models/products");
 
 // Mengambil semua produk dari database
@@ -35,6 +44,7 @@ const createProducts = async (req, res) => {
         return res.status(400).json({ message: "All fields are required: nama, deskripsi, harga, kategori, stok, brand, size." });
     }
 
+    const uploadResult = await cloudinary.uploader.upload(req.file.path);
     const products = new Products({
         nama: req.body.nama,
         deskripsi: req.body.deskripsi,
@@ -43,8 +53,9 @@ const createProducts = async (req, res) => {
         stok: req.body.stok,
         brand: req.body.brand,
         size: req.body.size,
-        foto: req.file ? req.file.path : null,
+        foto: uploadResult.secure_url, // Store the Cloudinary URL
     });
+
 
     try {
         const newProducts = await products.save();
@@ -64,12 +75,10 @@ const updateProducts = async (req, res) => {
 
         if (req.file) {
             //jika ada file foto baru
-            if (products.foto) {
-                // hapus foto lama jika ada
-                fs.unlinkSync(path.join(__dirname, "../", products.foto));
-            }
-            products.foto = req.file.path;
+            const uploadResult = await cloudinary.uploader.upload(req.file.path);
+            products.foto = uploadResult.secure_url; // Update with new Cloudinary URL
         }
+
 
         if (req.body.nama != null) {
             products.nama = req.body.nama;
