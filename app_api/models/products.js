@@ -44,7 +44,7 @@ const productsSchema = new mongoose.Schema({
     },
     foto: {
         type:String,
-        required: false,
+        required: true,
     },
     // Field untuk menyimpan tanggal pembuatan data produk
     createdAt: {

@@ -18,6 +18,7 @@ const uploadToCloudinary = async (req, res, next) => {
         req.file.cloudinaryUrl = result.secure_url; // Store the Cloudinary URL in the request
         next();
     } catch (error) {
+        console.error('Cloudinary upload error:', error); // Log the error for debugging
         return res.status(500).json({ message: 'Error uploading to Cloudinary', error });
     }
 };
