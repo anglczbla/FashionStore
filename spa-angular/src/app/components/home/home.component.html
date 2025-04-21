@@ -1,413 +1,410 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>CodePen - Ecommerce Website - HTML, CSS &amp; JavaScript (Home_Page)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
-    /><link rel="stylesheet" href="./style.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+  <link rel="stylesheet" href="./style.css">
 
 </head>
+
 <body>
-<!-- partial:index.partial.html -->
-<div class="header">
-  <div class="container">
-    <div class="navbar">
-      <div class="logo">
-        <a href="index.html"><img src="https://i.ibb.co/kDVwgwp/logo.png" alt="RedStore" width="125px" /></a>
+  <!-- partial:index.partial.html -->
+  <div class="header">
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">
+          <a href="index.html"><img src="https://i.ibb.co/kDVwgwp/logo.png" alt="RedStore" width="125px" /></a>
+        </div>
+        <nav>
+          <ul id="MenuItems">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="product.html">Pria</a></li>
+            <li><a href="product.html">Wanita</a></li>
+            <li><a href="product.html">Anak</a></li>
+            <li><a href="review.html">Review</a></li>
+            <li><a href="account.html">Contact Us</a></li>
+          </ul>
+        </nav>
+        <a href="cart.html"><img src="https://i.ibb.co/PNjjx3y/cart.png" alt="" width="30px" height="30px" /></a>
+        <img src="https://i.ibb.co/6XbqwjD/menu.png" alt="" class="menu-icon" onclick="menutoggle()" />
       </div>
-      <nav>
-        <ul id="MenuItems">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="product.html">Products</a></li>
-          <li><a href="orders.html">Orders</a></li>
-          <li><a href="shipping.html">Shipping</a></li>
-          <li><a href="review.html">Review</a></li>
-          <li><a href="account.html">Contact Us</a></li>
-        </ul>
-      </nav>
-      <a href="cart.html"><img src="https://i.ibb.co/PNjjx3y/cart.png" alt="" width="30px" height="30px" /></a>
-      <img src="https://i.ibb.co/6XbqwjD/menu.png" alt="" class="menu-icon" onclick="menutoggle()" />
-    </div>
-    <div class="row">
-      <div class="col-2">
-        <h1>
-          Give Your Workout <br />
-          A New Style!
-        </h1>
-        <p>
-          Success isn't always about greatness. It's about consistency.
-          Consistent <br />hard work gains success. Greatness will come.
-        </p>
-        <a href="#" target="_blank" rel="noopener noreferrer" class="btn">Explore Now &#8594;</a>
-      </div>
-      <div class="col-2">
-        <img src="https://i.ibb.co/QpTmdX5/image1.png" alt="" />
+      <div class="row">
+        <div class="col-2">
+          <h1>
+            Redefine Your Look <br />
+            With Timeless Style!
+          </h1>
+          <p>
+            Fashion is more than clothes — it's confidence. <br />
+            Elevate your everyday with pieces that speak your vibe.
+          </p>
+
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn">Explore Now &#8594;</a>
+        </div>
+        <div class="col-2">
+          <img src="https://i.ibb.co/QpTmdX5/image1.png" alt="" />
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Featured categories -->
-<div class="categories">
+  <!-- Featured categories -->
+  <div class="categories">
+    <div class="small-container">
+      <div class="row">
+        <div class="col-3">
+          <img src="https://cardinal.co.id/cdn/shop/files/HAIAR00150P-02H-1.jpg?v=1742868327" alt="" />
+        </div>
+        <div class="col-3">
+          <img src="https://cardinal.co.id/cdn/shop/files/PAKAD00095J-06B-1.jpg?v=1742359335" alt="" />
+        </div>
+        <div class="col-3">
+          <img src="https://cardinal.co.id/cdn/shop/files/GAKAO01052J-03B-1.jpg?v=1742359489" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured products -->
   <div class="small-container">
+    <h2 class="title">Featured Products</h2>
     <div class="row">
-      <div class="col-3">
-        <img src="data:image/jpeg;base64,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" alt="" />
+      <div class="col-4">
+        <a href="product_details.html"><img
+            src="https://cardinal.co.id/cdn/shop/files/HAIAR00150P-02H-1.jpg?v=1742868327" alt="" /></a>
+        <a href="product_details.html">
+          <h4>Red Printed T-shirt</h4>
+        </a>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+        <p>₹500.00</p>
       </div>
-      <div class="col-3">
-        <img src="https://i.ibb.co/GCJLQRQ/category-2.jpg" alt="" />
-      </div>
-      <div class="col-3">
-        <img src="https://i.ibb.co/wYsXqP5/category-3.jpg" alt="" />
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Featured products -->
-<div class="small-container">
-  <h2 class="title">Featured Products</h2>
-  <div class="row">
-    <div class="col-4">
-      <a href="product_details.html"><img src="https://i.ibb.co/47Sk9QL/product-1.jpg" alt="" /></a>
-      <a href="product_details.html">
+      <div class="col-4">
+        <img src="https://cardinal.co.id/cdn/shop/files/TAHARC0672N-08A-1.jpg?v=1745203717" alt="" />
         <h4>Red Printed T-shirt</h4>
-      </a>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="far fa-star"></i>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+        <p>₹500.00</p>
       </div>
-      <p>₹500.00</p>
-    </div>
 
-    <div class="col-4">
-      <img src="https://i.ibb.co/b7ZVzYr/product-2.jpg" alt="" />
-      <h4>Red Printed T-shirt</h4>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
+      <div class="col-4">
+        <img src="https://cardinal.co.id/cdn/shop/files/DAGABH0471D.08D-White_1.jpg?v=1745203815" alt="" />
+        <h4>Red Printed T-shirt</h4>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+        </div>
+        <p>₹500.00</p>
       </div>
-      <p>₹500.00</p>
-    </div>
 
-    <div class="col-4">
-      <img src="https://i.ibb.co/KsMVr26/product-3.jpg" alt="" />
-      <h4>Red Printed T-shirt</h4>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star-half-alt"></i>
+      <div class="col-4">
+        <img src="https://cardinal.co.id/cdn/shop/files/TAHARC0414P-01F-1.jpg?v=1742801220" alt="" />
+        <h4>Red Printed T-shirt</h4>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+        <p>₹500.00</p>
       </div>
-      <p>₹500.00</p>
     </div>
-
-    <div class="col-4">
-      <img src="https://i.ibb.co/0cMfpcr/product-4.jpg" alt="" />
-      <h4>Red Printed T-shirt</h4>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
-      </div>
-      <p>₹500.00</p>
-    </div>
-  </div>
-  <h2 class="title">Latest Products</h2>
-  <div class="row">
-    <div class="col-4">
-      <img src="https://i.ibb.co/bQ5t8bR/product-5.jpg" alt="" />
-      <h4>Red Printed T-shirt</h4>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="far fa-star"></i>
-      </div>
-      <p>₹500.00</p>
-    </div>
-
-    <div class="col-4">
-      <img src="https://i.ibb.co/vVpTyBD/product-6.jpg" alt="" />
-      <h4>Red Printed T-shirt</h4>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
-      </div>
-      <p>₹500.00</p>
-    </div>
-
-    <div class="col-4">
-      <img src="https://i.ibb.co/hR5FGwH/product-7.jpg" alt="" />
-      <h4>Red Printed T-shirt</h4>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star-half-alt"></i>
-      </div>
-      <p>₹500.00</p>
-    </div>
-
-    <div class="col-4">
-      <img src="https://i.ibb.co/QfCgdXZ/product-8.jpg" alt="" />
-      <h4>Red Printed T-shirt</h4>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
-      </div>
-      <p>₹500.00</p>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-4">
-      <img src="https://i.ibb.co/nw5xZwk/product-9.jpg" alt="" />
-      <h4>Red Printed T-shirt</h4>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="far fa-star"></i>
-      </div>
-      <p>₹500.00</p>
-    </div>
-
-    <div class="col-4">
-      <img src="https://i.ibb.co/9HCsmjf/product-10.jpg" alt="" />
-      <h4>Red Printed T-shirt</h4>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
-      </div>
-      <p>₹500.00</p>
-    </div>
-
-    <div class="col-4">
-      <img src="https://i.ibb.co/JQ2MBHR/product-11.jpg" alt="" />
-      <h4>Red Printed T-shirt</h4>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star-half-alt"></i>
-      </div>
-      <p>₹500.00</p>
-    </div>
-
-    <div class="col-4">
-      <img src="https://i.ibb.co/nRZMs6Y/product-12.jpg" alt="" />
-      <h4>Red Printed T-shirt</h4>
-      <div class="rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
-      </div>
-      <p>₹500.00</p>
-    </div>
-  </div>
-</div>
-<!-- offer -->
-<div class="offer">
-  <div class="small-container">
+    <h2 class="title">Latest Products</h2>
     <div class="row">
-      <div class="col-2">
-        <img src="https://i.ibb.co/HF5TncZ/exclusive.png" alt="" class="offer-img" />
+      <div class="col-4">
+        <img src="https://cardinal.co.id/cdn/shop/files/TBUBICA066K-04A-1.jpg?v=1740620954" alt="" />
+        <h4>Red Printed Shirt</h4>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+        <p>₹500.00</p>
       </div>
-      <div class="col-2">
-        <p>Exclusively Available on RedStore</p>
-        <h1>Smart Band 4</h1>
-        <small>The Mi Smart Band 4 features a 39.9% larger (than Mi Band 3)
-          AMOLED color full-touch display with adjustable brightness, so
-          everything is clear as can be.</small>
+
+      <div class="col-4">
+        <img src="https://cardinal.co.id/cdn/shop/files/TAKAIC0832P-02H-1.jpg?v=1742451765" alt="" />
+        <h4>Red Printed shirt</h4>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+        <p>₹500.00</p>
+      </div>
+
+      <div class="col-4">
+        <img src="https://cardinal.co.id/cdn/shop/files/TAHARJ0041P-02H-1.jpg?v=1745203712" alt="" />
+        <h4>Blue Printed shirt</h4>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+        </div>
+        <p>₹500.00</p>
+      </div>
+
+      <div class="col-4">
+        <img src="https://cardinal.co.id/cdn/shop/files/EAKALAL002_02H_1.jpg?v=1741936148" alt="" />
+        <h4>Blue Printed shirt</h4>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+        <p>₹500.00</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-4">
+        <img src="https://cardinal.co.id/cdn/shop/files/EAJARAL013_02H_1.jpg?v=1741936149" alt="" />
+        <h4>Black Jacket</h4>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+        <p>₹500.00</p>
+      </div>
+
+      <div class="col-4">
+        <img src="https://cardinal.co.id/cdn/shop/files/EALARAL003J.11F-Red_1.jpg?v=1741936607" alt="" />
+        <h4>Red Printed shirt</h4>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+        <p>₹500.00</p>
+      </div>
+
+      <div class="col-4">
+        <img src="https://cardinal.co.id/cdn/shop/files/EAIAR02072P-01A-1.jpg?v=1742868272" alt="" />
+        <h4>Black T-shirt</h4>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+        </div>
+        <p>₹500.00</p>
+      </div>
+
+      <div class="col-4">
+        <img src="https://cardinal.co.id/cdn/shop/files/JAHAR00035P-03E-1.jpg?v=1745203769" alt="" />
+        <h4>Brown T-shirt</h4>
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+        <p>₹500.00</p>
+      </div>
+    </div>
+  </div>
+  <!-- offer -->
+  <div class="offer">
+    <div class="small-container">
+      <div class="row">
+        <div class="col-2">
+          <img src="https://cardinal.co.id/cdn/shop/files/EARARAL006I.01D-Black_1.jpg?v=1741936600" alt=""
+            class="offer-img" />
+        </div>
+        <div class="col-2">
+          <p>Exclusively Available at TrendWear</p>
+          <h1>Classic Rompi Jacket</h1>
+          <small>
+            The Classic Rompi Jacket combines timeless style with modern comfort.
+            Crafted with premium fabric and tailored for a perfect fit — it's a must-have
+            for every wardrobe.
+          </small>
+        </div>
         <br />
         <a href="#" class="btn">Buy Now &#8594;</a>
       </div>
     </div>
   </div>
-</div>
+  </div>
 
-<!-- Testimonial -->
-<div class="testimonial">
-  <div class="small-container">
-    <div class="row">
-      <div class="col-3">
-        <i class="fas fa-quote-left"></i>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Perferendis, quae molestias error id est voluptatibus quos amet
-          numquam aspernatur nam cumque ullam? Veritatis eveniet et, maxime
-          eaque soluta quas modi.
-        </p>
-        <div class="rating">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="far fa-star"></i>
-          <i class="far fa-star"></i>
-          <i class="far fa-star"></i>
+  <!-- Testimonial -->
+  <div class="testimonial">
+    <div class="small-container">
+      <div class="row">
+        <div class="col-3">
+          <i class="fas fa-quote-left"></i>
+          <p>
+            “This red t-shirt is 🔥! Super comfy, perfect fit, and the color pops. Got so many compliments wearing it!”
+          </p>
+          <div class="rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </div>
+          <img src="https://cardinal.co.id/cdn/shop/files/EALARAL003J.11F-Red_1.jpg?v=1741936607" alt="" />
+          <h3>Marta W.</h3>
         </div>
-        <img src="https://i.ibb.co/zfXD2Tx/user-1.png" alt="" />
-        <h3>Marta W.</h3>
-      </div>
 
-      <div class="col-3">
-        <i class="fas fa-quote-left"></i>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Perferendis, quae molestias error id est voluptatibus quos amet
-          numquam aspernatur nam cumque ullam? Veritatis eveniet et, maxime
-          eaque soluta quas modi.
-        </p>
-        <div class="rating">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="far fa-star"></i>
-          <i class="far fa-star"></i>
-          <i class="far fa-star"></i>
+        <div class="col-3">
+          <i class="fas fa-quote-left"></i>
+          <p>
+            The quality is amazing and the fit is just perfect! I've never felt so confident in a jacket before.
+          </p>
+          <div class="rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </div>
+          <img src="https://cardinal.co.id/cdn/shop/files/EAJARAL013_02H_1.jpg?v=1741936149" alt="" />
+          <h3>Rula P.</h3>
         </div>
-        <img src="https://i.ibb.co/FVyK1KM/user-2.png" alt="" />
-        <h3>Rula P.</h3>
-      </div>
 
-      <div class="col-3">
-        <i class="fas fa-quote-left"></i>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Perferendis, quae molestias error id est voluptatibus quos amet
-          numquam aspernatur nam cumque ullam? Veritatis eveniet et, maxime
-          eaque soluta quas modi.
-        </p>
-        <div class="rating">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="far fa-star"></i>
-          <i class="far fa-star"></i>
-          <i class="far fa-star"></i>
+        <div class="col-3">
+          <i class="fas fa-quote-left"></i>
+          <p>
+            Love the minimal packaging and premium feel. The jeans feel tailor-made.
+          </p>
+          <div class="rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </div>
+          <img src="https://cardinal.co.id/cdn/shop/files/JAHAR00035P-03E-1.jpg?v=1745203769" alt="" />
+          <h3>Vika Z.</h3>
         </div>
-        <img src="https://i.ibb.co/jZ3tQqK/user-3.png" alt="" />
-        <h3>Vika Z.</h3>
       </div>
     </div>
   </div>
-</div>
-<!-- brands -->
-<div class="brands">
-  <div class="small-container">
-    <div class="row">
-      <div class="col-5">
-        <img src="https://i.ibb.co/Gfwzz1S/logo-godrej.png" alt="" />
-      </div>
+  <!-- brands -->
+  <div class="brands">
+    <div class="small-container">
+      <div class="row">
+        <div class="col-5">
+          <img src="https://i.ibb.co/Gfwzz1S/logo-godrej.png" alt="" />
+        </div>
 
-      <div class="col-5">
-        <img src="https://i.ibb.co/vjrRZFM/logo-oppo.png" alt="" />
-      </div>
+        <div class="col-5">
+          <img src="https://i.ibb.co/vjrRZFM/logo-oppo.png" alt="" />
+        </div>
 
-      <div class="col-5">
-        <img src="https://i.ibb.co/3zs234S/logo-coca-cola.png" alt="" />
-      </div>
+        <div class="col-5">
+          <img src="https://i.ibb.co/3zs234S/logo-coca-cola.png" alt="" />
+        </div>
 
-      <div class="col-5">
-        <img src="https://i.ibb.co/7Wt343W/logo-paypal.png" alt="" />
-      </div>
+        <div class="col-5">
+          <img src="https://i.ibb.co/7Wt343W/logo-paypal.png" alt="" />
+        </div>
 
-      <div class="col-5">
-        <img src="https://i.ibb.co/GVSNwJD/logo-philips.png" alt="" />
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Footer -->
-<div class="footer">
-  <div class="container">
-    <div class="row">
-      <div class="footer-col-1">
-        <h3>Download Our App</h3>
-        <p>Download App for Android and iso mobile phone.</p>
-        <div class="app-logo">
-          <img src="https://i.ibb.co/KbPTYYQ/play-store.png" alt="" />
-          <img src="https://i.ibb.co/hVM4X2p/app-store.png" alt="" />
+        <div class="col-5">
+          <img src="https://i.ibb.co/GVSNwJD/logo-philips.png" alt="" />
         </div>
       </div>
-
-      <div class="footer-col-2">
-        <img src="https://i.ibb.co/j3FNGj7/logo-white.png" alt="" />
-        <p>
-          Our Purpose Is To Sustainably Make the Pleasure and Benefits of
-          Sports Accessible to the Many.
-        </p>
-      </div>
-
-      <div class="footer-col-3">
-        <h3>Useful Links</h3>
-        <ul>
-          <li>Coupons</li>
-          <li>Blog Post</li>
-          <li>Return Policy</li>
-          <li>Join Affiliate</li>
-        </ul>
-      </div>
-
-      <div class="footer-col-4">
-        <h3>Follow us</h3>
-        <ul>
-          <li>Facebook</li>
-          <li>Twitter</li>
-          <li>Instagram</li>
-          <li>YouTube</li>
-        </ul>
-      </div>
     </div>
-    <hr />
-    <p class="copyright">Copyright &copy; 2021 - Red Store</p>
   </div>
-</div>
+  <!-- Footer -->
+  <div class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="footer-col-1">
+          <h3>Download Our App</h3>
+          <p>Download App for Android and iso mobile phone.</p>
+          <div class="app-logo">
+            <img src="https://i.ibb.co/KbPTYYQ/play-store.png" alt="" />
+            <img src="https://i.ibb.co/hVM4X2p/app-store.png" alt="" />
+          </div>
+        </div>
 
-<!-- js for toggle menu -->
-<script>
-  var MenuItems = document.getElementById('MenuItems');
-  MenuItems.style.maxHeight = '0px';
+        <div class="footer-col-2">
+          <img src="https://i.ibb.co/j3FNGj7/logo-white.png" alt="" />
+          <p>
+            Our Purpose Is To Sustainably Make the Pleasure and Benefits of
+            Sports Accessible to the Many.
+          </p>
+        </div>
 
-  function menutoggle() {
-    if (MenuItems.style.maxHeight == '0px') {
-      MenuItems.style.maxHeight = '200px';
-    } else {
-      MenuItems.style.maxHeight = '0px';
+        <div class="footer-col-3">
+          <h3>Useful Links</h3>
+          <ul>
+            <li>Coupons</li>
+            <li>Blog Post</li>
+            <li>Return Policy</li>
+            <li>Join Affiliate</li>
+          </ul>
+        </div>
+
+        <div class="footer-col-4">
+          <h3>Follow us</h3>
+          <ul>
+            <li>Facebook</li>
+            <li>Twitter</li>
+            <li>Instagram</li>
+            <li>YouTube</li>
+          </ul>
+        </div>
+      </div>
+      <hr />
+      <p class="copyright">Copyright &copy; 2021 - Red Store</p>
+    </div>
+  </div>
+
+  <!-- js for toggle menu -->
+  <script>
+    var MenuItems = document.getElementById('MenuItems');
+    MenuItems.style.maxHeight = '0px';
+
+    function menutoggle() {
+      if (MenuItems.style.maxHeight == '0px') {
+        MenuItems.style.maxHeight = '200px';
+      } else {
+        MenuItems.style.maxHeight = '0px';
+      }
     }
-  }
-</script>
-<!-- partial -->
-  
+  </script>
+  <!-- partial -->
+
 </body>
+
 </html>

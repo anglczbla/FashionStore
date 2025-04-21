@@ -27,23 +27,18 @@ const productsSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    stok:{
-        type: Number,
-        required: true,
-        trim: true,
-    },
-    brand:{
+    brand: {
         type: String,
         required: true,
         trim: true,
     },
-    size:{
+    size: {
         type: String,
         required: true,
         trim: true,
     },
     foto: {
-        type:String,
+        type: String,
         required: true,
     },
     // Field untuk menyimpan tanggal pembuatan data produk
