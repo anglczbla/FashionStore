@@ -20,8 +20,8 @@ export class OrdersComponent implements OnInit {
   isSubmitting = false;
   editOrderId: string | null = null;
 
-  apiOrdersUrl = 'http://your-api-url/orders'; // Set the correct API endpoint
-  apiProductsUrl = 'http://your-api-url/products'; // Set the correct API endpoint
+  apiOrdersUrl = 'http://localhost:3000/api/orders'; // Set the correct API endpoint
+  apiProductsUrl = 'http://localhost:3000/api/products'; // Set the correct API endpoint
 
   orderForm: FormGroup;
   private http = inject(HttpClient);
