@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 
 const productsController = require("../controllers/productsController");
+const authMiddleware = require("../middleware/authMiddleware");
+const roleMiddleware = require("../middleware/roleMiddleware");
 
 const multer = require("multer");
 const path = require("path");
@@ -56,18 +58,18 @@ const upload = multer({ storage: storage });
 // );
 
 // Route untuk mendapatkan semua testimoni
-router.get("/", productsController.getAllProducts);
+router.get("/", authMiddleware, productsController.getAllProducts);
 
 // Route untuk mendapatkan shipping berdasarkan ID
-router.get("/:id", productsController.getProductsById);
+router.get("/:id", authMiddleware,productsController.getProductsById);
 
 // Route untuk membuat shipping baru
-router.post("/", upload.single("foto"), productsController.createProducts);
+router.post("/", authMiddleware, roleMiddleware("admin"), upload.single("foto"), productsController.createProducts);
 
 // Route untuk memperbarui shipping berdasarkan ID
-router.put("/:id", upload.single("foto"), productsController.updateProducts);
+router.put("/:id", authMiddleware, roleMiddleware("admin"), upload.single("foto"), productsController.updateProducts);
 
 // Route untuk menghapus shipping berdasarkan ID
-router.delete("/:id",productsController.deleteProducts);
+router.delete("/:id",authMiddleware, roleMiddleware("admin"),productsController.deleteProducts);
 
 module.exports = router;
