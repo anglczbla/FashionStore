@@ -6,7 +6,7 @@ const paymentSchema = new mongoose.Schema({
     // ID referensi ke produk yang dibeli
     orders_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "orders",
+        ref: "Orders",
         required: true,
     },
     // Jumlah pembayaran
