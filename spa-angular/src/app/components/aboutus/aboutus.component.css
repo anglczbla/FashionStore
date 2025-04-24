@@ -1,0 +1,48 @@
+.fashion-about {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    background: #fff0f5; /* Soft pink */
+    font-family: 'Segoe UI', sans-serif;
+    border-radius: 12px;
+    gap: 2rem;
+  }
+  
+  .about-left {
+    flex: 1;
+    max-width: 500px;
+  }
+  
+  .about-left h1 {
+    font-size: 3rem;
+    color: #c71585; /* Deep pink */
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .about-left p {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+  
+  .about-right {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .about-right img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(199, 21, 133, 0.2);
+    transition: transform 0.3s ease;
+  }
+  
+  .about-right img:hover {
+    transform: scale(1.03);
+  }
+  

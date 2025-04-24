@@ -6,9 +6,11 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { ShippingComponent } from './components/shipping/shipping.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { AuthGuard } from './auth.guard';
+import { AboutusComponent } from './components/aboutus/aboutus.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
+    { path: 'aboutus', component: AboutusComponent },
     { path: 'orders',  component: OrdersComponent, canActivate: [AuthGuard] },
     { path: 'products',  component: ProductsComponent, canActivate: [AuthGuard] },
     { path: 'payment',  component: PaymentComponent, canActivate: [AuthGuard] },
