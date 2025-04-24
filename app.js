@@ -13,6 +13,7 @@ const ordersRouterApi = require("./app_api/routes/orders");
 const paymentRouterApi = require("./app_api/routes/payments");
 const stokRouterApi = require("./app_api/routes/stok");
 const reviewRouterApi = require("./app_api/routes/review");
+const shippingRouterApi = require("./app_api/routes/shipping");
 
 
 require("dotenv").config();
@@ -40,6 +41,7 @@ app.use("/api/orders", ordersRouterApi);
 app.use("/api/payment", paymentRouterApi);
 app.use("/api/review", reviewRouterApi);
 app.use("/api/stok", stokRouterApi);
+app.use("/api/shipping", shippingRouterApi);
 
 connectDB();
 

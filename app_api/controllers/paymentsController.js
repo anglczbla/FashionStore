@@ -6,7 +6,7 @@ const router = express.Router();
 const getAllPayments = async (req, res) => {
     try {
         console.log("Mengambil semua data Payment...");
-        const payments = await Payment.find().populate("orders_id");
+        const payments = await Payment.find();
         console.log("Data Payment berhasil diambil:", payments);
         res.status(200).json(payments);
     } catch (err) {
