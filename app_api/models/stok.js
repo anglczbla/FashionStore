@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const stokSchema = new mongoose.Schema({
-    productId: {
+    products_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Products",
         required: true,
