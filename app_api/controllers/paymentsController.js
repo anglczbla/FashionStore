@@ -1,6 +1,7 @@
 const Payment = require("../models/payments");
 const express = require("express");
 const router = express.Router();
+//const orders = require('../models/orders');
 
 // Mengambil semua data Payment
 const getAllPayments = async (req, res) => {

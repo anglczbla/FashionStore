@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const shippingController = require("../controllers/shippingController");
 
+const authMiddleware = require("../middleware/authMiddleware");
+const roleMiddleware = require ("../middleware/roleMiddleware");
 
 // Route untuk mendapatkan semua testimoni
 router.get("/", shippingController.getAllShipping);
@@ -13,9 +15,9 @@ router.get("/:id", shippingController.getShippingById);
 router.post("/", shippingController.createShipping);
 
 // Route untuk memperbarui shipping berdasarkan ID
-router.put("/:id", shippingController.updateShipping);
+router.put("/:id", authMiddleware, roleMiddleware("admin"), shippingController.updateShipping);
 
 // Route untuk menghapus shipping berdasarkan ID
-router.delete("/:id",shippingController.deleteShipping);
+router.delete("/:id", authMiddleware, roleMiddleware("admin"),shippingController.deleteShipping);
 
 module.exports = router;
