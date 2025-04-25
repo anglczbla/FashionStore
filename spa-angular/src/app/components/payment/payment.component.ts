@@ -8,7 +8,7 @@ import * as bootstrap from 'bootstrap';
 @Component({
   selector: 'app-payment',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
 })

@@ -1,1 +1,108 @@
-<p>review works!</p>
+<div class="container mt-4">
+    <h2 class="text-center text-info mb-4">Daftar Review</h2>
+  
+    <!-- Tombol Tambah -->
+    <button class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#tambahReviewModal">
+      Tambah Review
+    </button>
+  
+    <!-- Modal Tambah -->
+    <div class="modal fade" id="tambahReviewModal" tabindex="-1" aria-labelledby="tambahReviewLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content" [formGroup]="reviewForm" (ngSubmit)="addReview()">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tambahReviewLabel">Tambah Review</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nama</label>
+              <input type="text" class="form-control" formControlName="nama" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Order</label>
+              <select class="form-select" formControlName="orders_id">
+                <option *ngFor="let order of orders" [value]="order._id">
+                  {{ order.nama }}
+                </option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Pesan</label>
+              <textarea class="form-control" rows="3" formControlName="pesan"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Rating (1 - 5)</label>
+              <input type="number" class="form-control" formControlName="rating" min="1" max="5" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button class="btn btn-info" type="submit" [disabled]="isSubmitting">
+              {{ isSubmitting ? 'Menyimpan...' : 'Simpan' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Modal Edit -->
+    <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content" [formGroup]="reviewForm" (ngSubmit)="updateReview()">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editReviewLabel">Ubah Review</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nama</label>
+              <input type="text" class="form-control" formControlName="nama" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Order</label>
+              <select class="form-select" formControlName="orders_id">
+                <option *ngFor="let order of orders" [value]="order._id">
+                  {{ order.nama }}
+                </option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Pesan</label>
+              <textarea class="form-control" rows="3" formControlName="pesan"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Rating (1 - 5)</label>
+              <input type="number" class="form-control" formControlName="rating" min="1" max="5" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button class="btn btn-info" type="submit" [disabled]="isSubmitting">
+              {{ isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Daftar Review -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
+      <div class="col" *ngFor="let review of reviews">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ review.nama }}</h5>
+            <p class="card-text">
+              <strong>Order:</strong> {{ review.orders_id?.nama }}<br />
+              <strong>Pesan:</strong> {{ review.pesan }}<br />
+              <strong>Rating:</strong>
+              <span *ngFor="let star of [].constructor(review.rating)">⭐</span> ({{ review.rating }})
+            </p>
+            <button class="btn btn-warning me-2" (click)="getReviewById(review._id)">Edit</button>
+            <button class="btn btn-danger" (click)="deleteReview(review._id)">Hapus</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

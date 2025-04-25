@@ -8,7 +8,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 @Component({
   selector: 'app-shipping',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './shipping.component.html',
   styleUrls: ['./shipping.component.css'],
 })

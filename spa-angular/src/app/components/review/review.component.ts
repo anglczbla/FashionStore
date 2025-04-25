@@ -1,118 +1,121 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-// Interface untuk tipe data review
-interface Review {
-  _id?: string;
-  nama: string;
-  orders_id: string;
-  pesan: string;
-  rating: number;
-}
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
-  styleUrls: ['./review.component.css']
+  styleUrls: ['./review.component.css'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class ReviewComponent implements OnInit {
-  reviews: Review[] = [];               // Menyimpan semua review
-  reviewForm!: FormGroup;              // Form untuk input dan edit review
-  apiUrl = 'http://localhost:3000/review'; // Ganti dengan endpoint review kamu
-  editReviewId: string | null = null;  // Menyimpan id saat edit
-  isLoading = false;                   // Loading state
+  reviews: any[] = [];
+  reviewForm!: FormGroup;
+  orders: any[] = [];
+  editReviewId: string | null = null;
+  isSubmitting = false;
+  apiUrl = 'http://localhost:3000/reviews';
+  orderApiUrl = 'http://localhost:3000/orders'; // Ganti sesuai URL API order kamu
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.reviewForm = this.fb.group({
-      nama: ['', Validators.required],
-      orders_id: ['', Validators.required],
-      pesan: ['', Validators.required],
-      rating: ['', [Validators.required, Validators.min(1), Validators.max(5)]]
+      nama: [''],
+      orders_id: [''],
+      pesan: [''],
+      rating: [''],
     });
 
     this.getReviews();
+    this.getOrders();
   }
 
-  // Mengambil semua review dari server
   getReviews(): void {
-    this.isLoading = true;
-    this.http.get<Review[]>(this.apiUrl).subscribe({
-      next: data => {
-        this.reviews = data;
-        this.isLoading = false;
-      },
-      error: () => {
-        alert('Gagal mengambil data review.');
-        this.isLoading = false;
-      }
+    this.http.get<any[]>(this.apiUrl).subscribe((data) => {
+      this.reviews = data;
     });
   }
 
-  // Submit form review baru
-  submitReview(): void {
+  getOrders(): void {
+    this.http.get<any[]>(this.orderApiUrl).subscribe((data) => {
+      this.orders = data;
+    });
+  }
+
+  addReview(): void {
     if (this.reviewForm.valid) {
+      this.isSubmitting = true;
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      this.http.post<Review>(this.apiUrl, this.reviewForm.value, { headers }).subscribe({
+      this.http.post(this.apiUrl, this.reviewForm.value, { headers }).subscribe({
         next: () => {
-          alert('Review berhasil ditambahkan!');
           this.getReviews();
           this.reviewForm.reset();
+          this.isSubmitting = false;
+          this.closeModal('tambahReviewModal');
         },
         error: () => {
-          alert('Gagal menambahkan review.');
-        }
+          this.isSubmitting = false;
+        },
       });
-    } else {
-      alert('Form tidak valid. Pastikan semua field terisi dan rating antara 1–5.');
     }
   }
 
-  // Edit review dengan mengisi kembali form
-  editReview(review: Review): void {
-    this.editReviewId = review._id || null;
-    this.reviewForm.patchValue({
-      nama: review.nama,
-      orders_id: review.orders_id,
-      pesan: review.pesan,
-      rating: review.rating
+  getReviewById(id: string): void {
+    this.editReviewId = id;
+    this.http.get<any>(`${this.apiUrl}/${id}`).subscribe({
+      next: (data) => {
+        this.reviewForm.patchValue(data);
+        this.openModal('editReviewModal');
+      },
+      error: (err) => {
+        console.error('Gagal mengambil review:', err);
+      },
     });
   }
 
-  // Update review yang telah diedit
   updateReview(): void {
     if (this.reviewForm.valid && this.editReviewId) {
+      this.isSubmitting = true;
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       this.http.put(`${this.apiUrl}/${this.editReviewId}`, this.reviewForm.value, { headers }).subscribe({
         next: () => {
-          alert('Review berhasil diperbarui!');
           this.getReviews();
           this.reviewForm.reset();
           this.editReviewId = null;
+          this.isSubmitting = false;
+          this.closeModal('editReviewModal');
         },
         error: () => {
-          alert('Gagal memperbarui review.');
-        }
+          this.isSubmitting = false;
+        },
       });
-    } else {
-      alert('Form tidak valid atau belum memilih review yang ingin diedit.');
     }
   }
 
-  // Menghapus review berdasarkan ID
   deleteReview(id: string): void {
-    if (confirm('Apakah Anda yakin ingin menghapus review ini?')) {
-      this.http.delete(`${this.apiUrl}/${id}`).subscribe({
-        next: () => {
-          alert('Review berhasil dihapus.');
-          this.getReviews();
-        },
-        error: () => {
-          alert('Gagal menghapus review.');
-        }
-      });
+    this.http.delete(`${this.apiUrl}/${id}`).subscribe(() => {
+      this.getReviews();
+    });
+  }
+
+  openModal(modalId: string): void {
+    const modalElement = document.getElementById(modalId) as HTMLElement;
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+      modalInstance.show();
+    }
+  }
+
+  closeModal(modalId: string): void {
+    const modalElement = document.getElementById(modalId) as HTMLElement;
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      modalInstance?.hide();
     }
   }
 }
