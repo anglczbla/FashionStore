@@ -1,0 +1,118 @@
+<div class="container mt-4">
+    <h2 class="text-center text-primary mb-4">Daftar Pemesanan</h2>
+  
+    <!-- Tombol Tambah -->
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahPemesananModal">
+      Tambah Pemesanan
+    </button>
+  
+    <!-- Modal Tambah -->
+    <div class="modal fade" id="tambahPemesananModal" tabindex="-1" aria-labelledby="tambahLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content" [formGroup]="orderForm" (ngSubmit)="addOrder()">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tambahLabel">Tambah Pemesanan</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nama Pemesan</label>
+              <input type="text" class="form-control" formControlName="nama" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tanggal Order</label>
+              <input type="datetime-local" class="form-control" formControlName="order" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Total Harga</label>
+              <input type="number" class="form-control" formControlName="total" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jumlah Order</label>
+              <input type="number" class="form-control" formControlName="jumlahOrder" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Produk</label>
+              <select class="form-select" formControlName="products_id">
+                <option *ngFor="let products of products" [value]="products.id">
+                  {{ products.nama }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button class="btn btn-primary" type="submit" [disabled]="isSubmitting">
+              {{ isSubmitting ? 'Menyimpan...' : 'Simpan' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Modal Edit -->
+    <div class="modal fade" id="editPemesananModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content" [formGroup]="orderForm" (ngSubmit)="updateOrder()">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editLabel">Ubah Pemesanan</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nama Pemesan</label>
+              <input type="text" class="form-control" formControlName="nama" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tanggal Order</label>
+              <input type="datetime-local" class="form-control" formControlName="order" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Total Harga</label>
+              <input type="number" class="form-control" formControlName="total" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jumlah Order</label>
+              <input type="number" class="form-control" formControlName="jumlahOrder" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Produk</label>
+                <select class="form-select" formControlName="products_id">
+                  <option *ngFor="let products of products" [value]="products.id">
+                    {{ products.nama }}
+                  </option>
+                </select>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button class="btn btn-primary" type="submit" [disabled]="isSubmitting">
+              {{ isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Daftar Pemesanan -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
+      <div class="col" *ngFor="let item of orders">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.nama }}</h5>
+            <p class="card-text">
+              <strong>Nama:</strong> {{ item.nama }}
+              <strong>Produk:</strong> {{ item.products_id?.nama }}<br />
+              <strong>Order:</strong> {{ item.order }}<br />
+              <strong>Jumlah:</strong> {{ item.jumlahOrder }}<br />
+              <strong>Total:</strong> {{ item.total }}<br />
+              <strong>Created:</strong> {{ item.createdAt }}
+            </p>
+            <button class="btn btn-warning me-2" (click)="getOrderById(item._id)">Edit</button>
+            <button class="btn btn-danger" (click)="deleteOrder(item._id)">Hapus</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

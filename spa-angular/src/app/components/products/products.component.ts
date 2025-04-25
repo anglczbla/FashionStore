@@ -1,24 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css'],
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class ProductsComponent implements OnInit {
   products: any[] = []; // Menyimpan data produk
   productsForm!: FormGroup; // Form input produk
   apiUrl = 'http://localhost:3000/products'; // Ganti dengan URL API kamu
   editProductId: string | null = null;
+  isSubmitting = false;
+  isLoading = true;
+  editProductsId: string | null = null;
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.productsForm = this.fb.group({
-      nama: ['', Validators.required],
-      deskripsi: ['', Validators.required],
+      nama: [''],
+      deskripsi: [''],
       harga: [''],
       kategori: [''],
       brand: [''],
@@ -35,7 +42,7 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  submitProduct(): void {
+  addProduct(): void {
     if (this.productsForm.valid) {
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       this.http.post(this.apiUrl, this.productsForm.value, { headers }).subscribe(() => {
@@ -55,6 +62,19 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  getProductById(id: string): void {
+    this.editProductId = id;
+    this.http.get<any>(`${this.apiUrl}/${id}`).subscribe({
+      next: (data) => {
+        this.productsForm.patchValue(data);
+        this.openModal('editProductsModal');
+      },
+      error: (err) => {
+        console.error('Error fetching order by ID:', err);
+      },
+    });
+  }
+
   updateProduct(): void {
     if (this.productsForm.valid && this.editProductId) {
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -71,4 +91,20 @@ export class ProductsComponent implements OnInit {
       this.getProducts();
     });
   }
+  openModal(modalId: string): void {
+      const modalElement = document.getElementById(modalId) as HTMLElement;
+      if (modalElement) {
+        const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+        modalInstance.show();
+      }
+    }
+  
+    closeModal(modalId: string): void {
+      const modalElement = document.getElementById(modalId) as HTMLElement;
+      if (modalElement) {
+        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+        modalInstance?.hide();
+      }
+    }
+
 }

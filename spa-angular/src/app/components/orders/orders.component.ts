@@ -5,11 +5,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 
+
 @Component({
   selector: 'app-orders',
   standalone: true,
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class OrdersComponent implements OnInit {
   orders: any[] = [];
@@ -36,7 +38,7 @@ export class OrdersComponent implements OnInit {
       products_id: '',
     });
   }
- 
+
   ngOnInit(): void {
     this.getOrders();
     this.getProducts();
@@ -51,8 +53,7 @@ export class OrdersComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching orders data:', err);
-        alert('Failed to fetch orders. Please try again later.'); // User feedback
-
+        alert('Failed to fetch orders. Please try again later.');
         this.isLoading = false;
       },
     });
@@ -65,8 +66,7 @@ export class OrdersComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching products data:', err);
-        alert('Failed to fetch products. Please try again later.'); // User feedback
-
+        alert('Failed to fetch products. Please try again later.');
       },
     });
   }
@@ -83,7 +83,7 @@ export class OrdersComponent implements OnInit {
           this.getOrders();
           this.orderForm.reset();
           this.isSubmitting = false;
-          this.closeModal('addOrderModal');
+          this.closeModal('tambahPemesananModal');
         },
         error: (err) => {
           console.error('Error adding order:', err);
@@ -114,7 +114,7 @@ export class OrdersComponent implements OnInit {
     this.http.get<any>(`${this.apiOrdersUrl}/${id}`).subscribe({
       next: (data) => {
         this.orderForm.patchValue(data);
-        this.openModal('editOrderModal');
+        this.openModal('editPemesananModal');
       },
       error: (err) => {
         console.error('Error fetching order by ID:', err);
@@ -127,12 +127,12 @@ export class OrdersComponent implements OnInit {
       this.isSubmitting = true;
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Bearer ${token}` };
-      
+
       this.http.put(`${this.apiOrdersUrl}/${this.editOrderId}`, this.orderForm.value, { headers }).subscribe({
         next: () => {
           this.getOrders();
           this.isSubmitting = false;
-          this.closeModal('editOrderModal');
+          this.closeModal('editPemesananModal');
         },
         error: (err) => {
           console.error('Error updating order:', err);
