@@ -40,7 +40,7 @@ const createProducts = async (req, res) => {
 
     try {
         // Validasi input
-        if (!req.body.nama || !req.body.harga) {
+        if (!req.body.nama || !req.body.nama) {
             return res.status(400).json({ message: "Nama dan harga harus diisi." });
         }
 

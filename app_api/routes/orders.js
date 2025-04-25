@@ -8,7 +8,8 @@ const roleMiddleware = require("../middleware/roleMiddleware");
 router.get("/", ordersController.getAllOrders);
 
 // Route untuk membuat data orders baru
-router.post("/", authMiddleware, roleMiddleware("admin"), ordersController.createOrders);
+// router.post("/", authMiddleware, roleMiddleware("admin"), ordersController.createOrders);
+router.post("/", ordersController.createOrders);
 
 // Route untuk mendapatkan data orders berdasarkan ID
 router.get("/:id", ordersController.getOrdersById);

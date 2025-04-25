@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 
 const productsController = require("../controllers/productsController");
+const authMiddleware = require("../middleware/authMiddleware");
+const roleMiddleware = require("../middleware/roleMiddleware");
 
 const multer = require("multer");
 const path = require("path");
@@ -21,33 +23,53 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-const authMiddleware = require("../middleware/authMiddleware");
-const roleMiddleware = require("../middleware/roleMiddleware");
+// const authMiddleware = require("../middleware/authMiddleware");
+// const roleMiddleware = require("../middleware/roleMiddleware");
 
-// Definisi rute untuk produk
-router.get("/", productsController.getAllProducts);
-router.post(
-  "/",
-  authMiddleware,
-  roleMiddleware("admin"),
-  upload.single("foto"),
-  productsController.createProducts
-);
+// // Definisi rute untuk produk
+// router.get("/", productsController.getAllProducts);
+// router.post(
+//   "/",
+//   authMiddleware,
+//   roleMiddleware("admin"),
+//   upload.single("foto"),
+//   productsController.createProducts
+// );
 
-router.get("/:id", productsController.getProductsById);
-router.put(
-  "/:id",
-  authMiddleware,
-  roleMiddleware("admin"),
-  upload.single("foto"),
-  productsController.updateProducts
-);
+// router.post(
+//   "/",
+//   productsController.createProducts
+// );
 
-router.delete(
-  "/:id",
-  authMiddleware,
-  roleMiddleware("admin"),
-  productsController.deleteProducts
-);
+// router.get("/:id", productsController.getProductsById);
+// router.put(
+//   "/:id",
+//   authMiddleware,
+//   roleMiddleware("admin"),
+//   upload.single("foto"),
+//   productsController.updateProducts
+// );
+
+// router.delete(
+//   "/:id",
+//   authMiddleware,
+//   roleMiddleware("admin"),
+//   productsController.deleteProducts
+// );
+
+// Route untuk mendapatkan semua testimoni
+router.get("/", authMiddleware, productsController.getAllProducts);
+
+// Route untuk mendapatkan shipping berdasarkan ID
+router.get("/:id", authMiddleware,productsController.getProductsById);
+
+// Route untuk membuat shipping baru
+router.post("/", authMiddleware, roleMiddleware("admin"), upload.single("foto"), productsController.createProducts);
+
+// Route untuk memperbarui shipping berdasarkan ID
+router.put("/:id", authMiddleware, roleMiddleware("admin"), upload.single("foto"), productsController.updateProducts);
+
+// Route untuk menghapus shipping berdasarkan ID
+router.delete("/:id",authMiddleware, roleMiddleware("admin"),productsController.deleteProducts);
 
 module.exports = router;

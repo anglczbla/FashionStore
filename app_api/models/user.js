@@ -20,11 +20,7 @@ const UserSchema = new mongoose.Schema({
     type: String, // Tipe data role adalah string
     enum: ["user", "admin"], // Role terbatas hanya bisa 'user' atau 'admin'
     default: "user", // Default role adalah 'user'
-  },
-  date: {
-    type: Date, // Tipe data tanggal adalah date
-    default: Date.now, // Default date adalah waktu saat ini
-  },
+  }
 });
 
 // Fungsi untuk mengenkripsi password sebelum menyimpan pengguna
