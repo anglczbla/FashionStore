@@ -58,7 +58,7 @@ const upload = multer({ storage: storage });
 // );
 
 // Route untuk mendapatkan semua testimoni
-router.get("/", authMiddleware, productsController.getAllProducts);
+router.get("/",  productsController.getAllProducts);
 
 // Route untuk mendapatkan shipping berdasarkan ID
 router.get("/:id", authMiddleware,productsController.getProductsById);
