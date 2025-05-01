@@ -1,5 +1,5 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -14,13 +14,13 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
     MatButtonModule,
     MatIconModule,
     MatListModule,
     MatToolbarModule,
     MatMenuModule,
     RouterModule,
+    RouterOutlet
   ],
     
   templateUrl: './app.component.html',
