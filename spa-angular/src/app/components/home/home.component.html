@@ -27,11 +27,13 @@
               <nav>
                 <ul>
                   <li><a routerLink="/aboutus">About Us</a></li>
-                  <li><a routerLink="/products">Pria</a></li>
-                  <li><a routerLink="/products">Wanita</a></li>
+                  <li><a routerLink="/products">Product</a></li>
+                  <li><a routerLink="/products/pria">Pria</a></li>
+                  <li><a routerLink="/products/wanita">Wanita</a></li>
                   <li><a routerLink="/products">Anak</a></li>
                   <li><a routerLink="/review">Review</a></li>
                   <li><a routerLink="/aboutus">Contact Us</a></li>
+                  <li><a routerLink="/shipping">Shipping</a></li>
                 </ul>
               </nav>                           
             </nav>            
@@ -385,6 +387,8 @@
     </div>
   </div>
 
+  <router-outlet></router-outlet>
+
   <!-- js for toggle menu -->
   <script>
     var MenuItems = document.getElementById('MenuItems');
@@ -404,3 +408,5 @@
 
 
 </html>
+
+

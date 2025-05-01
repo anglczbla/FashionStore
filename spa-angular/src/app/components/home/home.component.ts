@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
-
-
 @Component({
   selector: 'app-home',
   imports: [
     RouterLink,
     MatListModule,
+    RouterOutlet,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

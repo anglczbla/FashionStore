@@ -27,7 +27,7 @@ export class AuthComponent {
   // Konstruktor untuk injeksi dependensi
   constructor(
     private fb: FormBuilder,  // Injeksi FormBuilder untuk membuat form
-    private http: HttpClient,  // Injeksi HttpClient untuk melakukan HTTP request
+    private http: HttpClient,  // Injeksi HttpClient untuk melakukan HTTP request // ERROR DISINI, MAKANYA BLANK, PERLU DI CEK INJEKSINYA
     private router: Router  // Injeksi Router untuk navigasi halaman setelah login
   ) {
     // Membuat FormGroup untuk form login dengan validasi

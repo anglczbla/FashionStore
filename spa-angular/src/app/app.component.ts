@@ -8,6 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router'; 
 import { Router } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http'
 
 @Component({
   selector: 'app-root',
@@ -20,8 +21,10 @@ import { Router } from '@angular/router';
     MatToolbarModule,
     MatMenuModule,
     RouterModule,
-    RouterOutlet
-  ],
+    RouterOutlet,
+    HttpClientModule,
+
+],
     
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

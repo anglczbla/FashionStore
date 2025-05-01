@@ -3,18 +3,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 
 @Component({
-  selector: 'app-products',
+  selector: 'app-products-pria',
   standalone: true,
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterOutlet],
+  templateUrl: './products-pria.component.html',
+  styleUrls: ['./products-pria.component.css'],
+  imports: [CommonModule, ReactiveFormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ProductsComponent implements OnInit {
+export class ProductsPriaComponent implements OnInit {
   ngOnInit(): void {
   }
   // products: any[] = []; // Menyimpan data produk
