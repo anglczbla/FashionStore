@@ -23,13 +23,18 @@
         </div>
         <nav>
           <ul id="MenuItems">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="aboutus.html">About Us</a></li>
-            <li><a href="product.html">Pria</a></li>
-            <li><a href="product.html">Wanita</a></li>
-            <li><a href="product.html">Anak</a></li>
-            <li><a href="review.html">Review</a></li>
-            <li><a href="account.html">Contact Us</a></li>
+            <nav>
+              <nav>
+                <ul>
+                  <li><a routerLink="/aboutus">About Us</a></li>
+                  <li><a routerLink="/products/pria">Pria</a></li>
+                  <li><a routerLink="/products/wanita">Wanita</a></li>
+                  <li><a routerLink="/products/anak">Anak</a></li>
+                  <li><a routerLink="/review">Review</a></li>
+                  <li><a routerLink="/aboutus">Contact Us</a></li>
+                </ul>
+              </nav>                           
+            </nav>            
           </ul>
         </nav>
         <a href="cart.html"><img src="" alt="" width="30px" height="30px" /></a>
@@ -398,3 +403,4 @@
 </body>
 
 </html>
+<router-outlet></router-outlet>
