@@ -8,8 +8,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router'; 
 import { Router } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';  
 import { HttpClient, HttpClientModule } from '@angular/common/http'
-
+// import { HeaderComponent } from './components/header/header.component';
+// import { FooterComponent } from './components/footer/footer.component';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -22,7 +26,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http'
     MatMenuModule,
     RouterModule,
     RouterOutlet,
-    HttpClientModule,
+    HttpClientModule
 
 ],
     

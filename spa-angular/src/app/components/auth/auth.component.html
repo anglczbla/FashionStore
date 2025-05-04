@@ -36,6 +36,17 @@
         <!-- Menampilkan "Login..." jika sedang mengirim data (isSubmitting = true), jika tidak menampilkan "Login" -->
         {{ isSubmitting ? "Login..." : "Login" }} 
       </button>
+
+      <!-- Email Error -->
+<div *ngIf="authForm.get('email')?.invalid && authForm.get('email')?.touched" class="error-message">
+  Email tidak valid.
+</div>
+
+<!-- Password Error -->
+<div *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.touched" class="error-message">
+  Password diperlukan.
+</div>
+
     </form>
   </div>
   

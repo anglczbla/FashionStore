@@ -11,6 +11,8 @@ import { ReviewComponent } from './components/review/review.component';
 import { ProductsPriaComponent } from './components/products/pria/products-pria.component';
 import { ProductsWanitaComponent } from './components/products/wanita/products-wanita.component';
 import { ProductsanakComponent } from './components/products/anak/products-anak.component';
+import { ContactusComponent } from './components/contactus/contactus.component';
+
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -35,6 +37,7 @@ export const routes: Routes = [
      },
     { path: 'payment',  component: PaymentComponent, canActivate: [AuthGuard] },
     { path: 'shipping',  component: ShippingComponent},
+    { path: 'contactus',  component: ContactusComponent},
     { path: 'review',  component: ReviewComponent },
     { path: 'auth', component: AuthComponent },
     { path: '**', redirectTo: 'auth' },
