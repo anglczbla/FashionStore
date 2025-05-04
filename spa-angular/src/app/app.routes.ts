@@ -13,11 +13,19 @@ import { ProductsWanitaComponent } from './components/products/wanita/products-w
 import { ProductsanakComponent } from './components/products/anak/products-anak.component';
 import { ContactusComponent } from './components/contactus/contactus.component';
 
-
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'aboutus', component: AboutusComponent },
-    { path: 'orders',  component: OrdersComponent, canActivate: [AuthGuard] },
+    { path: 'orders',  component: OrdersComponent,
+        children: [
+            {path: 'payment',
+                component: PaymentComponent
+            },
+            {path: 'shipping',
+                component: ShippingComponent
+            },
+        ]
+    },
     { path: 'products',  component: ProductsComponent,  
         children: [
             {
@@ -35,8 +43,6 @@ export const routes: Routes = [
             
         ]
      },
-    { path: 'payment',  component: PaymentComponent, canActivate: [AuthGuard] },
-    { path: 'shipping',  component: ShippingComponent},
     { path: 'contactus',  component: ContactusComponent},
     { path: 'review',  component: ReviewComponent },
     { path: 'auth', component: AuthComponent },
