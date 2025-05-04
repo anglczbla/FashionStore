@@ -1,78 +1,105 @@
 <div class="container mt-4">
-  
-    <!-- Tombol Tambah -->
-    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#tambahproductsModal">
-      Tambah products
-    </button>
-  
-    <!-- Modal Tambah products -->
-    <div class="modal fade" id="tambahproductsModal" tabindex="-1" aria-labelledby="tambahLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <form class="modal-content" [formGroup]="productsForm" (ngSubmit)="addProduct()">
-          <div class="modal-header">
-            <h5 class="modal-title" id="tambahLabel">Tambah products</h5>
-            <button class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3" *ngFor="let field of ['nama','deskripsi','harga','kategori','brand','size','foto']">
-              <label class="form-label text-capitalize">{{ field }}</label>
-              <input type="{{ field === 'harga' ? 'number' : 'text' }}" class="form-control" [formControlName]="field" />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-            <button class="btn btn-success" type="submit" [disabled]="isSubmitting">
-              {{ isSubmitting ? 'Menyimpan...' : 'Simpan' }}
-            </button>
-          </div>
-        </form>
+  <div class="header">
+    <div class="container">
+      <div class="navbar d-flex justify-content-between align-items-center">
+        <div class="logo">
+          <a href="index.html">
+            <img src="" alt="I AM Fashion Store" width="125px" />
+          </a>
+        </div>
+        <nav>
+          <ul id="MenuItems" class="list-unstyled d-flex gap-3">
+            <li><a routerLink="/aboutus">About Us</a></li>
+            <li><a routerLink="/products">Product</a></li>
+            <li><a routerLink="/review">Review</a></li>
+            <li><a routerLink="/contactus">Contact Us</a></li>
+            <!-- Tambahan opsional -->
+            <!-- <li><a routerLink="/orders">Order</a></li>
+            <li><a routerLink="/payment">Payment</a></li>
+            <li><a routerLink="/shipping">Shipping</a></li> -->
+            <!-- <li class="nav-item">
+              <a *ngIf="isLoggedIn" class="nav-link" (click)="onLogout()">Logout</a>
+            </li> -->
+          </ul>
+        </nav>
       </div>
     </div>
-  
-    <!-- Modal Edit products -->
-    <div class="modal fade" id="editproductsModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <form class="modal-content" [formGroup]="productsForm" (ngSubmit)="updateProduct()">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editLabel">Edit products</h5>
-            <button class="btn-close" data-bs-dismiss="modal"></button>
+  </div>
+
+  <!-- Tombol Tambah -->
+  <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#tambahproductsModal">
+    Tambah products
+  </button>
+
+  <!-- Modal Tambah -->
+  <div class="modal fade" id="tambahproductsModal" tabindex="-1" aria-labelledby="tambahLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" [formGroup]="productsForm" (ngSubmit)="addProduct()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tambahLabel">Tambah products</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3" *ngFor="let field of ['nama','deskripsi','harga','kategori','brand','size','foto']">
+            <label class="form-label text-capitalize">{{ field }}</label>
+            <input type="{{ field === 'harga' ? 'number' : 'text' }}" class="form-control" [formControlName]="field" />
           </div>
-          <div class="modal-body">
-            <div class="mb-3" *ngFor="let field of ['nama','deskripsi','harga','kategori','brand','size','foto']">
-              <label class="form-label text-capitalize">{{ field }}</label>
-              <input type="{{ field === 'harga' ? 'number' : 'text' }}" class="form-control" [formControlName]="field" />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-            <button class="btn btn-success" type="submit" [disabled]="isSubmitting">
-              {{ isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan' }}
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button class="btn btn-success" type="submit" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'Menyimpan...' : 'Simpan' }}
+          </button>
+        </div>
+      </form>
     </div>
-  
-    <!-- Daftar products -->
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
-      <div class="col" *ngFor="let item of products">
-        <div class="card shadow-sm">
-          <img [src]="item.foto" class="card-img-top" alt="{{ item.nama }}" />
-          <div class="card-body">
-            <h5 class="card-title">{{ item.nama }}</h5>
-            <p class="card-text">
-              <strong>Deskripsi:</strong> {{ item.deskripsi }}<br />
-              <strong>Harga:</strong> Rp{{ item.harga }}<br />
-              <strong>Kategori:</strong> {{ item.kategori }}<br />
-              <strong>Brand:</strong> {{ item.brand }}<br />
-              <strong>Ukuran:</strong> {{ item.size }}<br />
-              <strong>Dibuat:</strong> {{ item.createdAt }}
-            </p>
-            <button class="btn btn-warning me-2" (click)="getProductById(item._id)">Edit</button>
-            <button class="btn btn-danger" (click)="deleteProduct(item._id)">Hapus</button>
+  </div>
+
+  <!-- Modal Edit -->
+  <div class="modal fade" id="editproductsModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" [formGroup]="productsForm" (ngSubmit)="updateProduct()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editLabel">Edit products</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3" *ngFor="let field of ['nama','deskripsi','harga','kategori','brand','size','foto']">
+            <label class="form-label text-capitalize">{{ field }}</label>
+            <input type="{{ field === 'harga' ? 'number' : 'text' }}" class="form-control" [formControlName]="field" />
           </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button class="btn btn-success" type="submit" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Daftar Products -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
+    <div class="col" *ngFor="let item of products">
+      <div class="card shadow-sm">
+        <img [src]="item.foto" class="card-img-top" alt="{{ item.nama }}" />
+        <div class="card-body">
+          <h5 class="card-title">{{ item.nama }}</h5>
+          <p class="card-text">
+            <strong>Deskripsi:</strong> {{ item.deskripsi }}<br />
+            <strong>Harga:</strong> Rp{{ item.harga }}<br />
+            <strong>Kategori:</strong> {{ item.kategori }}<br />
+            <strong>Brand:</strong> {{ item.brand }}<br />
+            <strong>Ukuran:</strong> {{ item.size }}<br />
+            <strong>Dibuat:</strong> {{ item.createdAt }}
+          </p>
+          <button class="btn btn-warning me-2" (click)="getProductById(item._id)">Edit</button>
+          <button class="btn btn-danger" (click)="deleteProduct(item._id)">Hapus</button>
         </div>
       </div>
     </div>
   </div>
+
   <router-outlet></router-outlet>
+</div>
