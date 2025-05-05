@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import {  RouterOutlet } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';  // Mengimpor RouterModule
 import { Router } from '@angular/router';  // Mengimpor Route
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-home',
   standalone: true,
   imports: [
-    RouterLink,
+    
     MatListModule,
     RouterOutlet,
     RouterModule,
