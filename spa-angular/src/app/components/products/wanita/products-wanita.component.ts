@@ -22,6 +22,14 @@ export class ProductsWanitaComponent implements OnInit {
   isSubmitting = false;
   isLoading = true;
   editProductsId: string | null = null;
+  selectedFile: File | null = null;
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
@@ -45,12 +53,30 @@ export class ProductsWanitaComponent implements OnInit {
     });
   }
 
+  // addProduct(): void {
+  //   if (this.productsForm.valid) {
+  //     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  //     this.http.post(this.apiUrl, this.productsForm.value, { headers }).subscribe(() => {
+  //       this.getProducts();
+  //       this.productsForm.reset();
+  //     });
+  //   }
+  // }
   addProduct(): void {
-    if (this.productsForm.valid) {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      this.http.post(this.apiUrl, this.productsForm.value, { headers }).subscribe(() => {
+    if (this.productsForm.valid && this.selectedFile) {
+      const formData = new FormData();
+      formData.append('nama', this.productsForm.value.nama);
+      formData.append('deskripsi', this.productsForm.value.deskripsi);
+      formData.append('harga', this.productsForm.value.harga);
+      formData.append('kategori', this.productsForm.value.kategori);
+      formData.append('brand', this.productsForm.value.brand);
+      formData.append('size', this.productsForm.value.size);
+      formData.append('foto', this.selectedFile); // File yang dipilih
+  
+      this.http.post(this.apiUrl, formData).subscribe(() => {
         this.getProducts();
         this.productsForm.reset();
+        this.selectedFile = null;
       });
     }
   }
