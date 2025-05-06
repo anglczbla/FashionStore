@@ -2,8 +2,8 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { ProductsComponent } from './components/products/products.component';
-import { PaymentComponent } from './components/payment/payment.component';
-import { ShippingComponent } from './components/shipping/shipping.component';
+import { PaymentComponent } from './components/orders/payment/payment.component';
+import { ShippingComponent } from './components/orders/shipping/shipping.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { AuthGuard } from './auth.guard';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
@@ -16,7 +16,7 @@ import { ContactusComponent } from './components/contactus/contactus.component';
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'aboutus', component: AboutusComponent },
-    { path: 'orders',  component: OrdersComponent,
+    { path: 'orders',  component: OrdersComponent,canActivate: [AuthGuard] ,
         children: [
             {path: 'payment',
                 component: PaymentComponent
@@ -26,7 +26,7 @@ export const routes: Routes = [
             },
         ]
     },
-    { path: 'products',  component: ProductsComponent,  
+    { path: 'products',  component: ProductsComponent,  canActivate: [AuthGuard] ,
         children: [
             {
                 path: 'pria',
@@ -43,8 +43,8 @@ export const routes: Routes = [
             
         ]
      },
-    { path: 'contactus',  component: ContactusComponent},
-    { path: 'review',  component: ReviewComponent },
+    { path: 'contactus',  component: ContactusComponent, canActivate: [AuthGuard] },
+    { path: 'review',  component: ReviewComponent , canActivate: [AuthGuard] },
     { path: 'auth', component: AuthComponent },
     { path: '**', redirectTo: 'auth' },
     

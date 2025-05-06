@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const reviewController = require("../controllers/reviewController");
+const authMiddleware = require("../middleware/authMiddleware");
+const roleMiddleware = require("../middleware/roleMiddleware");
 
 
 // Route untuk mendapatkan semua testimoni
@@ -16,6 +18,6 @@ router.post("/", reviewController.createReview);
 router.put("/:id", reviewController.updateReview);
 
 // Route untuk menghapus review berdasarkan ID
-router.delete("/:id",reviewController.deleteReview);
+router.delete("/:id",roleMiddleware("admin"), reviewController.deleteReview);
 
 module.exports = router;

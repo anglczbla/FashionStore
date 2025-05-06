@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';  
+
 import { HttpClient, HttpClientModule } from '@angular/common/http'
 // import { HeaderComponent } from './components/header/header.component';
 // import { FooterComponent } from './components/footer/footer.component';
@@ -34,7 +35,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http'
   styleUrl: './app.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'spa-angular';
 
   isLoggedIn: boolean = false; // Menyimpan status login

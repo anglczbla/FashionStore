@@ -22,7 +22,7 @@ export class ShippingComponent implements OnInit {
   editShippingId: string | null = null;
 
   apiShippingUrl = 'http://localhost:3000/api/shipping';
-  apiPaymentsUrl = 'http://localhost:3000/api/payments';
+  apiPaymentsUrl = 'http://localhost:3000/api/payment';
 
   shippingForm: FormGroup;
   private http = inject(HttpClient);

@@ -22,7 +22,7 @@ export class AuthComponent {
   // Variabel untuk menandakan apakah sedang mengirimkan data (untuk menampilkan status loading)
   isSubmitting: boolean = false;  
   // URL endpoint untuk API login
-  apiUrl = '';  // API login endpoint
+  apiUrl = ' http://localhost:3000/api/auth/login';  // API login endpoint
 
   // Konstruktor untuk injeksi dependensi
   constructor(
@@ -64,7 +64,7 @@ export class AuthComponent {
           console.log('Login berhasil:', response);
 
           // Mengarahkan ke halaman fakultas setelah login berhasil
-          window.location.href = '/fakultas';  // Menggunakan window.location.href untuk mereload halaman dan mengarahkan ke /fakultas
+          window.location.href = '/home';  // Menggunakan window.location.href untuk mereload halaman dan mengarahkan ke /fakultas
           // this.router.navigate(['/fakultas']);  // Alternatif menggunakan Angular router (jika tidak menggunakan window.location.href)
         } else {
           // Jika tidak ada token dalam response, tampilkan pesan error

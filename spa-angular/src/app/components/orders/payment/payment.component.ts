@@ -21,7 +21,7 @@ export class PaymentComponent implements OnInit {
   isSubmitting = false;
   editPaymentId: string | null = null;
 
-  apiPaymentsUrl = 'http://localhost:3000/api/payments';
+  apiPaymentsUrl = 'http://localhost:3000/api/payment';
   apiOrdersUrl = 'http://localhost:3000/api/orders';
 
   paymentForm: FormGroup;
