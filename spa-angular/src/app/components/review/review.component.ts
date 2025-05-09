@@ -18,7 +18,7 @@ export class ReviewComponent implements OnInit {
   orders: any[] = [];
   editReviewId: string | null = null;
   isSubmitting = false;
-  apiUrl = 'http://localhost:3000/reviews';
+  apiUrl = 'http://localhost:3000/api/review';
   orderApiUrl = 'http://localhost:3000/orders'; // Ganti sesuai URL API order kamu
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}

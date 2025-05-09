@@ -8,7 +8,7 @@ const reviewSchema = new mongoose.Schema({
     orders_id : {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Orders",
-        required: true,
+        required: false,
     },
     pesan: {
         type: String,

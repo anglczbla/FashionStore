@@ -18,7 +18,7 @@ import * as bootstrap from 'bootstrap';
 export class ProductsPriaComponent implements OnInit {
    products: any[] = []; // Menyimpan data produk
     productsForm!: FormGroup; // Form input produk
-    apiUrl = 'http://localhost:3000/products'; // Ganti dengan URL API kamu
+    apiUrl = 'http://localhost:3000/api/products'; // Ganti dengan URL API kamu
     editProductId: string | null = null;
     isSubmitting = false;
     isLoading = true;
