@@ -2,12 +2,12 @@
     <h2 class="text-center text-primary mb-4">Daftar Pemesanan</h2>
   
     <!-- Tombol Tambah -->
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahPemesananModal">
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahOrderModal">
       Tambah Pemesanan
     </button>
   
     <!-- Modal Tambah -->
-    <div class="modal fade" id="tambahPemesananModal" tabindex="-1" aria-labelledby="tambahLabel" aria-hidden="true">
+    <div class="modal fade" id="tambahOrderModal" tabindex="-1" aria-labelledby="tambahLabel" aria-hidden="true">
       <div class="modal-dialog">
         <form class="modal-content" [formGroup]="orderForm" (ngSubmit)="addOrder()">
           <div class="modal-header">
@@ -51,7 +51,7 @@
     </div>
   
     <!-- Modal Edit -->
-    <div class="modal fade" id="editPemesananModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
+    <div class="modal fade" id="editOrderModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
       <div class="modal-dialog">
         <form class="modal-content" [formGroup]="orderForm" (ngSubmit)="updateOrder()">
           <div class="modal-header">

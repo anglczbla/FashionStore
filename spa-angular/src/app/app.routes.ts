@@ -10,7 +10,7 @@ import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ReviewComponent } from './components/review/review.component';
 import { ProductsPriaComponent } from './components/products/pria/products-pria.component';
 import { ProductsWanitaComponent } from './components/products/wanita/products-wanita.component';
-import { ProductsanakComponent } from './components/products/anak/products-anak.component';
+import { ProductsAnakComponent } from './components/products/anak/products-anak.component';
 import { ContactusComponent } from './components/contactus/contactus.component';
 
 export const routes: Routes = [
@@ -38,7 +38,7 @@ export const routes: Routes = [
             },
             {
                 path: 'anak',
-                component: ProductsanakComponent // ganti jd component pria
+                component: ProductsAnakComponent // ganti jd component pria
             },
             
         ]

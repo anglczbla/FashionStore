@@ -74,24 +74,38 @@ export class OrdersComponent implements OnInit {
   addOrder(): void {
     if (this.orderForm.valid) {
       this.isSubmitting = true;
+      
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Bearer ${token}` };
-
-      this.http.post(this.apiOrdersUrl, this.orderForm.value, { headers }).subscribe({
-        next: (response) => {
-          console.log('Order successfully added:', response);
-          this.getOrders();
-          this.orderForm.reset();
-          this.isSubmitting = false;
-          this.closeModal('tambahPemesananModal');
-        },
-        error: (err) => {
-          console.error('Error adding order:', err);
-          this.isSubmitting = false;
-        },
-      });
+  
+      this.http.post(this.apiOrdersUrl, this.orderForm.value, { headers })
+        .subscribe({
+          next: (response) => {
+            console.log('Order successfully added:', response);
+            this.getOrders();
+            this.orderForm.reset();
+            this.isSubmitting = false;
+            
+            const modalElement = document.getElementById('tambahOrderModal') as HTMLElement;
+            if (modalElement) {
+              const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+              modalInstance.hide();
+  
+              // Hapus elemen backdrop jika ada
+              const backdrop = document.querySelector('.modal-backdrop');
+              if (backdrop) {
+                backdrop.remove();
+              }
+            }
+          },
+          error: (err) => {
+            console.error('Error adding order:', err);
+            this.isSubmitting = false;
+          }
+        });
     }
   }
+  
 
   deleteOrder(id: string): void {
     if (confirm('Are you sure you want to delete this order?')) {

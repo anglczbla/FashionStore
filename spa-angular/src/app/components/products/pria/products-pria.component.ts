@@ -42,17 +42,26 @@ export class ProductsPriaComponent implements OnInit {
         kategori: [''],
         brand: [''],
         size: [''],
-        foto:['']
       });
   
       this.getProducts();
     }
   
     getProducts(): void {
-      this.http.get<any[]>(this.apiUrl).subscribe(data => {
-        this.products = data;
-      });
+      this.isLoading = true;
+      this.http.get<any[]>(this.apiUrl).subscribe(
+        data => {
+          this.products = data;
+          console.log('Data Produk:', this.products);
+          this.isLoading = false;
+        },
+        err => {
+          console.error('Error fetching produk data:', err);
+          this.isLoading = false;
+        }
+      );
     }
+    
   
     // addProduct(): void {
     //   if (this.productsForm.valid) {
@@ -65,30 +74,50 @@ export class ProductsPriaComponent implements OnInit {
     // }
     addProduct(): void {
       if (this.productsForm.valid && this.selectedFile) {
+        this.isSubmitting = true;
+
+        const token = localStorage.getItem('authToken');
+        const headers = { Authorization: `Bearer ${token}` };
         const formData = new FormData();
+
         formData.append('nama', this.productsForm.value.nama);
         formData.append('deskripsi', this.productsForm.value.deskripsi);
         formData.append('harga', this.productsForm.value.harga);
         formData.append('kategori', this.productsForm.value.kategori);
         formData.append('brand', this.productsForm.value.brand);
         formData.append('size', this.productsForm.value.size);
-        formData.append('foto', this.selectedFile); // File yang dipilih
+        formData.append('foto', this.selectedFile);
     
-        this.http.post(this.apiUrl, formData).subscribe(() => {
-          this.getProducts();
-          this.productsForm.reset();
-          this.selectedFile = null;
+        this.http.post(this.apiUrl, formData, { headers }).subscribe({
+          next: () => {
+            this.getProducts();
+            this.productsForm.reset();
+            this.selectedFile = null;
+            this.isSubmitting = false;
+            const modalElement = document.getElementById('tambahProdukModal') as HTMLElement;
+          if (modalElement) {
+            const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+            modalInstance.hide();
+          }
+          },
+          error: (err) => {
+            console.error('Gagal menambahkan produk:', err);
+            this.isSubmitting = false;
+          }
         });
       }
     }
+    
   
     editProduct(product: any): void {
       this.editProductId = product._id;
       this.productsForm.patchValue({
-        name: product.name,
-        price: product.price,
-        description: product.description,
-        image: product.image
+        nama: product.nama,
+        deskripsi: product.deskripsi,
+        harga: product.harga,
+        kategori: product.kategori,
+        brand: product.brand,
+        size: product.size
       });
     }
   

@@ -1,98 +1,146 @@
-<!-- Modal Tambah -->
-   <!-- Tombol Tambah -->
-   <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#tambahproductsModal">
-    Tambah products
-  </button>
-<div class="modal fade" id="tambahproductsModal" tabindex="-1" aria-labelledby="tambahLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form class="modal-content" [formGroup]="productsForm" (ngSubmit)="addProduct()" enctype="multipart/form-data">
-      <div class="modal-header">
-        <h5 class="modal-title" id="tambahLabel">Tambah products</h5>
-          <!-- Tombol Tambah -->
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label class="form-label">Nama</label>
-          <input type="text" class="form-control" formControlName="nama" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Deskripsi</label>
-          <input type="text" class="form-control" formControlName="deskripsi" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Harga</label>
-          <input type="number" class="form-control" formControlName="harga" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Kategori</label>
-          <input type="text" class="form-control" formControlName="kategori" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Brand</label>
-          <input type="text" class="form-control" formControlName="brand" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Size</label>
-          <input type="text" class="form-control" formControlName="size" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Foto</label>
-          <input type="file" class="form-control" (change)="onFileSelected($event)" />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button class="btn btn-success" type="submit" [disabled]="isSubmitting">
-          {{ isSubmitting ? 'Menyimpan...' : 'Simpan' }}
-        </button>
-      </div>
-    </form>
+<div class="container mt-4">
+  <h2 class="text-center text-primary mb-4">Daftar Produk</h2>
+
+  <!-- Loader -->
+  <div class="d-flex justify-content-center mt-4" *ngIf="isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </div>
-</div>
-<!-- Modal Edit -->
-<div class="modal fade" id="editproductsModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form class="modal-content" [formGroup]="productsForm" (ngSubmit)="updateProduct()" enctype="multipart/form-data">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editLabel">Edit products</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
+
+  <!-- Tombol Tambah Produk -->
+  <button
+    type="button"
+    class="btn btn-primary mb-3 btn-lg"
+    data-bs-toggle="modal"
+    data-bs-target="#tambahProdukModal"
+  >
+    <i class="bi bi-plus-circle"></i> Tambah Produk
+  </button>
+
+  <!-- Modal Tambah Produk -->
+  <div
+    class="modal fade"
+    id="tambahProdukModal"
+    tabindex="-1"
+    aria-labelledby="tambahProdukModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tambahProdukModalLabel">Tambah Produk</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="productsForm" (ngSubmit)="addProduct()" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label class="form-label">Nama</label>
+              <input type="text" class="form-control" formControlName="nama" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Deskripsi</label>
+              <textarea class="form-control" formControlName="deskripsi" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Harga</label>
+              <input type="number" class="form-control" formControlName="harga" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Kategori</label>
+              <select class="form-select" formControlName="kategori">
+                <option value="">Pilih Kategori</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Brand</label>
+              <input type="text" class="form-control" formControlName="brand" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Size</label>
+              <input type="text" class="form-control" formControlName="size" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Foto</label>
+              <input type="file" class="form-control" (change)="onFileSelected($event)" />
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+              <button class="btn btn-success" type="submit" [disabled]="isSubmitting">
+                {{ isSubmitting ? 'Menyimpan...' : 'Tambah Produk' }}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label class="form-label">Nama</label>
-          <input type="text" class="form-control" formControlName="nama" />
+    </div>
+  </div>
+
+  <!-- Modal Edit Produk -->
+  <div
+    class="modal fade"
+    id="editProdukModal"
+    tabindex="-1"
+    aria-labelledby="editProdukModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editProdukModalLabel">Ubah Produk</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Deskripsi</label>
-          <input type="text" class="form-control" formControlName="deskripsi" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Harga</label>
-          <input type="number" class="form-control" formControlName="harga" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Kategori</label>
-          <input type="text" class="form-control" formControlName="kategori" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Brand</label>
-          <input type="text" class="form-control" formControlName="brand" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Size</label>
-          <input type="text" class="form-control" formControlName="size" />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Foto (upload baru jika ingin ganti)</label>
-          <input type="file" class="form-control" (change)="onFileSelected($event)" />
+        <div class="modal-body">
+          <form [formGroup]="productsForm" (ngSubmit)="updateProduct()" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label class="form-label">Nama</label>
+              <input type="text" class="form-control" formControlName="nama" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Deskripsi</label>
+              <textarea class="form-control" formControlName="deskripsi" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Harga</label>
+              <input type="number" class="form-control" formControlName="harga" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Kategori</label>
+              <select class="form-select" formControlName="kategori">
+                <option value="">Pilih Kategori</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Brand</label>
+              <input type="text" class="form-control" formControlName="brand" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Size</label>
+              <input type="text" class="form-control" formControlName="size" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Foto (upload baru jika ingin ganti)</label>
+              <input type="file" class="form-control" (change)="onFileSelected($event)" />
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+              <button class="btn btn-success" type="submit" [disabled]="isSubmitting">
+                {{ isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan' }}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button class="btn btn-success" type="submit" [disabled]="isSubmitting">
-          {{ isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan' }}
-        </button>
-      </div>
-    </form>
+    </div>
   </div>
 </div>
