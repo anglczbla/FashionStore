@@ -1,9 +1,11 @@
-<div class="container mt-4">
-    <h2 class="text-center text-primary mb-4">Daftar Pemesanan</h2>
+<div class="softpink-bg mt-4 p-4 rounded">
+  <h2 class="text-center text-softpink mb-4">Daftar Order</h2>
+
+
   
     <!-- Tombol Tambah -->
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahOrderModal">
-      Tambah Pemesanan
+    <button class="btn btn-softpink mb-3" data-bs-toggle="modal" data-bs-target="#tambahOrderModal">
+      Tambah Order
     </button>
   
     <!-- Modal Tambah -->
@@ -34,7 +36,7 @@
             <div class="mb-3">
               <label class="form-label">Produk</label>
               <select class="form-select" formControlName="products_id">
-                <option *ngFor="let products of products" [value]="products.id">
+                <option *ngFor="let products of products" [value]="products._id">
                   {{ products.nama }}
                 </option>
               </select>
@@ -78,7 +80,7 @@
             <div class="mb-3">
                 <label class="form-label">Produk</label>
                 <select class="form-select" formControlName="products_id">
-                  <option *ngFor="let products of products" [value]="products.id">
+                  <option *ngFor="let products of products" [value]="products._id">
                     {{ products.nama }}
                   </option>
                 </select>
@@ -115,4 +117,3 @@
       </div>
     </div>
   </div>
-  

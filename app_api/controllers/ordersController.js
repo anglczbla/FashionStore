@@ -1,6 +1,7 @@
 const Orders = require("../models/orders");
 const express = require("express");
 const router = express.Router();
+const Products =require("../models/products");
 
 // Mengambil semua data Orders
 const getAllOrders = async (req, res) => {

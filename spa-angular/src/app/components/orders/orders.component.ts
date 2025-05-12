@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient , HttpHeaders} from '@angular/common/http';
+import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -31,11 +31,11 @@ export class OrdersComponent implements OnInit {
 
   constructor() {
     this.orderForm = this.fb.group({
-      nama: '',
-      order: '',
-      total: '',
-      jumlahOrder: '',
-      products_id: '',
+      nama: ['', Validators.required], // Nama wajib diisi
+      order: ['', Validators.required], // Order wajib diisi (misalnya, tanggal)
+      total: [0, Validators.required], // Total harus diisi, default 0
+      jumlahOrder: [1, Validators.required], // Jumlah order harus diisi, default 1
+      products_id: ['', Validators.required], // Produk harus dipilih
     });
   }
 
@@ -136,25 +136,46 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  updateOrder(): void {
-    if (this.orderForm.valid && this.editOrderId) {
-      this.isSubmitting = true;
-      const token = localStorage.getItem('authToken');
-      const headers = { Authorization: `Bearer ${token}` };
+ updateOrder(): void {
+  // Pastikan form valid dan sedang dalam mode edit
+  if (this.orderForm.valid && this.editOrderId) {
+    this.isSubmitting = true;
 
-      this.http.put(`${this.apiOrdersUrl}/${this.editOrderId}`, this.orderForm.value, { headers }).subscribe({
+    // Ambil token autentikasi dari localStorage
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    // Lakukan request PUT ke endpoint API
+    this.http.put(`${this.apiOrdersUrl}/${this.editOrderId}`, this.orderForm.value, { headers })
+      .subscribe({
         next: () => {
+          // Refresh data orders
           this.getOrders();
           this.isSubmitting = false;
-          this.closeModal('editOrderModal');
+          this.closeModal('editPemesananModal');
+
+          // Reset form dan state
+          this.orderForm.reset();
+          this.editOrderId = null;
+          this.isSubmitting = false;
+
+          // Tutup modal jika ada
+          const modalElement = document.getElementById('editOrderModal') as HTMLElement;
+          if (modalElement) {
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance?.hide();
+          }
         },
         error: (err) => {
           console.error('Error updating order:', err);
           this.isSubmitting = false;
-        },
+        }
       });
-    }
   }
+}
+
 
   openModal(modalId: string): void {
     const modalElement = document.getElementById(modalId) as HTMLElement;
