@@ -1,5 +1,4 @@
 <div class="container mt-4">
-  <h2 class="text-center text-primary mb-4">Daftar Produk</h2>
 
   <!-- Loader -->
   <div class="d-flex justify-content-center mt-4" *ngIf="isLoading">
@@ -58,10 +57,9 @@
                               class="form-select"
                               formControlName="kategori"
                           >
-                              <option value="Moisturizer">Moisturizer</option>
-                              <option value="Serum">Serum</option>
-                              <option value="Toner">Toner</option>
-                              <option value="Facial Wash">Facial Wash</option>
+                              <option value="Moisturizer">Pria</option>
+                              <option value="Serum">Wanita</option>
+                              <option value="Toner">Anak</option>
                           </select>
             </div>
             <div class="mb-3">
@@ -88,22 +86,7 @@
     </div>
   </div>
 
-  <!-- Data Produk -->
-  <div *ngIf="products.length > 0" class="table-responsive">
-      <table class="table table-hover align-middle">
-          <thead class="table-dark">
-              <tr>
-                  <th>No</th>
-                  <th>Nama Produk</th>
-                  <th>Deskripsi</th>
-                  <th>Harga</th>
-                  <th>Kategori</th>
-                  <th>Brand</th>
-                  <th>Size</th>
-                  <th>Foto</th>
-                  <th>Aksi</th>
-              </tr>
-          </thead>
+
         <!-- Data PRODUCTS -->
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-4" *ngIf="!isLoading">
     <div class="col" *ngFor="let item of products">

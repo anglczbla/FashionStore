@@ -50,7 +50,9 @@ export class ReviewComponent implements OnInit {
   addReview(): void {
     if (this.reviewForm.valid) {
       this.isSubmitting = true;
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const token = localStorage.getItem('authToken');
+      const headers = { Authorization: `Bearer ${token}` };
+    
       this.http.post(this.apiUrl, this.reviewForm.value, { headers }).subscribe({
         next: () => {
           this.getReviews();

@@ -107,49 +107,90 @@ export class ProductsAnakComponent implements OnInit {
         });
       }
     }
-    
-  
-    editProduct(product: any): void {
-      this.editProductId = product._id;
-      this.productsForm.patchValue({
-        nama: product.nama,
-        deskripsi: product.deskripsi,
-        harga: product.harga,
-        kategori: product.kategori,
-        brand: product.brand,
-        size: product.size
-      });
-    }
-  
+
     getProductById(id: string): void {
-      this.editProductId = id;
-      this.http.get<any>(`${this.apiUrl}/${id}`).subscribe({
-        next: (data) => {
-          this.productsForm.patchValue(data);
-          this.openModal('editProductsModal');
-        },
-        error: (err) => {
-          console.error('Error fetching order by ID:', err);
-        },
-      });
-    }
-  
-    updateProduct(): void {
-      if (this.productsForm.valid && this.editProductId) {
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        this.http.put(`${this.apiUrl}/${this.editProductId}`, this.productsForm.value, { headers }).subscribe(() => {
-          this.getProducts();
-          this.productsForm.reset();
-          this.editProductId = null;
+    this.editProductId = id;
+    const token = localStorage.getItem('authToken');
+    const headers = { Authorization: `Bearer ${token}` };
+
+    this.http.get(`${this.apiUrl}/${id}`, {headers}).subscribe({
+      next: (data: any) => {
+        this.productsForm.patchValue({
+          nama: data.nama,
+          deskripsi: data.deskripsi,
+          harga: data.harga,
+          kategori: data.kategori,
+          brand: data.brand,
+          size: data.size
         });
+
+        const modalElement = document.getElementById('editProdukModal') as HTMLElement;
+        if (modalElement) {
+          const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+          modalInstance.show();
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching produk data by ID:', err);
       }
+    });
+  }
+
+  updateProduct(): void {
+  if (this.productsForm.valid && this.editProductId) {
+    const token = localStorage.getItem('authToken'); // Pastikan key-nya benar
+    if (!token) {
+      console.error('Token tidak ditemukan. Pengguna belum login.');
+      return;
     }
-  
-    deleteProduct(id: string): void {
-      this.http.delete(`${this.apiUrl}/${id}`).subscribe(() => {
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    this.http.put(`${this.apiUrl}/${this.editProductId}`, this.productsForm.value, { headers }).subscribe({
+      next: () => {
         this.getProducts();
-      });
+        this.productsForm.reset();
+        this.editProductId = null;
+        const modalElement = document.getElementById('editProdukModal') as HTMLElement;
+        if (modalElement) {
+          const modalInstance = bootstrap.Modal.getInstance(modalElement);
+          modalInstance?.hide();
+        }
+      },
+      error: (err) => {
+        console.error('Error updating produk:', err);
+        this.isSubmitting = false;
+      }
+    });
+  }
+}  
+  
+deleteProduct(id: string): void {
+  if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      console.error('Token tidak ditemukan. Pengguna belum login.');
+      return;
     }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    this.http.delete(`${this.apiUrl}/${id}`, { headers }).subscribe({
+      next: () => {
+        this.getProducts();
+        console.log(`Produk dengan ID ${id} berhasil dihapus`);
+      },
+      error: (err) => {
+        console.error('Error deleting produk:', err);
+      }
+    });
+  }
+}
+
     openModal(modalId: string): void {
         const modalElement = document.getElementById(modalId) as HTMLElement;
         if (modalElement) {
