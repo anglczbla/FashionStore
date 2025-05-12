@@ -18,7 +18,7 @@ export class ReviewComponent implements OnInit {
   orders: any[] = [];
   editReviewId: string | null = null;
   isSubmitting = false;
-  apiUrl = 'http://localhost:3000/api/review';
+  reviewUrl = 'http://localhost:3000/api/review';
   orderApiUrl = 'http://localhost:3000/orders'; // Ganti sesuai URL API order kamu
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
@@ -36,7 +36,7 @@ export class ReviewComponent implements OnInit {
   }
 
   getReviews(): void {
-    this.http.get<any[]>(this.apiUrl).subscribe((data) => {
+    this.http.get<any[]>(this.reviewUrl).subscribe((data) => {
       this.reviews = data;
     });
   }
@@ -53,7 +53,7 @@ export class ReviewComponent implements OnInit {
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Bearer ${token}` };
     
-      this.http.post(this.apiUrl, this.reviewForm.value, { headers }).subscribe({
+      this.http.post(this.reviewUrl, this.reviewForm.value, { headers }).subscribe({
         next: () => {
           this.getReviews();
           this.reviewForm.reset();
@@ -69,7 +69,7 @@ export class ReviewComponent implements OnInit {
 
   getReviewById(id: string): void {
     this.editReviewId = id;
-    this.http.get<any>(`${this.apiUrl}/${id}`).subscribe({
+    this.http.get<any>(`${this.reviewUrl}/${id}`).subscribe({
       next: (data) => {
         this.reviewForm.patchValue(data);
         this.openModal('editReviewModal');
@@ -84,7 +84,7 @@ export class ReviewComponent implements OnInit {
     if (this.reviewForm.valid && this.editReviewId) {
       this.isSubmitting = true;
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      this.http.put(`${this.apiUrl}/${this.editReviewId}`, this.reviewForm.value, { headers }).subscribe({
+      this.http.put(`${this.reviewUrl}/${this.editReviewId}`, this.reviewForm.value, { headers }).subscribe({
         next: () => {
           this.getReviews();
           this.reviewForm.reset();
@@ -100,9 +100,20 @@ export class ReviewComponent implements OnInit {
   }
 
   deleteReview(id: string): void {
-    this.http.delete(`${this.apiUrl}/${id}`).subscribe(() => {
+  if (confirm('Apakah Anda yakin ingin menghapus review ini?')) {
+  const token = localStorage.getItem('authToken');
+  const headers = { Authorization: `Bearer ${token}` };
+
+  this.http.delete(`${this.reviewUrl}/${id}`, { headers }).subscribe({
+    next: () => {
       this.getReviews();
-    });
+      console.log(`Review dengan ID ${id} berhasil dihapus`);
+    },
+    error: (err) => {
+      console.error('Error deleting review:', err);
+    }
+  });
+}
   }
 
   openModal(modalId: string): void {

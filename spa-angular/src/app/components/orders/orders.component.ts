@@ -128,7 +128,7 @@ export class OrdersComponent implements OnInit {
     this.http.get<any>(`${this.apiOrdersUrl}/${id}`).subscribe({
       next: (data) => {
         this.orderForm.patchValue(data);
-        this.openModal('editPemesananModal');
+        this.openModal('editOrderModal');
       },
       error: (err) => {
         console.error('Error fetching order by ID:', err);
@@ -146,7 +146,7 @@ export class OrdersComponent implements OnInit {
         next: () => {
           this.getOrders();
           this.isSubmitting = false;
-          this.closeModal('editPemesananModal');
+          this.closeModal('editOrderModal');
         },
         error: (err) => {
           console.error('Error updating order:', err);
