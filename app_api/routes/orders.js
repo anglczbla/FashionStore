@@ -1,4 +1,5 @@
 const express = require("express");
+const Orders = require('../models/orders');
 const router = express.Router();
 const ordersController = require("../controllers/ordersController"); // Corrected import
 const authMiddleware = require("../middleware/authMiddleware");

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import * as bootstrap from 'bootstrap';
@@ -24,12 +24,13 @@ export class ReviewComponent implements OnInit {
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.reviewForm = this.fb.group({
-      nama: [''],
-      orders_id: [''],
-      pesan: [''],
-      rating: [''],
-    });
+  this.reviewForm = this.fb.group({
+  nama: ['', Validators.required],
+  orders_id: ['', Validators.required], 
+  pesan: ['', Validators.required],
+  rating: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
+});
+
 
     this.getReviews();
     this.getOrders();
