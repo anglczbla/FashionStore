@@ -18,6 +18,6 @@ router.post("/", reviewController.createReview);
 router.put("/:id", reviewController.updateReview);
 
 // Route untuk menghapus review berdasarkan ID
-router.delete("/:id",roleMiddleware("admin"), reviewController.deleteReview);
+router.delete("/:id", reviewController.deleteReview);
 
 module.exports = router;

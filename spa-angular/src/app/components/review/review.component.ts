@@ -18,17 +18,18 @@ export class ReviewComponent implements OnInit {
   orders: any[] = [];
   editReviewId: string | null = null;
   isSubmitting = false;
+  isLoading = true;
   reviewUrl = 'http://localhost:3000/api/review';
-  orderApiUrl = 'http://localhost:3000/orders'; // Ganti sesuai URL API order kamu
+  apiOrdersUrl = 'http://localhost:3000/api/orders'; // Ganti sesuai URL API order kamu
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
-  this.reviewForm = this.fb.group({
+ this.reviewForm = this.fb.group({
   nama: ['', Validators.required],
-  orders_id: ['', Validators.required], 
-  pesan: ['', Validators.required],
-  rating: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
+  orders_id: ['', Validators.required], // jika wajib pilih order
+  pesan: ['', [Validators.required, Validators.minLength(5)]],
+  rating: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
 });
 
 
@@ -36,15 +37,36 @@ export class ReviewComponent implements OnInit {
     this.getOrders();
   }
 
+  // getReviews(): void {
+  //   this.http.get<any[]>(this.reviewUrl).subscribe((data) => {
+  //     this.reviews = data;
+  //   });
+  // }
+
   getReviews(): void {
-    this.http.get<any[]>(this.reviewUrl).subscribe((data) => {
-      this.reviews = data;
+    this.http.get<any[]>(this.reviewUrl).subscribe({
+      next: (data) => {
+        this.reviews = data;
+      },
+      error: (err) => {
+        console.error('Error fetching products data:', err);
+        alert('Failed to fetch products. Please try again later.');
+      },
     });
   }
 
-  getOrders(): void {
-    this.http.get<any[]>(this.orderApiUrl).subscribe((data) => {
-      this.orders = data;
+   getOrders(): void {
+    this.isLoading = true;
+    this.http.get<any[]>(this.apiOrdersUrl).subscribe({
+      next: (data) => {
+        this.orders = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching orders data:', err);
+        alert('Failed to fetch orders. Please try again later.');
+        this.isLoading = false;
+      },
     });
   }
 
@@ -53,7 +75,7 @@ export class ReviewComponent implements OnInit {
       this.isSubmitting = true;
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Bearer ${token}` };
-    
+
       this.http.post(this.reviewUrl, this.reviewForm.value, { headers }).subscribe({
         next: () => {
           this.getReviews();
@@ -100,22 +122,24 @@ export class ReviewComponent implements OnInit {
     }
   }
 
+ 
   deleteReview(id: string): void {
   if (confirm('Apakah Anda yakin ingin menghapus review ini?')) {
-  const token = localStorage.getItem('authToken');
-  const headers = { Authorization: `Bearer ${token}` };
+    const token = localStorage.getItem('authToken');
+    const headers = { Authorization: `Bearer ${token}` };
 
-  this.http.delete(`${this.reviewUrl}/${id}`, { headers }).subscribe({
-    next: () => {
-      this.getReviews();
-      console.log(`Review dengan ID ${id} berhasil dihapus`);
-    },
-    error: (err) => {
-      console.error('Error deleting review:', err);
-    }
-  });
-}
+    this.http.delete(`${this.reviewUrl}/${id}`, { headers }).subscribe({
+      next: () => {
+        this.getReviews();
+        console.log(`Review dengan ID ${id} berhasil dihapus`);
+      },
+      error: (err) => {
+        console.error('Error deleting review:', err);
+      }
+    });
   }
+}
+
 
   openModal(modalId: string): void {
     const modalElement = document.getElementById(modalId) as HTMLElement;
