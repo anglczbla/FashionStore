@@ -52,21 +52,27 @@ export class PaymentComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching payments:', err);
+        alert('Failed to fetch payment. Please try again later.');
         this.isLoading = false;
       },
     });
   }
 
-  getOrders(): void {
+    getOrders(): void {
+    this.isLoading = true;
     this.http.get<any[]>(this.apiOrdersUrl).subscribe({
       next: (data) => {
         this.orders = data;
+        this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error fetching orders:', err);
+        console.error('Error fetching orders data:', err);
+        alert('Failed to fetch orders. Please try again later.');
+        this.isLoading = false;
       },
     });
   }
+
 
   addPayment(): void {
     if (this.paymentForm.valid) {

@@ -2,16 +2,16 @@
     <h2 class="text-center text-success mb-4">Daftar Pembayaran</h2>
   
     <!-- Tombol Tambah -->
-    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#tambahPembayaranModal">
+    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addPaymentModal">
       Tambah Pembayaran
     </button>
   
     <!-- Modal Tambah -->
-    <div class="modal fade" id="tambahPembayaranModal" tabindex="-1" aria-labelledby="tambahPembayaranLabel" aria-hidden="true">
+    <div class="modal fade" id="addPaymentModal" tabindex="-1" aria-labelledby="addPaymentLabel" aria-hidden="true">
       <div class="modal-dialog">
         <form class="modal-content" [formGroup]="paymentForm" (ngSubmit)="addPayment()">
           <div class="modal-header">
-            <h5 class="modal-title" id="tambahPembayaranLabel">Tambah Pembayaran</h5>
+            <h5 class="modal-title" id="addPaymentModal">Tambah Pembayaran</h5>
             <button class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
@@ -51,11 +51,11 @@
     </div>
   
     <!-- Modal Edit -->
-    <div class="modal fade" id="editPembayaranModal" tabindex="-1" aria-labelledby="editPembayaranLabel" aria-hidden="true">
+    <div class="modal fade" id="editPaymentModal" tabindex="-1" aria-labelledby="editPembayaranLabel" aria-hidden="true">
       <div class="modal-dialog">
         <form class="modal-content" [formGroup]="paymentForm" (ngSubmit)="updatePayment()">
           <div class="modal-header">
-            <h5 class="modal-title" id="editPembayaranLabel">Ubah Pembayaran</h5>
+            <h5 class="modal-title" id="editPaymentLabel">Ubah Pembayaran</h5>
             <button class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
