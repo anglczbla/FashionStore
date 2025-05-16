@@ -1,0 +1,23 @@
+<head><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" /></head>
+<nav class="navbar">
+  <ul>
+    <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+    <li><a routerLink="/aboutus" routerLinkActive="active">About Us</a></li>
+    <li><a routerLink="/products" routerLinkActive="active">Product</a></li>
+    <li><a routerLink="/review" routerLinkActive="active">Review</a></li>
+    <li><a routerLink="/contactus" routerLinkActive="active">Contact Us</a></li>
+     <li class="nav-item">
+                    <a
+                      *ngIf="isLoggedIn"
+                      class="nav-link"
+                      (click)="onLogout()"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#navbarNav"
+                    >
+                      Logout
+                    </a>
+                  </li>
+  </ul>
+</nav>
+

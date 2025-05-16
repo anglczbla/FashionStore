@@ -6,13 +6,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router'; 
+import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';  
+import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http'
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 // import { HeaderComponent } from './components/header/header.component';
 // import { FooterComponent } from './components/footer/footer.component';
 @Component({
@@ -27,20 +28,20 @@ import { HttpClient, HttpClientModule } from '@angular/common/http'
     MatMenuModule,
     RouterModule,
     RouterOutlet,
-    HttpClientModule
+    HttpClientModule,
+    NavbarComponent
+  ],
 
-],
-    
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent implements OnInit {
   title = 'spa-angular';
 
   isLoggedIn: boolean = false; // Menyimpan status login
-  constructor(private router: Router) { } // Menambahkan router pada konstruktor
-  
+  constructor(private router: Router) {} // Menambahkan router pada konstruktor
+
   ngOnInit() {
     // Memeriksa apakah ada token di localStorage
     this.isLoggedIn = !!localStorage.getItem('authToken');
@@ -52,5 +53,7 @@ export class AppComponent implements OnInit {
     this.isLoggedIn = false; // Mengubah status login menjadi false
     this.router.navigate(['/auth']); // Arahkan ke halaman login setelah logout
   }
+  shouldShowNavbar(): boolean {
+    return this.router.url !== '/auth';
+  }
 }
-

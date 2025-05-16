@@ -25,19 +25,19 @@ export class HomeComponent {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   }
-  isLoggedIn: boolean = false; // Menyimpan status login
-  constructor(private router: Router) { } // Menambahkan router pada konstruktor
+  // isLoggedIn: boolean = false; // Menyimpan status login
+  // constructor(private router: Router) { } // Menambahkan router pada konstruktor
   
-  ngOnInit() {
-    // Memeriksa apakah ada token di localStorage
-    this.isLoggedIn = !!localStorage.getItem('authToken');
-  }
+  // ngOnInit() {
+  //   // Memeriksa apakah ada token di localStorage
+  //   this.isLoggedIn = !!localStorage.getItem('authToken');
+  // }
 
-  onLogout() {
-    // Menghapus token dari localStorage saat logout
-    localStorage.removeItem('authToken');
-    this.isLoggedIn = false; // Mengubah status login menjadi false
-    this.router.navigate(['/auth']); // Arahkan ke halaman login setelah logout
-  }
+  // onLogout() {
+  //   // Menghapus token dari localStorage saat logout
+  //   localStorage.removeItem('authToken');
+  //   this.isLoggedIn = false; // Mengubah status login menjadi false
+  //   this.router.navigate(['/auth']); // Arahkan ke halaman login setelah logout
+  // }
 
 }

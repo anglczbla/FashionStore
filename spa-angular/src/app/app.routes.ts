@@ -12,6 +12,7 @@ import { ProductsPriaComponent } from './components/products/pria/products-pria.
 import { ProductsWanitaComponent } from './components/products/wanita/products-wanita.component';
 import { ProductsAnakComponent } from './components/products/anak/products-anak.component';
 import { ContactusComponent } from './components/contactus/contactus.component';
+import { ProductsListComponent } from './components/products/products-list/products-list.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -28,6 +29,10 @@ export const routes: Routes = [
     },
     { path: 'products',  component: ProductsComponent,  canActivate: [AuthGuard] ,
         children: [
+            {
+                path:'', component: ProductsListComponent
+
+            },
             {
                 path: 'pria',
                 component: ProductsPriaComponent // ganti jd component pria

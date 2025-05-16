@@ -11,7 +11,7 @@ import * as bootstrap from 'bootstrap';
   standalone: true,
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterOutlet],
+  imports: [CommonModule, ReactiveFormsModule, RouterOutlet],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
 })

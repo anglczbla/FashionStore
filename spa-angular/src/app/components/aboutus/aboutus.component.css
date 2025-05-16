@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   padding: 3rem 2rem;
-  background: #fff0f5; /* Soft pink */
+  background:  radial-gradient(#fff, #ffd6d6); /* Soft pink */
   font-family: 'Segoe UI', sans-serif;
   border-radius: 12px;
   gap: 2rem;
