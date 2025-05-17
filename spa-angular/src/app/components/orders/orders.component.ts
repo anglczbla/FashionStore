@@ -4,6 +4,7 @@ import { HttpClient , HttpHeaders} from '@angular/common/http';
 import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RouterLink, RouterModule } from '@angular/router';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   standalone: true,
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule]
 })
 export class OrdersComponent implements OnInit {
   orders: any[] = [];

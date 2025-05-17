@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 
 @Component({
@@ -11,7 +11,7 @@ import * as bootstrap from 'bootstrap';
   standalone: true,
   templateUrl: './products-wanita.component.html',
   styleUrls: ['./products-wanita.component.css'],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink,RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProductsWanitaComponent implements OnInit {

@@ -108,6 +108,13 @@
               <strong>Total:</strong> {{ item.total }}<br />
               <strong>Created:</strong> {{ item.createdAt }}
             </p>
+              <button
+              type="button"
+              class="btn btn-warning mt-3 me-2"
+              [routerLink]="['/payments']"
+            >
+              Payment & Shipping
+            </button>
             <button class="btn btn-warning me-2" (click)="getOrderById(item._id)">Edit</button>
             <button class="btn btn-danger" (click)="deleteOrder(item._id)">Hapus</button>
           </div>

@@ -5,13 +5,14 @@ import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterLink } from '@angular/router';
 import * as bootstrap from 'bootstrap';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-products-anak',
   standalone: true,
   templateUrl: './products-anak.component.html',
   styleUrls: ['./products-anak.component.css'],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule,RouterLink],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProductsAnakComponent implements OnInit {

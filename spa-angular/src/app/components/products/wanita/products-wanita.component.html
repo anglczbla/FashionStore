@@ -146,6 +146,13 @@
             <strong>Stok:</strong> {{ item.stok }}
             <br />
           </p>
+           <button
+              type="button"
+              class="btn btn-warning mt-3 me-2"
+              [routerLink]="['/orders']"
+            >
+              BUY
+            </button> 
           <button
             *ngIf="userRole === 'admin'"
             type="button"
