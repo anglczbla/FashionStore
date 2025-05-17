@@ -11,7 +11,7 @@ const authRouterApi = require("./app_api/routes/auth");
 const productsRouterApi = require("./app_api/routes/products");
 const ordersRouterApi = require("./app_api/routes/orders");
 const paymentRouterApi = require("./app_api/routes/payments");
-const stokRouterApi = require("./app_api/routes/stok");
+
 const reviewRouterApi = require("./app_api/routes/review");
 const shippingRouterApi = require("./app_api/routes/shipping");
 
@@ -40,7 +40,7 @@ app.use("/api/products", productsRouterApi);
 app.use("/api/orders", ordersRouterApi);
 app.use("/api/payments", paymentRouterApi);
 app.use("/api/review", reviewRouterApi);
-app.use("/api/stok", stokRouterApi);
+
 app.use("/api/shipping", shippingRouterApi);
 app.use('/uploads', express.static('uploads'));
 
