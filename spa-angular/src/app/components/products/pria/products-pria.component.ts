@@ -40,10 +40,12 @@ export class ProductsPriaComponent implements OnInit {
     this.showOrderForm = true;
   }
 
-
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
+  userRole: string | null = null;
+
   ngOnInit(): void {
+    this.userRole = localStorage.getItem('userRole');
     this.productsForm = this.fb.group({
       nama: [''],
       deskripsi: [''],

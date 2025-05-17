@@ -42,7 +42,10 @@ export class ProductsWanitaComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
+   userRole: string | null = null;
+
   ngOnInit(): void {
+    this.userRole = localStorage.getItem('userRole');
     this.productsForm = this.fb.group({
       nama: [''],
       deskripsi: [''],

@@ -13,6 +13,7 @@
 
   <!-- Tombol Tambah Produk -->
   <button
+    *ngIf="userRole === 'admin'"
     type="button"
     class="btn btn-primary mb-3 btn-lg"
     data-bs-toggle="modal"
@@ -88,9 +89,7 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Foto</label>
-              <div *ngFor="let product of products">
-                <img [src]="product.foto" alt="Foto Produk" width="100" />
-              </div>
+              <div *ngFor="let product of products"></div>
               <input
                 type="file"
                 class="form-control"
@@ -123,7 +122,12 @@
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-4" *ngIf="!isLoading">
     <div class="col" *ngFor="let item of products">
       <div class="card shadow-sm h-100">
-        <img [src]="item.foto" alt="Foto Produk" class="card-img-top" style="object-fit: cover; height: 200px;" />
+        <img
+          [src]="item.foto"
+          alt="Foto Produk"
+          class="card-img-top"
+          style="object-fit: cover; height: 200px"
+        />
         <div class="card-body">
           <h5 class="card-title">{{ item.products?.nama }}</h5>
           <p class="card-text">
@@ -143,6 +147,7 @@
             <br />
           </p>
           <button
+            *ngIf="userRole === 'admin'"
             type="button"
             class="btn btn-warning mt-3 me-2"
             (click)="getProductById(item._id)"
@@ -151,6 +156,7 @@
           </button>
 
           <button
+            *ngIf="userRole === 'admin'"
             type="button"
             class="btn btn-danger mt-3"
             (click)="deleteProduct(item._id)"
@@ -173,11 +179,13 @@
                     Ubah Produk
                   </h5>
                   <button
+                    *ngIf="userRole === 'admin'"
                     type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
+                    class="btn btn-warning mt-3 me-2"
+                    (click)="getProductById(item._id)"
+                  >
+                    Edit
+                  </button>
                 </div>
                 <div class="modal-body">
                   <form
@@ -256,14 +264,14 @@
                       />
                     </div>
                     <div class="modal-footer">
-                      <button class="btn btn-secondary" data-bs-dismiss="modal">
-                        Batal
-                      </button>
                       <button
-                        class="btn btn-success"
-                        type="submit"
-                        [disabled]="isSubmitting"
+                        *ngIf="userRole === 'admin'"
+                        type="button"
+                        class="btn btn-danger mt-3"
+                        (click)="deleteProduct(item._id)"
                       >
+                        Hapus class="btn btn-success" type="submit"
+                        [disabled]="isSubmitting" >
                         {{ isSubmitting ? "Menyimpan..." : "Simpan Perubahan" }}
                       </button>
                     </div>

@@ -61,7 +61,9 @@ export class AuthComponent {
         if (response.token) {
           // Menyimpan token yang diterima ke localStorage
           localStorage.setItem('authToken', response.token);
+          localStorage.setItem('userRole', response.role); // BISA ADMIN OR USER
           console.log('Login berhasil:', response);
+
 
           // Mengarahkan ke halaman fakultas setelah login berhasil
           window.location.href = '/home';  // Menggunakan window.location.href untuk mereload halaman dan mengarahkan ke /fakultas
