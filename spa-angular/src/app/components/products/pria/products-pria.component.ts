@@ -50,6 +50,7 @@ export class ProductsPriaComponent implements OnInit {
       harga: [''],
       kategori: [''],
       brand: [''],
+      stok: [''],
       size: [''],
     });
 
@@ -94,6 +95,7 @@ export class ProductsPriaComponent implements OnInit {
       formData.append('kategori', this.productsForm.value.kategori);
       formData.append('brand', this.productsForm.value.brand);
       formData.append('size', this.productsForm.value.size);
+      formData.append('stok', this.productsForm.value.stok);
       formData.append('foto', this.selectedFile);
 
       this.http.post(this.apiUrl, formData, { headers }).subscribe({
@@ -133,6 +135,7 @@ export class ProductsPriaComponent implements OnInit {
           harga: data.harga,
           kategori: data.kategori,
           brand: data.brand,
+          stok: data.stok,
           size: data.size,
         });
 
