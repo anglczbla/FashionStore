@@ -41,6 +41,11 @@ const productsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    stok:{
+        type: Number,
+        required: true,
+        min: 0,
+    },
     // Field untuk menyimpan tanggal pembuatan data produk
     createdAt: {
         type: Date,

@@ -38,10 +38,12 @@ app.use(cors());
 app.use("/api/auth", authRouterApi);
 app.use("/api/products", productsRouterApi);
 app.use("/api/orders", ordersRouterApi);
-app.use("/api/payment", paymentRouterApi);
+app.use("/api/payments", paymentRouterApi);
 app.use("/api/review", reviewRouterApi);
 app.use("/api/stok", stokRouterApi);
 app.use("/api/shipping", shippingRouterApi);
+app.use('/uploads', express.static('uploads'));
+
 
 connectDB();
 
