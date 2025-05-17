@@ -39,7 +39,7 @@ const productsSchema = new mongoose.Schema({
     },
     foto: {
         type: String,
-        required: true,
+        required: false,
     },
     stok:{
         type: Number,
