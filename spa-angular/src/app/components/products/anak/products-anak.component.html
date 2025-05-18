@@ -13,7 +13,7 @@
 
   <!-- Tombol Tambah Produk -->
   <button
-    *ngIf="userRole === 'admin'"
+
     type="button"
     class="btn btn-primary mb-3 btn-lg"
     data-bs-toggle="modal"
@@ -154,7 +154,6 @@
             </button>
           </p>
           <button
-            *ngIf="userRole === 'admin'"
             type="button"
             class="btn btn-warning mt-3 me-2"
             (click)="getProductById(item._id)"
@@ -163,7 +162,6 @@
           </button>
 
           <button
-            *ngIf="userRole === 'admin'"
             type="button"
             class="btn btn-danger mt-3"
             (click)="deleteProduct(item._id)"
@@ -186,7 +184,6 @@
                     Ubah Produk
                   </h5>
                   <button
-                    *ngIf="userRole === 'admin'"
                     type="button"
                     class="btn btn-warning mt-3 me-2"
                     (click)="getProductById(item._id)"
@@ -272,7 +269,6 @@
                     </div>
                     <div class="modal-footer">
                       <button
-                        *ngIf="userRole === 'admin'"
                         type="button"
                         class="btn btn-danger mt-3"
                         (click)="deleteProduct(item._id)"

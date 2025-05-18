@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import * as bootstrap from 'bootstrap';
 
@@ -21,7 +26,7 @@ export class PaymentComponent implements OnInit {
   isSubmitting = false;
   editPaymentId: string | null = null;
 
-  apiPaymentsUrl = 'http://localhost:3000/api/payment';
+  apiPaymentsUrl = 'http://localhost:3000/api/payments';
   apiOrdersUrl = 'http://localhost:3000/api/orders';
 
   paymentForm: FormGroup;
@@ -30,6 +35,18 @@ export class PaymentComponent implements OnInit {
 
   constructor() {
     this.paymentForm = this.fb.group({
+      country: ['Indonesia', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      address: ['', Validators.required],
+      apartment: [''],
+      city: ['', Validators.required],
+      province: ['South Sumatra', Validators.required],
+      postalCode: ['', Validators.required],
+      phone: ['', Validators.required],
+      saveInfo: [false],
+
+      // payment
       orders_id: ['', Validators.required],
       amount: [0, [Validators.required, Validators.min(0)]],
       paymentMethod: ['', Validators.required],
@@ -58,7 +75,7 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-    getOrders(): void {
+  getOrders(): void {
     this.isLoading = true;
     this.http.get<any[]>(this.apiOrdersUrl).subscribe({
       next: (data) => {
@@ -73,25 +90,26 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-
   addPayment(): void {
     if (this.paymentForm.valid) {
       this.isSubmitting = true;
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Bearer ${token}` };
 
-      this.http.post(this.apiPaymentsUrl, this.paymentForm.value, { headers }).subscribe({
-        next: () => {
-          this.getPayments();
-          this.paymentForm.reset();
-          this.isSubmitting = false;
-          this.closeModal('addPaymentModal');
-        },
-        error: (err) => {
-          console.error('Error adding payment:', err);
-          this.isSubmitting = false;
-        },
-      });
+      this.http
+        .post(this.apiPaymentsUrl, this.paymentForm.value, { headers })
+        .subscribe({
+          next: () => {
+            this.getPayments();
+            this.paymentForm.reset();
+            this.isSubmitting = false;
+            this.closeModal('addPaymentModal');
+          },
+          error: (err) => {
+            console.error('Error adding payment:', err);
+            this.isSubmitting = false;
+          },
+        });
     }
   }
 
@@ -124,24 +142,32 @@ export class PaymentComponent implements OnInit {
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Bearer ${token}` };
 
-      this.http.put(`${this.apiPaymentsUrl}/${this.editPaymentId}`, this.paymentForm.value, { headers }).subscribe({
-        next: () => {
-          this.getPayments();
-          this.isSubmitting = false;
-          this.closeModal('editPaymentModal');
-        },
-        error: (err) => {
-          console.error('Error updating payment:', err);
-          this.isSubmitting = false;
-        },
-      });
+      this.http
+        .put(
+          `${this.apiPaymentsUrl}/${this.editPaymentId}`,
+          this.paymentForm.value,
+          { headers }
+        )
+        .subscribe({
+          next: () => {
+            this.getPayments();
+            this.isSubmitting = false;
+            this.closeModal('editPaymentModal');
+          },
+          error: (err) => {
+            console.error('Error updating payment:', err);
+            this.isSubmitting = false;
+          },
+        });
     }
   }
 
   openModal(modalId: string): void {
     const modalElement = document.getElementById(modalId) as HTMLElement;
     if (modalElement) {
-      const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+      const modalInstance =
+        bootstrap.Modal.getInstance(modalElement) ||
+        new bootstrap.Modal(modalElement);
       modalInstance.show();
     }
   }
