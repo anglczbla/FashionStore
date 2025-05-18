@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 import {
   FormBuilder,
   FormGroup,
@@ -55,6 +56,47 @@ export class PaymentComponent implements OnInit {
     });
   }
 
+  provinces: string[] = [
+    'Aceh',
+    'Bali',
+    'Banten',
+    'Bengkulu',
+    'DI Yogyakarta',
+    'DKI Jakarta',
+    'Gorontalo',
+    'Jambi',
+    'Jawa Barat',
+    'Jawa Tengah',
+    'Jawa Timur',
+    'Kalimantan Barat',
+    'Kalimantan Selatan',
+    'Kalimantan Tengah',
+    'Kalimantan Timur',
+    'Kalimantan Utara',
+    'Kepulauan Bangka Belitung',
+    'Kepulauan Riau',
+    'Lampung',
+    'Maluku',
+    'Maluku Utara',
+    'Nusa Tenggara Barat',
+    'Nusa Tenggara Timur',
+    'Papua',
+    'Papua Barat',
+    'Papua Pegunungan',
+    'Papua Barat Daya',
+    'Papua Tengah',
+    'Papua Selatan',
+    'Riau',
+    'Sulawesi Barat',
+    'Sulawesi Selatan',
+    'Sulawesi Tengah',
+    'Sulawesi Tenggara',
+    'Sulawesi Utara',
+    'Sumatera Barat',
+    'Sumatera Selatan',
+    'Sumatera Utara',
+  ];
+
   ngOnInit(): void {
     this.getPayments();
     this.getOrders();
@@ -101,6 +143,11 @@ export class PaymentComponent implements OnInit {
         .subscribe({
           next: () => {
             this.getPayments();
+            Swal.fire({
+              icon: 'success',
+              title: 'Payment Successful',
+              text: 'Payment data has been successfully saved.',
+            });
             this.paymentForm.reset();
             this.isSubmitting = false;
             this.closeModal('addPaymentModal');

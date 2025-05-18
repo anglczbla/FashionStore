@@ -1,18 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { HttpClient , HttpHeaders} from '@angular/common/http';
-import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  Validators,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import * as bootstrap from 'bootstrap';
+import Swal from 'sweetalert2';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterLink, RouterModule } from '@angular/router';
-
 
 @Component({
   selector: 'app-orders',
   standalone: true,
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule],
 })
 export class OrdersComponent implements OnInit {
   orders: any[] = [];
@@ -75,23 +80,38 @@ export class OrdersComponent implements OnInit {
   addOrder(): void {
     if (this.orderForm.valid) {
       this.isSubmitting = true;
-      
+
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Bearer ${token}` };
-  
-      this.http.post(this.apiOrdersUrl, this.orderForm.value, { headers })
+
+      this.http
+        .post(this.apiOrdersUrl, this.orderForm.value, { headers })
         .subscribe({
           next: (response) => {
             console.log('Order successfully added:', response);
             this.getOrders();
+
+            // Panggil reduceProductStock di sini
+            const productId = this.orderForm.value.products_id;
+            const quantity = this.orderForm.value.jumlahOrder;
+            this.reduceProductStock(productId, quantity);
+            Swal.fire({
+              icon: 'success',
+              title: 'Order Successful',
+              text: 'Order data has been successfully saved.',
+            });
             this.orderForm.reset();
             this.isSubmitting = false;
-            
-            const modalElement = document.getElementById('tambahOrderModal') as HTMLElement;
+
+            const modalElement = document.getElementById(
+              'tambahOrderModal'
+            ) as HTMLElement;
             if (modalElement) {
-              const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+              const modalInstance =
+                bootstrap.Modal.getInstance(modalElement) ||
+                new bootstrap.Modal(modalElement);
               modalInstance.hide();
-  
+
               // Hapus elemen backdrop jika ada
               const backdrop = document.querySelector('.modal-backdrop');
               if (backdrop) {
@@ -102,11 +122,45 @@ export class OrdersComponent implements OnInit {
           error: (err) => {
             console.error('Error adding order:', err);
             this.isSubmitting = false;
-          }
+          },
         });
     }
   }
-  
+
+  reduceProductStock(productId: string, quantity: number): void {
+    this.http.get<any>(`${this.apiProductsUrl}/${productId}`).subscribe({
+      next: (product) => {
+        if (product.stok >= quantity) {
+          const updatedProduct = {
+            ...product,
+            stok: product.stok - quantity,
+          };
+
+          this.http
+            .put(`${this.apiProductsUrl}/${productId}`, updatedProduct)
+            .subscribe({
+              next: () => {
+                console.log(
+                  `Stok produk dikurangi. Sisa stok: ${updatedProduct.stok}`
+                );
+              },
+              error: (err) => {
+                console.error('Gagal mengurangi stok produk:', err);
+              },
+            });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Stok Tidak Cukup',
+            text: 'Jumlah pesanan melebihi stok produk.',
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Gagal mengambil data produk:', err);
+      },
+    });
+  }
 
   deleteOrder(id: string): void {
     if (confirm('Are you sure you want to delete this order?')) {
@@ -137,51 +191,57 @@ export class OrdersComponent implements OnInit {
     });
   }
 
- updateOrder(): void {
-  // Pastikan form valid dan sedang dalam mode edit
-  if (this.orderForm.valid && this.editOrderId) {
-    this.isSubmitting = true;
+  updateOrder(): void {
+    // Pastikan form valid dan sedang dalam mode edit
+    if (this.orderForm.valid && this.editOrderId) {
+      this.isSubmitting = true;
 
-    // Ambil token autentikasi dari localStorage
-    const token = localStorage.getItem('authToken');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-
-    // Lakukan request PUT ke endpoint API
-    this.http.put(`${this.apiOrdersUrl}/${this.editOrderId}`, this.orderForm.value, { headers })
-      .subscribe({
-        next: () => {
-          // Refresh data orders
-          this.getOrders();
-          this.isSubmitting = false;
-          this.closeModal('editPemesananModal');
-
-          // Reset form dan state
-          this.orderForm.reset();
-          this.editOrderId = null;
-          this.isSubmitting = false;
-
-          // Tutup modal jika ada
-          const modalElement = document.getElementById('editOrderModal') as HTMLElement;
-          if (modalElement) {
-            const modalInstance = bootstrap.Modal.getInstance(modalElement);
-            modalInstance?.hide();
-          }
-        },
-        error: (err) => {
-          console.error('Error updating order:', err);
-          this.isSubmitting = false;
-        }
+      // Ambil token autentikasi dari localStorage
+      const token = localStorage.getItem('authToken');
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`,
       });
-  }
-}
 
+      // Lakukan request PUT ke endpoint API
+      this.http
+        .put(`${this.apiOrdersUrl}/${this.editOrderId}`, this.orderForm.value, {
+          headers,
+        })
+        .subscribe({
+          next: () => {
+            // Refresh data orders
+            this.getOrders();
+            this.isSubmitting = false;
+            this.closeModal('editPemesananModal');
+
+            // Reset form dan state
+            this.orderForm.reset();
+            this.editOrderId = null;
+            this.isSubmitting = false;
+
+            // Tutup modal jika ada
+            const modalElement = document.getElementById(
+              'editOrderModal'
+            ) as HTMLElement;
+            if (modalElement) {
+              const modalInstance = bootstrap.Modal.getInstance(modalElement);
+              modalInstance?.hide();
+            }
+          },
+          error: (err) => {
+            console.error('Error updating order:', err);
+            this.isSubmitting = false;
+          },
+        });
+    }
+  }
 
   openModal(modalId: string): void {
     const modalElement = document.getElementById(modalId) as HTMLElement;
     if (modalElement) {
-      const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+      const modalInstance =
+        bootstrap.Modal.getInstance(modalElement) ||
+        new bootstrap.Modal(modalElement);
       modalInstance.show();
     }
   }

@@ -1,6 +1,12 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import * as bootstrap from 'bootstrap';
@@ -25,13 +31,12 @@ export class ReviewComponent implements OnInit {
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
- this.reviewForm = this.fb.group({
-  nama: ['', Validators.required],
-  orders_id: ['', Validators.required], // jika wajib pilih order
-  pesan: ['', [Validators.required, Validators.minLength(5)]],
-  rating: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
-});
-
+    this.reviewForm = this.fb.group({
+      nama: ['', Validators.required],
+      orders_id: ['', Validators.required], // jika wajib pilih order
+      pesan: ['', [Validators.required, Validators.minLength(5)]],
+      rating: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
+    });
 
     this.getReviews();
     this.getOrders();
@@ -55,7 +60,7 @@ export class ReviewComponent implements OnInit {
     });
   }
 
-   getOrders(): void {
+  getOrders(): void {
     this.isLoading = true;
     this.http.get<any[]>(this.apiOrdersUrl).subscribe({
       next: (data) => {
@@ -76,17 +81,24 @@ export class ReviewComponent implements OnInit {
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Bearer ${token}` };
 
-      this.http.post(this.reviewUrl, this.reviewForm.value, { headers }).subscribe({
-        next: () => {
-          this.getReviews();
-          this.reviewForm.reset();
-          this.isSubmitting = false;
-          this.closeModal('tambahReviewModal');
-        },
-        error: () => {
-          this.isSubmitting = false;
-        },
-      });
+      this.http
+        .post(this.reviewUrl, this.reviewForm.value, { headers })
+        .subscribe({
+          next: () => {
+            this.getReviews();
+            Swal.fire({
+              icon: 'success',
+              title: 'Review Accepted',
+              text: 'Review data has been successfully saved.',
+            });
+            this.reviewForm.reset();
+            this.isSubmitting = false;
+            this.closeModal('tambahReviewModal');
+          },
+          error: () => {
+            this.isSubmitting = false;
+          },
+        });
     }
   }
 
@@ -107,44 +119,48 @@ export class ReviewComponent implements OnInit {
     if (this.reviewForm.valid && this.editReviewId) {
       this.isSubmitting = true;
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      this.http.put(`${this.reviewUrl}/${this.editReviewId}`, this.reviewForm.value, { headers }).subscribe({
+      this.http
+        .put(`${this.reviewUrl}/${this.editReviewId}`, this.reviewForm.value, {
+          headers,
+        })
+        .subscribe({
+          next: () => {
+            this.getReviews();
+            this.reviewForm.reset();
+            this.editReviewId = null;
+            this.isSubmitting = false;
+            this.closeModal('editReviewModal');
+          },
+          error: () => {
+            this.isSubmitting = false;
+          },
+        });
+    }
+  }
+
+  deleteReview(id: string): void {
+    if (confirm('Apakah Anda yakin ingin menghapus review ini?')) {
+      const token = localStorage.getItem('authToken');
+      const headers = { Authorization: `Bearer ${token}` };
+
+      this.http.delete(`${this.reviewUrl}/${id}`, { headers }).subscribe({
         next: () => {
           this.getReviews();
-          this.reviewForm.reset();
-          this.editReviewId = null;
-          this.isSubmitting = false;
-          this.closeModal('editReviewModal');
+          console.log(`Review dengan ID ${id} berhasil dihapus`);
         },
-        error: () => {
-          this.isSubmitting = false;
+        error: (err) => {
+          console.error('Error deleting review:', err);
         },
       });
     }
   }
 
- 
-  deleteReview(id: string): void {
-  if (confirm('Apakah Anda yakin ingin menghapus review ini?')) {
-    const token = localStorage.getItem('authToken');
-    const headers = { Authorization: `Bearer ${token}` };
-
-    this.http.delete(`${this.reviewUrl}/${id}`, { headers }).subscribe({
-      next: () => {
-        this.getReviews();
-        console.log(`Review dengan ID ${id} berhasil dihapus`);
-      },
-      error: (err) => {
-        console.error('Error deleting review:', err);
-      }
-    });
-  }
-}
-
-
   openModal(modalId: string): void {
     const modalElement = document.getElementById(modalId) as HTMLElement;
     if (modalElement) {
-      const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+      const modalInstance =
+        bootstrap.Modal.getInstance(modalElement) ||
+        new bootstrap.Modal(modalElement);
       modalInstance.show();
     }
   }
