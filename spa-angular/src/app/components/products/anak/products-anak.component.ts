@@ -6,13 +6,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterLink } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { RouterModule } from '@angular/router';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-products-anak',
   standalone: true,
   templateUrl: './products-anak.component.html',
   styleUrls: ['./products-anak.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule,RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, RouterLink],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProductsAnakComponent implements OnInit {
@@ -54,7 +54,7 @@ export class ProductsAnakComponent implements OnInit {
       kategori: [''],
       brand: [''],
       size: [''],
-      stok:['']
+      stok: [''],
     });
 
     this.getProducts();
@@ -104,6 +104,11 @@ export class ProductsAnakComponent implements OnInit {
       this.http.post(this.apiUrl, formData, { headers }).subscribe({
         next: () => {
           this.getProducts();
+          Swal.fire({
+            icon: 'success',
+            title: 'Products Success to added',
+            text: 'Products data has been successfully saved.',
+          });
           this.productsForm.reset();
           this.selectedFile = null;
           this.isSubmitting = false;
@@ -177,6 +182,11 @@ export class ProductsAnakComponent implements OnInit {
         .subscribe({
           next: () => {
             this.getProducts();
+            Swal.fire({
+              icon: 'success',
+              title: 'Products Success to update',
+              text: 'Products data has been successfully saved.',
+            });
             this.productsForm.reset();
             this.editProductId = null;
             const modalElement = document.getElementById(
@@ -210,6 +220,11 @@ export class ProductsAnakComponent implements OnInit {
       this.http.delete(`${this.apiUrl}/${id}`, { headers }).subscribe({
         next: () => {
           this.getProducts();
+          Swal.fire({
+            icon: 'success',
+            title: 'Products Success to delete',
+            text: 'Products data has been successfully saved.',
+          });
           console.log(`Produk dengan ID ${id} berhasil dihapus`);
         },
         error: (err) => {

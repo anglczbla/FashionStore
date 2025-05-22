@@ -5,13 +5,14 @@ import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterLink, RouterModule } from '@angular/router';
 import * as bootstrap from 'bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-products-wanita',
   standalone: true,
   templateUrl: './products-wanita.component.html',
   styleUrls: ['./products-wanita.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterLink,RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProductsWanitaComponent implements OnInit {
@@ -42,7 +43,7 @@ export class ProductsWanitaComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
-   userRole: string | null = null;
+  userRole: string | null = null;
 
   ngOnInit(): void {
     this.userRole = localStorage.getItem('userRole');
@@ -52,7 +53,7 @@ export class ProductsWanitaComponent implements OnInit {
       harga: [''],
       kategori: [''],
       brand: [''],
-      stok:[''],
+      stok: [''],
       size: [''],
     });
 
@@ -103,6 +104,11 @@ export class ProductsWanitaComponent implements OnInit {
       this.http.post(this.apiUrl, formData, { headers }).subscribe({
         next: () => {
           this.getProducts();
+          Swal.fire({
+            icon: 'success',
+            title: 'Products Success to added',
+            text: 'Products data has been successfully saved.',
+          });
           this.productsForm.reset();
           this.selectedFile = null;
           this.isSubmitting = false;
@@ -176,6 +182,11 @@ export class ProductsWanitaComponent implements OnInit {
         .subscribe({
           next: () => {
             this.getProducts();
+            Swal.fire({
+              icon: 'success',
+              title: 'Products Success to update',
+              text: 'Products data has been successfully saved.',
+            });
             this.productsForm.reset();
             this.editProductId = null;
             const modalElement = document.getElementById(
@@ -209,6 +220,11 @@ export class ProductsWanitaComponent implements OnInit {
       this.http.delete(`${this.apiUrl}/${id}`, { headers }).subscribe({
         next: () => {
           this.getProducts();
+          Swal.fire({
+            icon: 'success',
+            title: 'Products Success to delete',
+            text: 'Products data has been successfully saved.',
+          });
           console.log(`Produk dengan ID ${id} berhasil dihapus`);
         },
         error: (err) => {

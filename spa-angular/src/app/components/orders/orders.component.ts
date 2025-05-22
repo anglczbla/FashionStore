@@ -163,20 +163,34 @@ export class OrdersComponent implements OnInit {
   }
 
   deleteOrder(id: string): void {
-    if (confirm('Are you sure you want to delete this order?')) {
-      const token = localStorage.getItem('authToken');
-      const headers = { Authorization: `Bearer ${token}` };
-      this.http.delete(`${this.apiOrdersUrl}/${id}`, { headers }).subscribe({
-        next: () => {
-          this.getOrders();
-          console.log(`Order with ID ${id} successfully deleted`);
-        },
-        error: (err) => {
-          console.error('Error deleting order:', err);
-        },
-      });
+      if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+          console.error('Token tidak ditemukan. Pengguna belum login.');
+          return;
+        }
+  
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+        });
+  
+        this.http.delete(`${this.apiOrdersUrl}/${id}`, { headers }).subscribe({
+          next: () => {
+            this.getProducts();
+            Swal.fire({
+                          icon: 'success',
+                          title: 'Orders Success to delete',
+                          text: 'Orders data has been successfully saved.',
+                        });
+            console.log(`Produk dengan ID ${id} berhasil dihapus`);
+          },
+          error: (err) => {
+            console.error('Error deleting produk:', err);
+          },
+        });
+      }
     }
-  }
+  
 
   getOrderById(id: string): void {
     this.editOrderId = id;
