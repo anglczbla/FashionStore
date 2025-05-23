@@ -166,7 +166,16 @@ export class PaymentComponent implements OnInit {
       const headers = { Authorization: `Bearer ${token}` };
 
       this.http.delete(`${this.apiPaymentsUrl}/${id}`, { headers }).subscribe({
-        next: () => this.getPayments(),
+        next: () => {
+          this.getPayments();
+          Swal.fire({
+            icon: 'success',
+            title: 'Payment Success to delete',
+            text: 'Payment data has been successfully saved.',
+          });
+          console.log(`Produk dengan ID ${id} berhasil dihapus`);
+        },
+
         error: (err) => console.error('Error deleting payment:', err),
       });
     }

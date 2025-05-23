@@ -225,6 +225,11 @@ export class OrdersComponent implements OnInit {
           next: () => {
             // Refresh data orders
             this.getOrders();
+             Swal.fire({
+                          icon: 'success',
+                          title: 'Orders Success to update',
+                          text: 'Orders data has been successfully saved.',
+                        });
             this.isSubmitting = false;
             this.closeModal('editPemesananModal');
 

@@ -153,10 +153,10 @@
     <div class="col" *ngFor="let item of orders">
       <div class="card shadow-sm">
         <div class="card-body">
-          <h5 class="card-title">{{ item.nama }}</h5>
+          <h5 class="card-title"></h5>
           <p class="card-text">
-            <strong>Nama:</strong> {{ item.nama }} <strong>Produk:</strong>
-            {{ item.products_id?.nama }}<br />
+            <strong>Nama:</strong> {{ item.nama }} 
+            <strong>Produk:</strong>{{ item.products_id?.nama }}<br />
             <strong>Order:</strong> {{ item.order }}<br />
             <strong>Jumlah:</strong> {{ item.jumlahOrder }}<br />
             <strong>Total:</strong> {{ item.total }}<br />

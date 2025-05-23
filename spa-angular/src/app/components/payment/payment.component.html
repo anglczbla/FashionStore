@@ -159,7 +159,7 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="paymentMethod"
+                formControlName="paymentMethod"
                 id="midtrans"
                 checked
               />
@@ -197,7 +197,7 @@
             <input
               class="form-check-input"
               type="radio"
-              name="paymentMethod"
+              formControlName="paymentMethod"
               id="manualBank"
             />
             <label class="form-check-label" for="manualBank">
@@ -298,9 +298,9 @@
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">
              Payment For:
-              {{ payment.orders_id?.nama}}
             </h5>
             <p class="card-text mb-4">
+              <strong>Order:</strong> {{ payment.orders_id?.nama}}<br />
               <strong>Country:</strong> {{ payment.country }}<br />
               <strong>First Name:</strong> {{ payment.firstName }}<br />
               <strong>Last Name:</strong> {{ payment.lastName }}<br />

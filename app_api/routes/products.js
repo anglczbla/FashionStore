@@ -72,4 +72,5 @@ router.put("/:id", authMiddleware, roleMiddleware("admin"), upload.single("foto"
 // Route untuk menghapus shipping berdasarkan ID
 router.delete("/:id",authMiddleware, roleMiddleware("admin"),productsController.deleteProducts);
 
+
 module.exports = router;
