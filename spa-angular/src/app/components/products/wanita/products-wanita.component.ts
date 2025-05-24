@@ -3,16 +3,22 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import * as bootstrap from 'bootstrap';
+import { RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
-
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-products-wanita',
   standalone: true,
   templateUrl: './products-wanita.component.html',
   styleUrls: ['./products-wanita.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    FormsModule,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProductsWanitaComponent implements OnInit {
@@ -22,23 +28,78 @@ export class ProductsWanitaComponent implements OnInit {
   editProductId: string | null = null;
   isSubmitting = false;
   isLoading = true;
-  editProductsId: string | null = null;
   selectedFile: File | null = null;
 
   // Modal Order
-  selectedProduct: any = null;
   showOrderForm = false;
 
+  // logic foto
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
     }
   }
+
   // Handle Klik Produk → Buka Modal Order
   onProductClick(product: any): void {
+    console.log('Product clicked:', product);
     this.selectedProduct = product;
     this.showOrderForm = true;
+  }
+
+  selectedProduct: any = null;
+  orderQty: number = 1;
+
+  openOrderModal(product: any) {
+    this.selectedProduct = product;
+    this.orderQty = 1;
+  }
+
+  submitOrder() {
+    if (this.selectedProduct && this.orderQty > 0) {
+      const order = {
+        productId: this.selectedProduct._id,
+        namaProduk: this.selectedProduct.nama,
+        hargaSatuan: this.selectedProduct.harga,
+        brand: this.selectedProduct.brand,
+        size: this.selectedProduct.size,
+        jumlah: this.orderQty,
+        total: this.orderQty * this.selectedProduct.harga,
+      };
+
+      // Tampilkan konfirmasi sebelum mengirim
+      Swal.fire({
+        title: 'Konfirmasi Order',
+        html: `
+        <strong>${order.namaProduk}</strong><br>
+        Jumlah: ${order.jumlah}<br>
+        Total: Rp${order.total.toLocaleString()}
+      `,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Order Sekarang',
+        cancelButtonText: 'Batal',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Kirim order ke backend setelah konfirmasi
+          this.http.post('http://localhost:3000/api/orders', order).subscribe({
+            next: (res) => {
+              console.log('Order berhasil:', res);
+              Swal.fire('Berhasil!', 'Pesanan Anda telah dibuat.', 'success');
+
+              // Reset form
+              this.selectedProduct = null;
+              this.orderQty = 1;
+            },
+            error: (err) => {
+              console.error('Gagal mengirim order:', err);
+              Swal.fire('Gagal!', 'Pesanan tidak dapat dikirim.', 'error');
+            },
+          });
+        }
+      });
+    }
   }
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
@@ -53,8 +114,8 @@ export class ProductsWanitaComponent implements OnInit {
       harga: [''],
       kategori: [''],
       brand: [''],
-      stok: [''],
       size: [''],
+      stok: [''],
     });
 
     this.getProducts();

@@ -13,7 +13,6 @@
 
   <!-- Tombol Tambah Produk -->
   <button
-
     type="button"
     class="btn btn-primary mb-3 btn-lg"
     data-bs-toggle="modal"
@@ -148,12 +147,121 @@
             <button
               type="button"
               class="btn btn-warning mt-3 me-2"
-              [routerLink]="['/orders']"
-              [queryParams]="{ id: item.id }"
+              data-bs-toggle="modal"
+              data-bs-target="#orderModal"
+              (click)="onProductClick(item)"
             >
               BUY
             </button>
           </p>
+          <div
+            class="modal fade"
+            id="orderModal"
+            tabindex="-1"
+            aria-labelledby="orderModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form (ngSubmit)="submitOrder()">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="orderModalLabel">
+                      Order Produk
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body" *ngIf="selectedProduct">
+                    <div class="mb-3">
+                      <label class="form-label">Nama Produk</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        [value]="selectedProduct.nama"
+                        readonly
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Harga</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        [value]="selectedProduct.harga"
+                        readonly
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Jumlah</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        [(ngModel)]="orderQty"
+                        name="orderQty"
+                        required
+                        min="1"
+                        [max]="selectedProduct.stok"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Total Harga</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        [value]="orderQty * selectedProduct.harga"
+                        readonly
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Brand</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        [value]="orderQty * selectedProduct.brand"
+                        readonly
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Size</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        [value]="orderQty * selectedProduct.size"
+                        readonly
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Jumlah Order</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        formControlName="jumlahOrder"
+                      />
+                    </div>
+                  </div>
+                  <form (ngSubmit)="submitOrder()">
+                    ...
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Batal
+                      </button>
+                      <button type="submit" class="btn btn-primary">
+                        Order
+                      </button>
+                    </div>
+                  </form>
+                </form>
+              </div>
+            </div>
+          </div>
+
           <button
             type="button"
             class="btn btn-warning mt-3 me-2"
@@ -184,10 +292,13 @@
                   <h5 class="modal-title" id="editProdukModalLabel">
                     Ubah Produk
                   </h5>
+                  <!-- Tombol Edit (di luar modal) -->
                   <button
                     type="button"
                     class="btn btn-warning mt-3 me-2"
                     (click)="getProductById(item._id)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editProdukModal"
                   >
                     Edit
                   </button>
@@ -269,15 +380,27 @@
                       />
                     </div>
                     <div class="modal-footer">
-                      <button
-                        type="button"
-                        class="btn btn-danger mt-3"
-                        (click)="deleteProduct(item._id)"
-                      >
-                        Hapus class="btn btn-success" type="submit"
-                        [disabled]="isSubmitting" >
-                        {{ isSubmitting ? "Menyimpan..." : "Simpan Perubahan" }}
-                      </button>
+                      <div class="modal-footer">
+                        <!-- Tombol Hapus -->
+                        <button
+                          type="button"
+                          class="btn btn-danger"
+                          (click)="deleteProduct(item._id)"
+                        >
+                          Hapus
+                        </button>
+
+                        <!-- Tombol Simpan -->
+                        <button
+                          class="btn btn-success"
+                          type="submit"
+                          [disabled]="isSubmitting"
+                        >
+                          {{
+                            isSubmitting ? "Menyimpan..." : "Simpan Perubahan"
+                          }}
+                        </button>
+                      </div>
                     </div>
                   </form>
                 </div>
