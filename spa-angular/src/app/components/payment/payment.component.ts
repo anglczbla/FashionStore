@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import {
   FormBuilder,
@@ -100,7 +101,62 @@ export class PaymentComponent implements OnInit {
   ngOnInit(): void {
     this.getPayments();
     this.getOrders();
+
+    const state = history.state;
+    if (state?.orderId) {
+      // Buat form yang sesuai dengan schema mongoose
+      this.paymentForm = this.fb.group({
+        country: ['', Validators.required],
+        firstName: [state.buyerName || '', Validators.required],
+        lastName: ['', Validators.required],
+        address: ['', Validators.required],
+        apartment: [''],
+        city: ['', Validators.required],
+        province: ['', Validators.required],
+        postalCode: ['', Validators.required],
+        phone: ['', Validators.required],
+        saveInfo: [false],
+        orders_id: [state.orderId, Validators.required],
+        amount: [state.totalPrice || 0, Validators.required],
+        paymentMethod: ['', Validators.required],
+        status: ['pending'],
+        paymentDate: [new Date()],
+      });
+
+      // Tampilkan modal pembayaran otomatis
+      setTimeout(() => {
+        const modalEl = document.getElementById('addPaymentModal');
+        if (modalEl) {
+          const modal = new bootstrap.Modal(modalEl);
+          modal.show();
+        }
+      }, 200);
+    }
   }
+
+  submitPayment() {
+  if (this.paymentForm.valid) {
+    const paymentData = this.paymentForm.value;
+
+    const token = localStorage.getItem('token'); // atau sessionStorage.getItem()
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http
+      .post('http://localhost:3000/api/payments', paymentData, { headers })
+      .subscribe({
+        next: () => {
+          Swal.fire('Sukses!', 'Pembayaran berhasil dikirim.', 'success');
+        },
+        error: (err) => {
+          console.error(err);
+          Swal.fire('Gagal!', 'Pembayaran gagal dikirim.', 'error');
+        },
+      });
+  } else {
+    Swal.fire('Form Tidak Valid', 'Mohon lengkapi semua data.', 'warning');
+  }
+}
+
 
   getPayments(): void {
     this.isLoading = true;

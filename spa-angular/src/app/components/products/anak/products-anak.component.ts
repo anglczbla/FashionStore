@@ -56,50 +56,63 @@ export class ProductsAnakComponent implements OnInit {
   selectedProduct: any = null;
   orderQty: number = 1;
 
+submitOrder() {
+  if (
+    this.selectedProduct &&
+    this.orderQty > 0 &&
+    this.buyerName.trim() !== ''
+  ) {
+    const order = {
+      nama: this.buyerName,
+      order: new Date(),
+      total: this.orderQty * this.selectedProduct.harga,
+      jumlahOrder: this.orderQty,
+      products_id: this.selectedProduct._id,
+    };
 
-  submitOrder() {
-    if (
-      this.selectedProduct &&
-      this.orderQty > 0 &&
-      this.buyerName.trim() !== ''
-    ) {
-      const order = {
-        nama: this.buyerName,
-        order: new Date(),
-        total: this.orderQty * this.selectedProduct.harga,
-        jumlahOrder: this.orderQty,
-        products_id: this.selectedProduct._id,
-      };
-
-      Swal.fire({
-        title: 'Konfirmasi Order',
-        html: `
+    Swal.fire({
+      title: 'Konfirmasi Order',
+      html: `
         <strong>${this.selectedProduct.nama}</strong><br>
         Jumlah: ${order.jumlahOrder}<br>
         Total: Rp${order.total.toLocaleString()}
       `,
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Ya, Order Sekarang',
-        cancelButtonText: 'Batal',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.http.post('http://localhost:3000/api/orders', order).subscribe({
-            next: (res) => {
-              console.log('Order berhasil:', res);
-              Swal.fire('Berhasil!', 'Pesanan Anda telah dibuat.', 'success');
-              this.selectedProduct = null;
-              this.orderQty = 1;
-            },
-            error: (err) => {
-              console.error('Gagal mengirim order:', err);
-              Swal.fire('Gagal!', 'Pesanan tidak dapat dikirim.', 'error');
-            },
-          });
-        }
-      });
-    }
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Order Sekarang',
+      cancelButtonText: 'Batal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.post<any>('http://localhost:3000/api/orders', order).subscribe({
+          next: (res) => {
+            console.log('Order berhasil:', res);
+
+            Swal.fire('Berhasil!', 'Pesanan Anda telah dibuat.', 'success');
+
+            // Reset form
+            this.selectedProduct = null;
+            this.orderQty = 1;
+
+            // Redirect ke halaman pembayaran dengan data dari response order
+            this.router.navigate(['/payments'], {
+              state: {
+                orderId: res._id,
+                totalPrice: res.total,
+                buyerName: res.nama,
+                product: res.products_id,
+                orderQty: res.jumlahOrder
+              }
+            });
+          },
+          error: (err) => {
+            console.error('Gagal mengirim order:', err);
+            Swal.fire('Gagal!', 'Pesanan tidak dapat dikirim.', 'error');
+          }
+        });
+      }
+    });
   }
+}
 
   // FORM PAYMENT
   proceedToPayment(): void {
