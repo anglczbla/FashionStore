@@ -35,43 +35,40 @@ const getOrdersById = async (req, res) => {
 
 // Membuat data Orders baru
 const createOrders = async (req, res) => {
-  console.log("Menerima data untuk membuat Orders:", req.body);
-
-  // Validasi sederhana
-  if (!req.body.products_id || !req.body.order) {
-    console.warn("Data Orders tidak valid:", req.body);
-    return res
-      .status(400)
-      .json({ message: "products_id dan order harus diisi." });
-  }
-  // Validasi stok cukup
-  if (products.stok < jumlahOrder) {
-    return res.status(400).json({ message: "Stok produk tidak mencukupi" });
-  }
-
-  // Kurangi stok
-  products.stok -= jumlahOrder;
-  await products.save();
-
-  // Simpan order
-  const newOrder = new Order({ nama, order, total, jumlahOrder, products_id });
-  await newOrder.save();
-
-  const orders = new Orders({
-    nama: req.body.nama,
-    order: req.body.order,
-    total: req.body.total,
-    jumlahOrder: req.body.jumlahOrder,
-    products_id: req.body.products_id,
-  });
-
   try {
-    const newOrders = await orders.save();
-    console.log("Data Orders baru berhasil dibuat:", newOrders);
-    res.status(201).json(newOrders);
-  } catch (err) {
-    console.error("Terjadi kesalahan saat membuat Orders:", err.message);
-    res.status(400).json({ message: err.message });
+    const { nama, order, total, jumlahOrder, products_id } = req.body;
+
+    // Cari produk berdasarkan products_id
+    const product = await Products.findById(products_id);
+    if (!product) {
+      return res.status(404).json({ message: "Produk tidak ditemukan" });
+    }
+
+    // Cek stok produk apakah cukup
+    if (product.stok < jumlahOrder) {
+      return res.status(400).json({ message: "Stok produk tidak mencukupi" });
+    }
+
+    // Jika cukup, buat data order baru
+    const newOrder = new Orders({
+      nama,
+      order,
+      total,
+      jumlahOrder,
+      products_id,
+    });
+
+    // Simpan order
+    const savedOrder = await newOrder.save();
+
+    // Kurangi stok produk
+    product.stok -= jumlahOrder;
+    await product.save();
+
+    res.status(201).json(savedOrder);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
   }
 };
 

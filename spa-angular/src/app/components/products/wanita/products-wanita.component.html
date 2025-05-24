@@ -108,41 +108,95 @@
     </div>
   </div>
 
-  <!-- Modal Order Produk -->
-  <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form (ngSubmit)="submitOrder()">
-          <div class="modal-header">
-            <h5 class="modal-title" id="orderModalLabel">Order Produk</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Modal Order Produk -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form (ngSubmit)="submitOrder()" #orderForm="ngForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="orderModalLabel">Order Produk</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" *ngIf="selectedProduct">
+
+          <div class="mb-3">
+            <label class="form-label" for="buyerName">Nama Pembeli</label>
+            <input
+              type="text"
+              id="buyerName"
+              class="form-control"
+              [(ngModel)]="buyerName"
+              name="buyerName"
+              required
+              placeholder="Masukkan nama Anda"
+            />
           </div>
-          <div class="modal-body" *ngIf="selectedProduct">
-            <div class="mb-3">
-              <label class="form-label">Nama Produk</label>
-              <input type="text" class="form-control" [value]="selectedProduct.nama" readonly />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Harga</label>
-              <input type="number" class="form-control" [value]="selectedProduct.harga" readonly />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Jumlah</label>
-              <input type="number" class="form-control" [(ngModel)]="orderQty" name="orderQty" required min="1" [max]="selectedProduct.stok" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Total Harga</label>
-              <input type="number" class="form-control" [value]="orderQty * selectedProduct.harga" readonly />
-            </div>
+
+          <div class="mb-3">
+            <label class="form-label">Nama Produk</label>
+            <input
+              type="text"
+              class="form-control"
+              [value]="selectedProduct.nama"
+              readonly
+            />
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-primary">Order</button>
+
+          <div class="mb-3">
+            <label class="form-label">Harga</label>
+            <input
+              type="number"
+              class="form-control"
+              [value]="selectedProduct.harga"
+              readonly
+            />
           </div>
-        </form>
-      </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="orderQty">Jumlah</label>
+            <input
+              type="number"
+              id="orderQty"
+              class="form-control"
+              [(ngModel)]="orderQty"
+              name="orderQty"
+              required
+              min="1"
+              [max]="selectedProduct.stok"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Total Harga</label>
+            <input
+              type="number"
+              class="form-control"
+              [value]="orderQty * selectedProduct.harga"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Batal
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="orderForm.invalid"
+          >
+            Order
+          </button>
+        </div>
+      </form>
     </div>
   </div>
+</div>
+
 
   <!-- Modal Edit Produk -->
   <div class="modal fade" id="editProdukModal" tabindex="-1" aria-labelledby="editProdukModalLabel" aria-hidden="true">

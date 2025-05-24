@@ -13,12 +13,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   templateUrl: './products-wanita.component.html',
   styleUrls: ['./products-wanita.component.css'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, FormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProductsWanitaComponent implements OnInit {
@@ -48,47 +43,52 @@ export class ProductsWanitaComponent implements OnInit {
     this.showOrderForm = true;
   }
 
-  selectedProduct: any = null;
-  orderQty: number = 1;
+  
+  
 
   openOrderModal(product: any) {
     this.selectedProduct = product;
     this.orderQty = 1;
   }
 
+
+  //FORM ORDER
+
+  buyerName: string = ''; // inisialisasi nama pembeli
+  orderQty: number = 1;
+  selectedProduct: any = null;
+
   submitOrder() {
-    if (this.selectedProduct && this.orderQty > 0) {
+    if (
+      this.selectedProduct &&
+      this.orderQty > 0 &&
+      this.buyerName.trim() !== ''
+    ) {
       const order = {
-        productId: this.selectedProduct._id,
-        namaProduk: this.selectedProduct.nama,
-        hargaSatuan: this.selectedProduct.harga,
-        brand: this.selectedProduct.brand,
-        size: this.selectedProduct.size,
-        jumlah: this.orderQty,
+        nama: this.buyerName,
+        order: new Date(),
         total: this.orderQty * this.selectedProduct.harga,
+        jumlahOrder: this.orderQty,
+        products_id: this.selectedProduct._id,
       };
 
-      // Tampilkan konfirmasi sebelum mengirim
       Swal.fire({
         title: 'Konfirmasi Order',
         html: `
-        <strong>${order.namaProduk}</strong><br>
-        Jumlah: ${order.jumlah}<br>
-        Total: Rp${order.total.toLocaleString()}
-      `,
+         <strong>${this.selectedProduct.nama}</strong><br>
+         Jumlah: ${order.jumlahOrder}<br>
+         Total: Rp${order.total.toLocaleString()}
+       `,
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Ya, Order Sekarang',
         cancelButtonText: 'Batal',
       }).then((result) => {
         if (result.isConfirmed) {
-          // Kirim order ke backend setelah konfirmasi
           this.http.post('http://localhost:3000/api/orders', order).subscribe({
             next: (res) => {
               console.log('Order berhasil:', res);
               Swal.fire('Berhasil!', 'Pesanan Anda telah dibuat.', 'success');
-
-              // Reset form
               this.selectedProduct = null;
               this.orderQty = 1;
             },

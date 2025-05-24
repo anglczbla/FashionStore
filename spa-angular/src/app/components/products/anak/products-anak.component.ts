@@ -8,17 +8,13 @@ import * as bootstrap from 'bootstrap';
 import { RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-products-anak',
   standalone: true,
   templateUrl: './products-anak.component.html',
   styleUrls: ['./products-anak.component.css'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, FormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProductsAnakComponent implements OnInit {
@@ -48,32 +44,38 @@ export class ProductsAnakComponent implements OnInit {
     this.showOrderForm = true;
   }
 
-  selectedProduct: any = null;
-  orderQty: number = 1;
-
+ 
   openOrderModal(product: any) {
     this.selectedProduct = product;
     this.orderQty = 1;
   }
 
+  // FORM ORDER
+
+  buyerName: string = '';  // inisialisasi nama pembeli
+  selectedProduct: any = null;
+  orderQty: number = 1;
+
+
   submitOrder() {
-    if (this.selectedProduct && this.orderQty > 0) {
+    if (
+      this.selectedProduct &&
+      this.orderQty > 0 &&
+      this.buyerName.trim() !== ''
+    ) {
       const order = {
-        productId: this.selectedProduct._id,
-        namaProduk: this.selectedProduct.nama,
-        hargaSatuan: this.selectedProduct.harga,
-        brand: this.selectedProduct.brand,
-        size: this.selectedProduct.size,
-        jumlah: this.orderQty,
+        nama: this.buyerName,
+        order: new Date(),
         total: this.orderQty * this.selectedProduct.harga,
+        jumlahOrder: this.orderQty,
+        products_id: this.selectedProduct._id,
       };
 
-      // Tampilkan konfirmasi sebelum mengirim
       Swal.fire({
         title: 'Konfirmasi Order',
         html: `
-        <strong>${order.namaProduk}</strong><br>
-        Jumlah: ${order.jumlah}<br>
+        <strong>${this.selectedProduct.nama}</strong><br>
+        Jumlah: ${order.jumlahOrder}<br>
         Total: Rp${order.total.toLocaleString()}
       `,
         icon: 'question',
@@ -82,13 +84,10 @@ export class ProductsAnakComponent implements OnInit {
         cancelButtonText: 'Batal',
       }).then((result) => {
         if (result.isConfirmed) {
-          // Kirim order ke backend setelah konfirmasi
           this.http.post('http://localhost:3000/api/orders', order).subscribe({
             next: (res) => {
               console.log('Order berhasil:', res);
               Swal.fire('Berhasil!', 'Pesanan Anda telah dibuat.', 'success');
-
-              // Reset form
               this.selectedProduct = null;
               this.orderQty = 1;
             },
@@ -102,7 +101,28 @@ export class ProductsAnakComponent implements OnInit {
     }
   }
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  // FORM PAYMENT
+  proceedToPayment(): void {
+  if (this.buyerName && this.orderQty > 0 && this.orderQty <= this.selectedProduct.stok) {
+    const confirmed = confirm('Lanjut ke halaman payment dan shipping?');
+    if (confirmed) {
+      // Navigasi ke halaman payment/shipping dan bisa bawa data order
+      this.router.navigate(['/payments'], {
+        state: {
+          product: this.selectedProduct,
+          buyerName: this.buyerName,
+          orderQty: this.orderQty,
+          totalPrice: this.orderQty * this.selectedProduct.harga,
+        }
+      });
+    }
+  } else {
+    alert('Form order belum lengkap atau jumlah order tidak valid!');
+  }
+}
+
+
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {}
 
   userRole: string | null = null;
 
