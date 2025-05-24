@@ -33,46 +33,25 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="tambahProdukModalLabel">Tambah Produk</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form
-            [formGroup]="productsForm"
-            (ngSubmit)="addProduct()"
-            enctype="multipart/form-data"
-          >
+          <form [formGroup]="productsForm" (ngSubmit)="addProduct()" enctype="multipart/form-data">
             <div class="mb-3">
               <label class="form-label">Nama</label>
               <input type="text" class="form-control" formControlName="nama" />
             </div>
             <div class="mb-3">
               <label class="form-label">Deskripsi</label>
-              <textarea
-                class="form-control"
-                formControlName="deskripsi"
-                rows="3"
-              ></textarea>
+              <textarea class="form-control" formControlName="deskripsi" rows="3"></textarea>
             </div>
             <div class="mb-3">
               <label class="form-label">Harga</label>
-              <input
-                type="number"
-                class="form-control"
-                formControlName="harga"
-              />
+              <input type="number" class="form-control" formControlName="harga" />
             </div>
             <div class="mb-3">
-              <label for="kategori" class="form-label">Kategori</label>
-              <select
-                id="kategori"
-                class="form-select"
-                formControlName="kategori"
-              >
+              <label class="form-label">Kategori</label>
+              <select class="form-select" formControlName="kategori">
                 <option value="Pria">Pria</option>
                 <option value="Wanita">Wanita</option>
                 <option value="Anak">Anak</option>
@@ -88,27 +67,16 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Foto</label>
-              <div *ngFor="let product of products"></div>
-              <input
-                type="file"
-                class="form-control"
-                (change)="onFileSelected($event)"
-              />
+              <input type="file" class="form-control" (change)="onFileSelected($event)" />
             </div>
             <div class="mb-3">
               <label class="form-label">Stok</label>
-              <input type="text" class="form-control" formControlName="stok" />
+              <input type="number" class="form-control" formControlName="stok" />
             </div>
             <div class="modal-footer">
-              <button class="btn btn-secondary" data-bs-dismiss="modal">
-                Batal
-              </button>
-              <button
-                class="btn btn-success"
-                type="submit"
-                [disabled]="isSubmitting"
-              >
-                {{ isSubmitting ? "Menyimpan..." : "Tambah Produk" }}
+              <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+              <button class="btn btn-success" type="submit" [disabled]="isSubmitting">
+                {{ isSubmitting ? 'Menyimpan...' : 'Tambah Produk' }}
               </button>
             </div>
           </form>
@@ -117,296 +85,118 @@
     </div>
   </div>
 
-  <!-- Data PRODUCTS -->
+  <!-- Daftar Produk -->
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-4" *ngIf="!isLoading">
     <div class="col" *ngFor="let item of products">
       <div class="card shadow-sm h-100">
-        <img
-          [src]="item.foto"
-          alt="Foto Produk"
-          class="card-img-top"
-          style="object-fit: cover; height: 200px"
-        />
+        <img [src]="item.foto" alt="Foto Produk" class="card-img-top" style="object-fit: cover; height: 300px" />
         <div class="card-body">
-          <h5 class="card-title">{{ item.products?.nama }}</h5>
+          <h5 class="card-title">{{ item.nama }}</h5>
           <p class="card-text">
-            <strong>Nama:</strong> {{ item.nama }}
-            <br />
-            <strong>Deskripsi:</strong> {{ item.deskripsi }}
-            <br />
-            <strong>Harga:</strong> {{ item.harga }}
-            <br />
-            <strong>Kategori:</strong> {{ item.kategori }}
-            <br />
-            <strong>Brand:</strong> {{ item.brand }}
-            <br />
-            <strong>Size:</strong> {{ item.size }}
-            <br />
+            <strong>Deskripsi:</strong> {{ item.deskripsi }}<br />
+            <strong>Harga:</strong> {{ item.harga }}<br />
+            <strong>Kategori:</strong> {{ item.kategori }}<br />
+            <strong>Brand:</strong> {{ item.brand }}<br />
+            <strong>Size:</strong> {{ item.size }}<br />
             <strong>Stok:</strong> {{ item.stok }}
-            <br />
-            <button
-              type="button"
-              class="btn btn-warning mt-3 me-2"
-              data-bs-toggle="modal"
-              data-bs-target="#orderModal"
-              (click)="onProductClick(item)"
-            >
-              BUY
-            </button>
           </p>
-          <div
-            class="modal fade"
-            id="orderModal"
-            tabindex="-1"
-            aria-labelledby="orderModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <form (ngSubmit)="submitOrder()">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="orderModalLabel">
-                      Order Produk
-                    </h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body" *ngIf="selectedProduct">
-                    <div class="mb-3">
-                      <label class="form-label">Nama Produk</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        [value]="selectedProduct.nama"
-                        readonly
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Harga</label>
-                      <input
-                        type="number"
-                        class="form-control"
-                        [value]="selectedProduct.harga"
-                        readonly
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Jumlah</label>
-                      <input
-                        type="number"
-                        class="form-control"
-                        [(ngModel)]="orderQty"
-                        name="orderQty"
-                        required
-                        min="1"
-                        [max]="selectedProduct.stok"
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Total Harga</label>
-                      <input
-                        type="number"
-                        class="form-control"
-                        [value]="orderQty * selectedProduct.harga"
-                        readonly
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Brand</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        [value]="orderQty * selectedProduct.brand"
-                        readonly
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Size</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        [value]="orderQty * selectedProduct.size"
-                        readonly
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Jumlah Order</label>
-                      <input
-                        type="number"
-                        class="form-control"
-                        formControlName="jumlahOrder"
-                      />
-                    </div>
-                  </div>
-                  <form (ngSubmit)="submitOrder()">
-                    ...
-                    <div class="modal-footer">
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                      >
-                        Batal
-                      </button>
-                      <button type="submit" class="btn btn-primary">
-                        Order
-                      </button>
-                    </div>
-                  </form>
-                </form>
-              </div>
+          <button type="button" class="btn btn-warning mt-3 me-2" data-bs-toggle="modal" data-bs-target="#orderModal" (click)="onProductClick(item)">BUY</button>
+          <button type="button" class="btn btn-warning mt-3 me-2" data-bs-toggle="modal" data-bs-target="#editProdukModal" (click)="getProductById(item._id)">Edit</button>
+          <button type="button" class="btn btn-danger mt-3" (click)="deleteProduct(item._id)">Hapus</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Order Produk -->
+  <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form (ngSubmit)="submitOrder()">
+          <div class="modal-header">
+            <h5 class="modal-title" id="orderModalLabel">Order Produk</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" *ngIf="selectedProduct">
+            <div class="mb-3">
+              <label class="form-label">Nama Produk</label>
+              <input type="text" class="form-control" [value]="selectedProduct.nama" readonly />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Harga</label>
+              <input type="number" class="form-control" [value]="selectedProduct.harga" readonly />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jumlah</label>
+              <input type="number" class="form-control" [(ngModel)]="orderQty" name="orderQty" required min="1" [max]="selectedProduct.stok" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Total Harga</label>
+              <input type="number" class="form-control" [value]="orderQty * selectedProduct.harga" readonly />
             </div>
           </div>
-
-          <button
-            type="button"
-            class="btn btn-warning mt-3 me-2"
-            (click)="getProductById(item._id)"
-          >
-            Edit
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-danger mt-3"
-            (click)="deleteProduct(item._id)"
-          >
-            Hapus
-          </button>
-
-          <!-- Modal Edit Produk -->
-          <div
-            class="modal fade"
-            id="editProdukModal"
-            tabindex="-1"
-            aria-labelledby="editProdukModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="editProdukModalLabel">
-                    Ubah Produk
-                  </h5>
-                  <!-- Tombol Edit (di luar modal) -->
-                  <button
-                    type="button"
-                    class="btn btn-warning mt-3 me-2"
-                    (click)="getProductById(item._id)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editProdukModal"
-                  >
-                    Edit
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form
-                    [formGroup]="productsForm"
-                    (ngSubmit)="updateProduct()"
-                    enctype="multipart/form-data"
-                  >
-                    <div class="mb-3">
-                      <label class="form-label">Nama</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="nama"
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Deskripsi</label>
-                      <textarea
-                        class="form-control"
-                        formControlName="deskripsi"
-                        rows="3"
-                      ></textarea>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Harga</label>
-                      <input
-                        type="number"
-                        class="form-control"
-                        formControlName="harga"
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label for="kategori" class="form-label">Kategori</label>
-                      <select
-                        id="kategori"
-                        class="form-select"
-                        formControlName="kategori"
-                      >
-                        <option value="Man">Man</option>
-                        <option value="Women">Women</option>
-                        <option value="Child">Child</option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Brand</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="brand"
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Size</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="size"
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Stok</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="stok"
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label"
-                        >Foto (upload baru jika ingin ganti)</label
-                      >
-                      <input
-                        type="file"
-                        class="form-control"
-                        (change)="onFileSelected($event)"
-                      />
-                    </div>
-                    <div class="modal-footer">
-                      <div class="modal-footer">
-                        <!-- Tombol Hapus -->
-                        <button
-                          type="button"
-                          class="btn btn-danger"
-                          (click)="deleteProduct(item._id)"
-                        >
-                          Hapus
-                        </button>
-
-                        <!-- Tombol Simpan -->
-                        <button
-                          class="btn btn-success"
-                          type="submit"
-                          [disabled]="isSubmitting"
-                        >
-                          {{
-                            isSubmitting ? "Menyimpan..." : "Simpan Perubahan"
-                          }}
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Order</button>
           </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Produk -->
+  <div class="modal fade" id="editProdukModal" tabindex="-1" aria-labelledby="editProdukModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editProdukModalLabel">Ubah Produk</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="productsForm" (ngSubmit)="updateProduct()" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label class="form-label">Nama</label>
+              <input type="text" class="form-control" formControlName="nama" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Deskripsi</label>
+              <textarea class="form-control" formControlName="deskripsi" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Harga</label>
+              <input type="number" class="form-control" formControlName="harga" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Kategori</label>
+              <select class="form-select" formControlName="kategori">
+                <option value="Pria">Pria</option>
+                <option value="Wanita">Wanita</option>
+                <option value="Anak">Anak</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Brand</label>
+              <input type="text" class="form-control" formControlName="brand" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Size</label>
+              <input type="text" class="form-control" formControlName="size" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Stok</label>
+              <input type="number" class="form-control" formControlName="stok" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Foto (upload baru jika ingin ganti)</label>
+              <input type="file" class="form-control" (change)="onFileSelected($event)" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+              <button class="btn btn-success" type="submit" [disabled]="isSubmitting">
+                {{ isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan' }}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

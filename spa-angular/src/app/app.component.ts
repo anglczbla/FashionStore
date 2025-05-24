@@ -29,7 +29,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     RouterModule,
     RouterOutlet,
     HttpClientModule,
-    NavbarComponent
+    NavbarComponent,
+    FormsModule
   ],
 
   templateUrl: './app.component.html',
