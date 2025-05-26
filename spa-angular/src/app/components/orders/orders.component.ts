@@ -94,7 +94,7 @@ export class OrdersComponent implements OnInit {
             // Panggil reduceProductStock di sini
             const productId = this.orderForm.value.products_id;
             const quantity = this.orderForm.value.jumlahOrder;
-            this.reduceProductStock(productId, quantity);
+            // this.reduceProductStock(productId, quantity);
             Swal.fire({
               icon: 'success',
               title: 'Order Successful',
@@ -127,40 +127,40 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-  reduceProductStock(productId: string, quantity: number): void {
-    this.http.get<any>(`${this.apiProductsUrl}/${productId}`).subscribe({
-      next: (product) => {
-        if (product.stok >= quantity) {
-          const updatedProduct = {
-            ...product,
-            stok: product.stok - quantity,
-          };
+  // reduceProductStock(productId: string, quantity: number): void {
+  //   this.http.get<any>(`${this.apiProductsUrl}/${productId}`).subscribe({
+  //     next: (product) => {
+  //       if (product.stok >= quantity) {
+  //         const updatedProduct = {
+  //           ...product,
+  //           stok: product.stok - quantity,
+  //         };
 
-          this.http
-            .put(`${this.apiProductsUrl}/${productId}`, updatedProduct)
-            .subscribe({
-              next: () => {
-                console.log(
-                  `Stok produk dikurangi. Sisa stok: ${updatedProduct.stok}`
-                );
-              },
-              error: (err) => {
-                console.error('Gagal mengurangi stok produk:', err);
-              },
-            });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Stok Tidak Cukup',
-            text: 'Jumlah pesanan melebihi stok produk.',
-          });
-        }
-      },
-      error: (err) => {
-        console.error('Gagal mengambil data produk:', err);
-      },
-    });
-  }
+  //         this.http
+  //           .put(`${this.apiProductsUrl}/${productId}`, updatedProduct)
+  //           .subscribe({
+  //             next: () => {
+  //               console.log(
+  //                 `Stok produk dikurangi. Sisa stok: ${updatedProduct.stok}`
+  //               );
+  //             },
+  //             error: (err) => {
+  //               console.error('Gagal mengurangi stok produk:', err);
+  //             },
+  //           });
+  //       } else {
+  //         Swal.fire({
+  //           icon: 'error',
+  //           title: 'Stok Tidak Cukup',
+  //           text: 'Jumlah pesanan melebihi stok produk.',
+  //         });
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error('Gagal mengambil data produk:', err);
+  //     },
+  //   });
+  // }
 
   deleteOrder(id: string): void {
       if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {

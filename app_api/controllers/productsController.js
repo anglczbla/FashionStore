@@ -58,22 +58,18 @@ const getProductsById = async (req, res) => {
 const createProducts = async (req, res) => {
     console.log("Incoming request body:", req.body);
     console.log("Incoming request file:", req.file);
-
     try {
         // Validasi input
         if (!req.body.nama || !req.body.nama) {
             return res.status(400).json({ message: "Nama dan harga harus diisi." });
         }
-
         let fotoUrl = null;
         if (req.file) {
             const result = await cloudinary.uploader.upload(req.file.path);
             fotoUrl = result.secure_url;
-
             // Hapus file lokal setelah sukses upload ke Cloudinary
             fs.unlinkSync(req.file.path);
         }
-
         const newProduct = new Products({
             nama: req.body.nama,
             deskripsi: req.body.deskripsi,
@@ -84,7 +80,6 @@ const createProducts = async (req, res) => {
             size: req.body.size,
             foto: fotoUrl,
         });
-
         const savedProduct = await newProduct.save();
         console.log("Produk baru berhasil dibuat:", savedProduct);
         res.status(201).json(savedProduct);
