@@ -33,26 +33,6 @@ const getProductsById = async (req, res) => {
     }
 };
 
-//logic stok
-// exports.reduceProductStock = async (req, res) => {
-//   const { id } = req.params;
-//   const { quantity } = req.body;
-
-//   try {
-//     const product = await Product.findById(id);
-//     if (!product) return res.status(404).send('Product not found');
-
-//     if (product.stok >= quantity) {
-//       product.stok -= quantity;
-//       await product.save();
-//       res.send(product);
-//     } else {
-//       res.status(400).send('Stok tidak cukup');
-//     }
-//   } catch (error) {
-//     res.status(500).send('Terjadi kesalahan pada server');
-//   }
-// };
 
 // Membuat produk baru
 const createProducts = async (req, res) => {

@@ -28,7 +28,7 @@ export class ShippingComponent implements OnInit {
   editShippingId: string | null = null;
 
   apiShippingUrl = 'http://localhost:3000/api/shipping';
-  apiPaymentsUrl = 'http://localhost:3000/api/payment';
+  apiPaymentsUrl = 'http://localhost:3000/api/payments';
 
   shippingForm: FormGroup;
   private http = inject(HttpClient);
@@ -36,7 +36,7 @@ export class ShippingComponent implements OnInit {
 
    constructor(private ongkirService: RajaOngkirService) {
     this.shippingForm = this.fb.group({
-      payment_id: ['', Validators.required],
+      payments_id: ['', Validators.required],
       address: ['', Validators.required],
       status: ['', Validators.required],
       shippingDate: [new Date()],
@@ -71,6 +71,7 @@ export class ShippingComponent implements OnInit {
       .cekOngkir(origin, destination, weight, courier)
       .subscribe({
         next: (data) => {
+          console.log(data)
           this.services = data.rajaongkir.results[0].costs;
           this.loading = false;
         },
@@ -105,6 +106,7 @@ export class ShippingComponent implements OnInit {
     this.http.get<any[]>(this.apiPaymentsUrl).subscribe({
       next: (data) => {
         this.payments = data;
+        console.log(data);
       },
       error: (err) => {
         console.error('Error fetching payments:', err);

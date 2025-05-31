@@ -14,6 +14,7 @@ const paymentRouterApi = require("./app_api/routes/payments");
 
 const reviewRouterApi = require("./app_api/routes/review");
 const shippingRouterApi = require("./app_api/routes/shipping");
+const cekOngkirApi = require("./app_api/routes/cekOngkir");
 
 
 require("dotenv").config();
@@ -40,6 +41,7 @@ app.use("/api/products", productsRouterApi);
 app.use("/api/orders", ordersRouterApi);
 app.use("/api/payments", paymentRouterApi);
 app.use("/api/review", reviewRouterApi);
+app.use("/api/rajaOngkir", cekOngkirApi);
 
 app.use("/api/shipping", shippingRouterApi);
 app.use('/uploads', express.static('uploads'));

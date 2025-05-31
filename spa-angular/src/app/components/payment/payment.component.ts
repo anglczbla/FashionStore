@@ -9,14 +9,13 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
 import * as bootstrap from 'bootstrap';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-payment',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
 })
@@ -136,28 +135,31 @@ export class PaymentComponent implements OnInit {
   }
 
   submitPayment() {
-  if (this.paymentForm.valid) {
-    const paymentData = this.paymentForm.value;
+    console.log(this.paymentForm);
 
-    const token = localStorage.getItem('token'); // atau sessionStorage.getItem()
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    if (this.paymentForm.valid) {
+      const paymentData = this.paymentForm.value;
 
-    this.http
-      .post('http://localhost:3000/api/payments', paymentData, { headers })
-      .subscribe({
-        next: () => {
-          Swal.fire('Sukses!', 'Pembayaran berhasil dikirim.', 'success');
-        },
-        error: (err) => {
-          console.error(err);
-          Swal.fire('Gagal!', 'Pembayaran gagal dikirim.', 'error');
-        },
-      });
-  } else {
-    Swal.fire('Form Tidak Valid', 'Mohon lengkapi semua data.', 'warning');
+      const token = localStorage.getItem('authToken'); // atau sessionStorage.getItem()
+      console.log(token);
+
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+      this.http
+        .post('http://localhost:3000/api/payments', paymentData, { headers })
+        .subscribe({
+          next: () => {
+            Swal.fire('Sukses!', 'Pembayaran berhasil dikirim.', 'success');
+          },
+          error: (err) => {
+            console.error(err);
+            Swal.fire('Gagal!', 'Pembayaran gagal dikirim.', 'error');
+          },
+        });
+    } else {
+      Swal.fire('Form Tidak Valid', 'Mohon lengkapi semua data.', 'warning');
+    }
   }
-}
-
 
   getPayments(): void {
     this.isLoading = true;

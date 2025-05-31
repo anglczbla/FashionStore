@@ -1,6 +1,6 @@
 <div
-  class="modal fade"
   id="addPaymentModal"
+  class="modal fade"
   tabindex="-1"
   aria-labelledby="addPaymentLabel"
   aria-hidden="true"
@@ -130,15 +130,8 @@
         <!-- Order (non-editable) -->
         <div class="mb-3">
           <label class="form-label">Order</label>
-          <select
-            class="form-select"
-            formControlName="orders_id"
-            [disabled]="true"
-          >
-            <option
-              *ngFor="let order of orders"
-              [value]="order._id"
-            >
+          <select class="form-select" formControlName="orders_id">
+            <option *ngFor="let order of orders" [value]="order._id">
               {{ order.nama || "Order ID: " + order._id }}
             </option>
           </select>
@@ -158,14 +151,25 @@
         <!-- Payment Method -->
         <p class="text-muted">All transactions are secure and encrypted.</p>
 
+        <!-- <div class="mb-3">
+          <label class="form-label">Payment Method</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="paymentMethod"
+            readonly
+          />
+        </div> -->
+
         <div class="payment-method-box mb-3">
           <div class="form-check">
             <input
               class="form-check-input"
               type="radio"
+              name="paymentMethod"
               formControlName="paymentMethod"
               id="midtrans"
-              checked
+              value="midtrans"
             />
             <label class="form-check-label" for="midtrans">
               Payments via Midtrans
@@ -202,7 +206,9 @@
             class="form-check-input"
             type="radio"
             formControlName="paymentMethod"
+            name="paymentMethod"
             id="manualBank"
+            value="manualBank"
           />
           <label class="form-check-label" for="manualBank">
             BCA bank transfer with manual confirmation
@@ -232,7 +238,7 @@
 
 <!-- Daftar Pembayaran -->
 <div class="container mt-5">
-  <h2 class="mb-3">Daftar Pembayaran</h2>
+  <h2 class="mb-3">Payment</h2>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
     <div class="col" *ngFor="let payment of payments">
       <div class="card shadow-sm h-100">
@@ -272,12 +278,12 @@
               >
                 Edit
               </button> -->
-               <button
+            <button
               type="button"
               class="btn btn-warning mt-3 me-2"
               [routerLink]="['/shipping']"
             >
-              Payment & Shipping
+              Tracking
             </button>
             <button class="btn btn-danger" (click)="deletePayment(payment._id)">
               Hapus

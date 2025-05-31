@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h2 class="text-center text-primary mb-4">Daftar Pengiriman</h2>
+  <h2 class="text-center text-primary mb-4">List Shipping</h2>
 
   <!-- Tombol Tambah -->
   <button
@@ -7,7 +7,7 @@
     data-bs-toggle="modal"
     data-bs-target="#tambahShippingModal"
   >
-    Tambah Pengiriman
+    Add Shipping
   </button>
 
   <!-- Modal Tambah -->
@@ -25,27 +25,17 @@
         (ngSubmit)="addShipping()"
       >
         <div class="modal-header">
-          <h5 class="modal-title" id="tambahShippingLabel">
-            Tambah Pengiriman
-          </h5>
+          <h5 class="modal-title" id="tambahShippingLabel">Add Shipping</h5>
           <button class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label">Pembayaran</label>
-            <select class="form-select" formControlName="payment_id">
+            <label class="form-label">Address</label>
+            <select class="form-select" formControlName="payments_id">
               <option *ngFor="let payment of payments" [value]="payment._id">
-                {{ payment.nama }}
+                {{ payment.address }}
               </option>
             </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Alamat</label>
-            <textarea
-              class="form-control"
-              formControlName="address"
-              rows="2"
-            ></textarea>
           </div>
           <div class="mb-3">
             <label class="form-label">Status</label>
@@ -145,13 +135,13 @@
         (ngSubmit)="updateShipping()"
       >
         <div class="modal-header">
-          <h5 class="modal-title" id="editShippingLabel">Ubah Pengiriman</h5>
+          <h5 class="modal-title" id="editShippingLabel">Edit Shipping</h5>
           <button class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
             <label class="form-label">Pembayaran</label>
-            <select class="form-select" formControlName="payment_id">
+            <select class="form-select" formControlName="payments_id">
               <option *ngFor="let payment of payments" [value]="payment._id">
                 {{ payment.nama }}
               </option>
@@ -199,30 +189,33 @@
   </div>
 
   <!-- Daftar Pengiriman -->
-<!-- Daftar Pengiriman -->
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
-  <div class="col" *ngFor="let item of shipping">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h5 class="card-title">Status: {{ item.status }}</h5>
-        <p class="card-text">
-          <strong>Pembayaran:</strong> {{ item.payment_id?.nama || '-' }}<br />
-          <strong>Alamat:</strong> {{ item.address }}<br />
-          <strong>Tanggal:</strong> {{ item.shippingDate | date : "mediumDate" }}<br />
-          <strong>Resi:</strong> {{ item.trackingNumber || '-' }}<br />
-          <strong>Kurir:</strong> {{ item.courier?.toUpperCase() || '-' }}<br />
-          <strong>Layanan:</strong> {{ item.selectedService || '-' }}<br />
-          <strong>Tujuan:</strong> {{ item.destination || '-' }}
-        </p>
-        <button
-          class="btn btn-warning me-2"
-          (click)="getShippingById(item._id)"
-        >
-          Edit
-        </button>
-        <button class="btn btn-danger" (click)="deleteShipping(item._id)">
-          Hapus
-        </button>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
+    <div class="col" *ngFor="let item of shipping">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Status: {{ item.status }}</h5>
+          <p class="card-text">
+            <strong>Nama:</strong> {{ item.payment_id?.nama || "-"
+            }}<br />
+            <strong>Alamat:</strong> {{ item.address }}<br />
+            <strong>Tanggal:</strong>
+            {{ item.shippingDate | date : "mediumDate" }}<br />
+            <strong>Resi:</strong> {{ item.trackingNumber || "-" }}<br />
+            <strong>Kurir:</strong> {{ item.courier?.toUpperCase() || "-"
+            }}<br />
+            <strong>Layanan:</strong> {{ item.selectedService || "-" }}<br />
+            <strong>Tujuan:</strong> {{ item.destination || "-" }}
+          </p>
+          <button
+            class="btn btn-warning me-2"
+            (click)="getShippingById(item._id)"
+          >
+            Edit
+          </button>
+          <button class="btn btn-danger" (click)="deleteShipping(item._id)">
+            Hapus
+          </button>
+        </div>
       </div>
     </div>
   </div>
