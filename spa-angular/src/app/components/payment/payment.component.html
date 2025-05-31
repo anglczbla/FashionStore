@@ -138,7 +138,6 @@
             <option
               *ngFor="let order of orders"
               [value]="order._id"
-              [selected]="order._id === paymentForm?.get('orders_id')?.value"
             >
               {{ order.nama || "Order ID: " + order._id }}
             </option>

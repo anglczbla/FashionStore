@@ -44,19 +44,17 @@ export class ProductsPriaComponent implements OnInit {
     this.showOrderForm = true;
   }
 
-  
-
   openOrderModal(product: any) {
     this.selectedProduct = product;
     this.orderQty = 1;
   }
 
-    // FORM ORDER
-  
-    buyerName: string = '';  // inisialisasi nama pembeli
-    selectedProduct: any = null;
-    orderQty: number = 1;
-  
+  // FORM ORDER
+
+  buyerName: string = ''; // inisialisasi nama pembeli
+  selectedProduct: any = null;
+  orderQty: number = 1;
+
   submitOrder() {
     if (
       this.selectedProduct &&
@@ -70,7 +68,7 @@ export class ProductsPriaComponent implements OnInit {
         jumlahOrder: this.orderQty,
         products_id: this.selectedProduct._id,
       };
-  
+
       Swal.fire({
         title: 'Konfirmasi Order',
         html: `
@@ -84,40 +82,46 @@ export class ProductsPriaComponent implements OnInit {
         cancelButtonText: 'Batal',
       }).then((result) => {
         if (result.isConfirmed) {
-          this.http.post<any>('http://localhost:3000/api/orders', order).subscribe({
-            next: (res) => {
-              console.log('Order berhasil:', res);
-  
-              Swal.fire('Berhasil!', 'Pesanan Anda telah dibuat.', 'success');
-  
-              // Reset form
-              this.selectedProduct = null;
-              this.orderQty = 1;
-  
-              // Redirect ke halaman pembayaran dengan data dari response order
-              this.router.navigate(['/payments'], {
-                state: {
-                  orderId: res._id,
-                  totalPrice: res.total,
-                  buyerName: res.nama,
-                  product: res.products_id,
-                  orderQty: res.jumlahOrder
-                }
-              });
-            },
-            error: (err) => {
-              console.error('Gagal mengirim order:', err);
-              Swal.fire('Gagal!', 'Pesanan tidak dapat dikirim.', 'error');
-            }
-          });
+          this.http
+            .post<any>('http://localhost:3000/api/orders', order)
+            .subscribe({
+              next: (res) => {
+                console.log('Order berhasil:', res);
+
+                Swal.fire('Berhasil!', 'Pesanan Anda telah dibuat.', 'success');
+
+                // Reset form
+                this.selectedProduct = null;
+                this.orderQty = 1;
+
+                // Redirect ke halaman pembayaran dengan data dari response order
+                this.router.navigate(['/payments'], {
+                  state: {
+                    orderId: res._id,
+                    totalPrice: res.total,
+                    buyerName: res.nama,
+                    product: res.products_id,
+                    orderQty: res.jumlahOrder,
+                  },
+                });
+              },
+              error: (err) => {
+                console.error('Gagal mengirim order:', err);
+                Swal.fire('Gagal!', 'Pesanan tidak dapat dikirim.', 'error');
+              },
+            });
         }
       });
     }
   }
-  
-    // FORM PAYMENT
-    proceedToPayment(): void {
-    if (this.buyerName && this.orderQty > 0 && this.orderQty <= this.selectedProduct.stok) {
+
+  // FORM PAYMENT
+  proceedToPayment(): void {
+    if (
+      this.buyerName &&
+      this.orderQty > 0 &&
+      this.orderQty <= this.selectedProduct.stok
+    ) {
       const confirmed = confirm('Lanjut ke halaman payment dan shipping?');
       if (confirmed) {
         // Navigasi ke halaman payment/shipping dan bisa bawa data order
@@ -127,14 +131,18 @@ export class ProductsPriaComponent implements OnInit {
             buyerName: this.buyerName,
             orderQty: this.orderQty,
             totalPrice: this.orderQty * this.selectedProduct.harga,
-          }
+          },
         });
       }
     } else {
       alert('Form order belum lengkap atau jumlah order tidak valid!');
     }
   }
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   userRole: string | null = null;
 
@@ -144,7 +152,7 @@ export class ProductsPriaComponent implements OnInit {
       nama: [''],
       deskripsi: [''],
       harga: [''],
-      kategori: [''],
+      kategori: ['pria'],
       brand: [''],
       size: [''],
       stok: [''],
@@ -157,8 +165,11 @@ export class ProductsPriaComponent implements OnInit {
     this.isLoading = true;
     this.http.get<any[]>(this.apiUrl).subscribe(
       (data) => {
-        this.products = data;
-        console.log('Data Produk:', this.products);
+        console.log('Data API:', data);
+        this.products = data.filter(
+          (p) => p.kategori?.toLowerCase() === 'pria'
+        );
+        console.log('Filtered Produk Pria:', this.products);
         this.isLoading = false;
       },
       (err) => {
@@ -167,16 +178,6 @@ export class ProductsPriaComponent implements OnInit {
       }
     );
   }
-
-  // addProduct(): void {
-  //   if (this.productsForm.valid) {
-  //     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  //     this.http.post(this.apiUrl, this.productsForm.value, { headers }).subscribe(() => {
-  //       this.getProducts();
-  //       this.productsForm.reset();
-  //     });
-  //   }
-  // }
   addProduct(): void {
     if (this.productsForm.valid && this.selectedFile) {
       this.isSubmitting = true;

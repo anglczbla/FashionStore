@@ -66,14 +66,22 @@
                 formControlName="harga"
               />
             </div>
+            <!-- KATEGORI -->
             <div class="mb-3">
-              <label class="form-label">Kategori</label>
-              <select class="form-select" formControlName="kategori">
-                <option value="Pria">Pria</option>
-                <option value="Wanita">Wanita</option>
-                <option value="Anak">Anak</option>
+              <label for="kategori" class="form-label">Kategori</label>
+              <select
+                class="form-select"
+                id="kategori"
+                formControlName="kategori"
+                required
+              >
+                <option value="">Pilih Kategori</option>
+                <option value="pria">Pria</option>
+                <option value="wanita">Wanita</option>
+                <option value="anak">Anak</option>
               </select>
             </div>
+
             <div class="mb-3">
               <label class="form-label">Brand</label>
               <input type="text" class="form-control" formControlName="brand" />

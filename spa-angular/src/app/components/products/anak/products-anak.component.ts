@@ -44,7 +44,6 @@ export class ProductsAnakComponent implements OnInit {
     this.showOrderForm = true;
   }
 
- 
   openOrderModal(product: any) {
     this.selectedProduct = product;
     this.orderQty = 1;
@@ -52,90 +51,99 @@ export class ProductsAnakComponent implements OnInit {
 
   // FORM ORDER
 
-  buyerName: string = '';  // inisialisasi nama pembeli
+  buyerName: string = ''; // inisialisasi nama pembeli
   selectedProduct: any = null;
   orderQty: number = 1;
 
-submitOrder() {
-  if (
-    this.selectedProduct &&
-    this.orderQty > 0 &&
-    this.buyerName.trim() !== ''
-  ) {
-    const order = {
-      nama: this.buyerName,
-      order: new Date(),
-      total: this.orderQty * this.selectedProduct.harga,
-      jumlahOrder: this.orderQty,
-      products_id: this.selectedProduct._id,
-    };
+  submitOrder() {
+    if (
+      this.selectedProduct &&
+      this.orderQty > 0 &&
+      this.buyerName.trim() !== ''
+    ) {
+      const order = {
+        nama: this.buyerName,
+        order: new Date(),
+        total: this.orderQty * this.selectedProduct.harga,
+        jumlahOrder: this.orderQty,
+        products_id: this.selectedProduct._id,
+      };
 
-    Swal.fire({
-      title: 'Konfirmasi Order',
-      html: `
+      Swal.fire({
+        title: 'Konfirmasi Order',
+        html: `
         <strong>${this.selectedProduct.nama}</strong><br>
         Jumlah: ${order.jumlahOrder}<br>
         Total: Rp${order.total.toLocaleString()}
       `,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Ya, Order Sekarang',
-      cancelButtonText: 'Batal',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.http.post<any>('http://localhost:3000/api/orders', order).subscribe({
-          next: (res) => {
-            console.log('Order berhasil:', res);
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Order Sekarang',
+        cancelButtonText: 'Batal',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.http
+            .post<any>('http://localhost:3000/api/orders', order)
+            .subscribe({
+              next: (res) => {
+                console.log('Order berhasil:', res);
 
-            Swal.fire('Berhasil!', 'Pesanan Anda telah dibuat.', 'success');
+                Swal.fire('Berhasil!', 'Pesanan Anda telah dibuat.', 'success');
 
-            // Reset form
-            this.selectedProduct = null;
-            this.orderQty = 1;
+                // Reset form
+                this.selectedProduct = null;
+                this.orderQty = 1;
 
-            // Redirect ke halaman pembayaran dengan data dari response order
-            this.router.navigate(['/payments'], {
-              state: {
-                orderId: res._id,
-                totalPrice: res.total,
-                buyerName: res.nama,
-                product: res.products_id,
-                orderQty: res.jumlahOrder
-              }
+                // Redirect ke halaman pembayaran dengan data dari response order
+                this.router.navigate(['/payments'], {
+                  state: {
+                    orderId: res._id,
+                    totalPrice: res.total,
+                    buyerName: res.nama,
+                    product: res.products_id,
+                    orderQty: res.jumlahOrder,
+                  },
+                });
+              },
+              error: (err) => {
+                console.error('Gagal mengirim order:', err);
+                Swal.fire('Gagal!', 'Pesanan tidak dapat dikirim.', 'error');
+              },
             });
-          },
-          error: (err) => {
-            console.error('Gagal mengirim order:', err);
-            Swal.fire('Gagal!', 'Pesanan tidak dapat dikirim.', 'error');
-          }
-        });
-      }
-    });
-  }
-}
-
-  // FORM PAYMENT
-  proceedToPayment(): void {
-  if (this.buyerName && this.orderQty > 0 && this.orderQty <= this.selectedProduct.stok) {
-    const confirmed = confirm('Lanjut ke halaman payment dan shipping?');
-    if (confirmed) {
-      // Navigasi ke halaman payment/shipping dan bisa bawa data order
-      this.router.navigate(['/payments'], {
-        state: {
-          product: this.selectedProduct,
-          buyerName: this.buyerName,
-          orderQty: this.orderQty,
-          totalPrice: this.orderQty * this.selectedProduct.harga,
         }
       });
     }
-  } else {
-    alert('Form order belum lengkap atau jumlah order tidak valid!');
   }
-}
 
+  // FORM PAYMENT
+  proceedToPayment(): void {
+    if (
+      this.buyerName &&
+      this.orderQty > 0 &&
+      this.orderQty <= this.selectedProduct.stok
+    ) {
+      const confirmed = confirm('Lanjut ke halaman payment dan shipping?');
+      if (confirmed) {
+        // Navigasi ke halaman payment/shipping dan bisa bawa data order
+        this.router.navigate(['/payments'], {
+          state: {
+            product: this.selectedProduct,
+            buyerName: this.buyerName,
+            orderQty: this.orderQty,
+            totalPrice: this.orderQty * this.selectedProduct.harga,
+          },
+        });
+      }
+    } else {
+      alert('Form order belum lengkap atau jumlah order tidak valid!');
+    }
+  }
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   userRole: string | null = null;
 
@@ -145,7 +153,7 @@ submitOrder() {
       nama: [''],
       deskripsi: [''],
       harga: [''],
-      kategori: [''],
+      kategori: ['anak'],
       brand: [''],
       size: [''],
       stok: [''],
@@ -158,8 +166,11 @@ submitOrder() {
     this.isLoading = true;
     this.http.get<any[]>(this.apiUrl).subscribe(
       (data) => {
-        this.products = data;
-        console.log('Data Produk:', this.products);
+        console.log('Data API:', data);
+        this.products = data.filter(
+          (p) => p.kategori?.toLowerCase() === 'anak'
+        );
+        console.log('Filtered Produk Anak:', this.products);
         this.isLoading = false;
       },
       (err) => {
@@ -169,15 +180,6 @@ submitOrder() {
     );
   }
 
-  // addProduct(): void {
-  //   if (this.productsForm.valid) {
-  //     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  //     this.http.post(this.apiUrl, this.productsForm.value, { headers }).subscribe(() => {
-  //       this.getProducts();
-  //       this.productsForm.reset();
-  //     });
-  //   }
-  // }
   addProduct(): void {
     if (this.productsForm.valid && this.selectedFile) {
       this.isSubmitting = true;

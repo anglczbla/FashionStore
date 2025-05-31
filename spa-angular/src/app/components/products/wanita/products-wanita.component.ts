@@ -148,7 +148,7 @@ export class ProductsWanitaComponent implements OnInit {
       nama: [''],
       deskripsi: [''],
       harga: [''],
-      kategori: [''],
+      kategori: ['wanita'],
       brand: [''],
       size: [''],
       stok: [''],
@@ -158,19 +158,21 @@ export class ProductsWanitaComponent implements OnInit {
   }
 
   getProducts(): void {
-    this.isLoading = true;
-    this.http.get<any[]>(this.apiUrl).subscribe(
-      (data) => {
-        this.products = data;
-        console.log('Data Produk:', this.products);
-        this.isLoading = false;
-      },
-      (err) => {
-        console.error('Error fetching produk data:', err);
-        this.isLoading = false;
-      }
-    );
-  }
+  this.isLoading = true;
+  this.http.get<any[]>(this.apiUrl).subscribe(
+    (data) => {
+      console.log('Data API:', data);
+      this.products = data.filter(p => p.kategori?.toLowerCase() === 'wanita');
+      console.log('Filtered Produk Wanita:', this.products);
+      this.isLoading = false;
+    },
+    (err) => {
+      console.error('Error fetching produk data:', err);
+      this.isLoading = false;
+    }
+  );
+}
+
 
   // addProduct(): void {
   //   if (this.productsForm.valid) {

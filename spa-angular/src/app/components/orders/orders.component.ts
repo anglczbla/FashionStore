@@ -17,7 +17,7 @@ import { RouterLink, RouterModule } from '@angular/router';
   standalone: true,
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
 })
 export class OrdersComponent implements OnInit {
   orders: any[] = [];
