@@ -1,9 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RajaOngkirService } from '../../rajaongkir.service';
 
 @Component({
   selector: 'app-shipping',
@@ -28,14 +34,51 @@ export class ShippingComponent implements OnInit {
   private http = inject(HttpClient);
   private fb = inject(FormBuilder);
 
-  constructor() {
+   constructor(private ongkirService: RajaOngkirService) {
     this.shippingForm = this.fb.group({
-      payment_id: [''],
-      address: [''],
-      status: [''],
+      payment_id: ['', Validators.required],
+      address: ['', Validators.required],
+      status: ['', Validators.required],
       shippingDate: [new Date()],
-      trackingNumber: ['']
+      trackingNumber: [''],
+      destination: ['', Validators.required],
+      weight: [1000, [Validators.required, Validators.min(1)]],
+      courier: ['jne', Validators.required],
+      selectedService: ['', Validators.required] 
     });
+  }
+  services: any[] = [];
+  loading: boolean = false;
+
+
+  getOngkir() {
+    this.shippingForm.patchValue({ selectedService: '' });
+
+    const formValue = this.shippingForm.value;
+
+    const origin = '501'; // Kota asal tetap
+    const destination = formValue.destination;
+    const weight = formValue.weight;
+    const courier = formValue.courier;
+
+    if (!destination || !weight || !courier) return;
+
+    this.loading = true;
+    this.services = [];
+    this.shippingForm.patchValue({ selectedService: '' }); // reset saat load ulang
+
+    this.ongkirService
+      .cekOngkir(origin, destination, weight, courier)
+      .subscribe({
+        next: (data) => {
+          this.services = data.rajaongkir.results[0].costs;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error(err);
+          this.loading = false;
+        },
+      });
   }
 
   ngOnInit(): void {
@@ -45,6 +88,7 @@ export class ShippingComponent implements OnInit {
 
   getshipping(): void {
     this.isLoading = true;
+    
     this.http.get<any[]>(this.apiShippingUrl).subscribe({
       next: (data) => {
         this.shipping = data;
@@ -74,18 +118,20 @@ export class ShippingComponent implements OnInit {
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Bearer ${token}` };
 
-      this.http.post(this.apiShippingUrl, this.shippingForm.value, { headers }).subscribe({
-        next: () => {
-          this.getshipping();
-          this.shippingForm.reset();
-          this.isSubmitting = false;
-          this.closeModal('addShippingModal');
-        },
-        error: (err) => {
-          console.error('Error adding shipping:', err);
-          this.isSubmitting = false;
-        },
-      });
+      this.http
+        .post(this.apiShippingUrl, this.shippingForm.value, { headers })
+        .subscribe({
+          next: () => {
+            this.getshipping();
+            this.shippingForm.reset();
+            this.isSubmitting = false;
+            this.closeModal('addShippingModal');
+          },
+          error: (err) => {
+            console.error('Error adding shipping:', err);
+            this.isSubmitting = false;
+          },
+        });
     }
   }
 
@@ -106,6 +152,7 @@ export class ShippingComponent implements OnInit {
     this.http.get<any>(`${this.apiShippingUrl}/${id}`).subscribe({
       next: (data) => {
         this.shippingForm.patchValue(data);
+        this.getOngkir();
         this.openModal('editShippingModal');
       },
       error: (err) => {
@@ -120,24 +167,32 @@ export class ShippingComponent implements OnInit {
       const token = localStorage.getItem('authToken');
       const headers = { Authorization: `Bearer ${token}` };
 
-      this.http.put(`${this.apiShippingUrl}/${this.editShippingId}`, this.shippingForm.value, { headers }).subscribe({
-        next: () => {
-          this.getshipping();
-          this.isSubmitting = false;
-          this.closeModal('editShippingModal');
-        },
-        error: (err) => {
-          console.error('Error updating shipping:', err);
-          this.isSubmitting = false;
-        },
-      });
+      this.http
+        .put(
+          `${this.apiShippingUrl}/${this.editShippingId}`,
+          this.shippingForm.value,
+          { headers }
+        )
+        .subscribe({
+          next: () => {
+            this.getshipping();
+            this.isSubmitting = false;
+            this.closeModal('editShippingModal');
+          },
+          error: (err) => {
+            console.error('Error updating shipping:', err);
+            this.isSubmitting = false;
+          },
+        });
     }
   }
 
   openModal(modalId: string): void {
     const modalElement = document.getElementById(modalId) as HTMLElement;
     if (modalElement) {
-      const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+      const modalInstance =
+        bootstrap.Modal.getInstance(modalElement) ||
+        new bootstrap.Modal(modalElement);
       modalInstance.show();
     }
   }

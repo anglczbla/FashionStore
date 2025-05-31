@@ -11,11 +11,12 @@ import {
 } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import * as bootstrap from 'bootstrap';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-payment',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,RouterLink],
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
 })
